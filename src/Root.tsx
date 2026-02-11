@@ -11,6 +11,10 @@ import {
   presentationSlidesSchema,
   defaultPresentationSlidesProps,
 } from "./PresentationSlides";
+import { ThreeScene } from "./ThreeScene";
+import { ParticleSystem } from "./ParticleSystem";
+import { AudioVisualizer } from "./AudioVisualizer";
+import { MotionGraphics } from "./MotionGraphics";
 
 export const Root: React.FC = () => {
   return (
@@ -42,6 +46,38 @@ export const Root: React.FC = () => {
         height={1080}
         schema={presentationSlidesSchema}
         defaultProps={defaultPresentationSlidesProps}
+      />
+      <Composition
+        id="ThreeScene"
+        component={ThreeScene}
+        durationInFrames={240}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ParticleSystem"
+        component={ParticleSystem}
+        durationInFrames={240}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="AudioVisualizer"
+        component={AudioVisualizer}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="MotionGraphics"
+        component={MotionGraphics}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );
