@@ -246,3 +246,5 @@ pnpm exec remotion render Inquiry-Icons out/AgentFlowInquiryIcons.mp4
 
 2026-09-16: `Inquiry-LogoSeal` と `Inquiry-ActionRow` を追加。
 既存アイコン版を共有し、`nodeVariant` でノード描画と208px幅に合わせた経路を切り替えます。
+
+2026-09-17: `Inquiry-IconsV2` を追加。LogoSeal版のLINE接点とGmail / LINE送信先を、ブランドロゴ・配色・サービス名優先のノードで表示。処理と経路は変更なし。

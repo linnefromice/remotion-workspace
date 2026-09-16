@@ -237,3 +237,5 @@ pnpm exec remotion render ClaimIntake-Icons out/AgentFlowClaimIntakeIcons.mp4
 
 2026-09-16: `ClaimIntake-LogoSeal` と `ClaimIntake-ActionRow` を追加。
 既存アイコン版を共有し、ノードの描画と経路だけを切り替えます。記録チップと判定の非対称パネルは共通です。
+
+2026-09-17: `ClaimIntake-IconsV2` を追加。LINE Webhookをブランド表示し、未実装の破線と注記を維持。元図に存在しないGmailや特定AIベンダーは追加しない。

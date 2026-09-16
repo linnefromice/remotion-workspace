@@ -1,5 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { BrandSealNode, type ChannelBrand } from '../shared/BrandSealNode';
 import { FlowServiceNode, type FlowNodeVariant } from '../shared/FlowServiceNode';
 import { claimServiceRoutes } from '../shared/serviceFlowRoutes';
 import { IconNode } from '../AgentFlowCodexReClaude/components/IconNode';
@@ -7,17 +8,19 @@ import { ServiceIcon } from '../AgentFlowCodexReClaude/components/ServiceIcon';
 import { EDGES, STEPS, STEP_LEN, TOTAL_FRAMES, PANEL_ROWS, PANEL_FOOTER, PANEL_SUBTITLE, type StepIndex } from '../AgentFlowClaimIntake/constants';
 import { ICON_NODES, ROUTES, STEP_TONES, TONES } from './constants';
 
+const BRAND_CHANNELS: Partial<Record<string, ChannelBrand>> = {line: 'line'};
+
 const ACTIONS: Record<string, string> = {"resident": "音声・テキストで通報", "line": "未実装・設計済み", "intake": "受付番号を発行", "stt": "音声を文字に", "judge": "緊急度を判定", "safety": "昇格のみ・5ルール", "followup": "音声1回・P1除外", "work": "次の対応を提案", "guardrails": "追加と制止のみ", "staff": "降格には理由が必要", "csv": "AI値とルールを出力"};
 
 const Tag: React.FC<{x: number; y: number; children: React.ReactNode; color?: string}> = ({x, y, children, color = '#acbbcd'}) => <div style={{position: 'absolute', left: x, top: y, background: '#0b1421', padding: '4px 8px', color, fontSize: 15, borderRadius: 5}}>{children}</div>;
 
-export const AgentFlowClaimIntakeIcons: React.FC<{nodeVariant?: FlowNodeVariant}> = ({nodeVariant}) => {
+export const AgentFlowClaimIntakeIcons: React.FC<{nodeVariant?: FlowNodeVariant; brandIcons?: boolean}> = ({nodeVariant, brandIcons = false}) => {
   const frame = useCurrentFrame();
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
   const routes = nodeVariant ? claimServiceRoutes(nodeVariant) : ROUTES;
   return <AbsoluteFill style={{background: '#0b1421', backgroundImage: 'radial-gradient(#273445 1px, transparent 1px)', backgroundSize: '24px 24px', color: '#edf3fa', fontFamily: '"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
-    <div style={{position: 'absolute', left: 60, top: 32, fontSize: 32, fontWeight: 700}}>通報受付 <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>FARLEAP / CLAIM INTAKE</span></div>
+    <div style={{position: 'absolute', left: 60, top: 32, fontSize: 32, fontWeight: 700}}>通報受付 <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>FARLEAP / CLAIM INTAKE{brandIcons ? ' / ICON V2' : ''}</span></div>
     <div style={{position: 'absolute', right: 60, top: 42, fontSize: 20, color: '#d5dce6'}}>昇格はルールが強制し、降格は人だけができる</div>
     <div style={{position: 'absolute', left: 60, top: 100, display: 'flex', gap: 24}}>{STEPS.map((label, i) => <div key={label} style={{display: 'flex', gap: 9, alignItems: 'center', color: i === step ? STEP_TONES[i] : '#8291a5', fontSize: 20}}><span style={{width: 28, height: 28, border: '1px solid', borderRadius: '50%', display: 'grid', placeItems: 'center'}}>{i + 1}</span>{label}</div>)}</div>
     <div style={{position: 'absolute', right: 60, top: 110, display: 'flex', gap: 16, fontSize: 15}}>{([['input','入力'],['ai','AI'],['rule','ルール'],['human','人'],['record','記録']] as const).map(([tone, label]) => <span key={tone} style={{color: TONES[tone]}}>━ {label}</span>)}</div>
@@ -40,14 +43,15 @@ export const AgentFlowClaimIntakeIcons: React.FC<{nodeVariant?: FlowNodeVariant}
     <Tag x={62} y={737}>破線：未実装・通らない経路</Tag>
     {ICON_NODES.map(node => {
       const [x, y] = node.position;
+      const brand = brandIcons ? BRAND_CHANNELS[node.id] : undefined;
       const color = TONES[node.tone];
       const active = node.steps.includes(step) || (node.record === true && step === 6);
       if (node.record) return <div key={node.id} style={{position: 'absolute', left: x - 160, top: y - 38, width: 320, height: 76, boxSizing: 'border-box', border: `1px solid ${active ? color : '#3a4963'}`, borderRadius: 12, background: active ? '#112b25' : '#111b26', display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px'}}>
         <div style={{color, transform: 'scale(.55)', width: 36, height: 40, display: 'grid', placeItems: 'center'}}><ServiceIcon name="database"/></div>
         <div><div style={{fontSize: 21, color: active ? color : '#c2cedb'}}>{node.jp}</div><div style={{fontSize: 13, color: '#9db1c6', marginTop: 6}}>{node.en}</div></div>
       </div>;
-      return <div key={node.id} style={{position: 'absolute', left: x - 104, top: y - (nodeVariant === 'actionRow' ? 52 : 64), opacity: node.dashed ? .65 : 1}}>
-        {nodeVariant ? <FlowServiceNode variant={nodeVariant} icon={node.icon ?? 'database'} title={node.jp} action={ACTIONS[node.id] ?? node.desc} service={node.en} color={color} active={active} dashed={node.dashed}/> : <>
+      return <div key={node.id} style={{position: 'absolute', left: x - 104, top: y - (nodeVariant === 'actionRow' ? 52 : 64), opacity: node.dashed && !brand ? .65 : 1}}>
+        {brand ? <BrandSealNode brand={brand} role={'Webhook / 外部チャネル'} action={ACTIONS[node.id] ?? node.desc} active={node.steps.includes(step)} planned={node.dashed}/> : nodeVariant ? <FlowServiceNode variant={nodeVariant} icon={node.icon ?? 'database'} title={node.jp} action={ACTIONS[node.id] ?? node.desc} service={node.en} color={color} active={active} dashed={node.dashed}/> : <>
         {node.dashed && <div style={{position: 'absolute', left: 35, top: -5, width: 138, height: 138, border: `1px dashed ${color}`, borderRadius: 21, boxSizing: 'border-box'}}/>}
         <IconNode icon={<ServiceIcon name={node.icon ?? 'database'}/>} service={node.jp} role={node.en} variant={['resident', 'staff', 'csv'].includes(node.id) ? 'circle' : 'square'} color={color} active={active} ports={['left', 'right']}/>
         <div style={{fontSize: 14, lineHeight: 1.6, color: '#9db1c6', marginTop: 8, textAlign: 'center', padding: '0 4px'}}>{node.desc}</div>
@@ -66,3 +70,5 @@ export const AgentFlowClaimIntakeIcons: React.FC<{nodeVariant?: FlowNodeVariant}
 
 export const AgentFlowClaimIntakeLogoSeal: React.FC = () => <AgentFlowClaimIntakeIcons nodeVariant="logoSeal"/>;
 export const AgentFlowClaimIntakeActionRow: React.FC = () => <AgentFlowClaimIntakeIcons nodeVariant="actionRow"/>;
+
+export const AgentFlowClaimIntakeIconsV2: React.FC = () => <AgentFlowClaimIntakeIcons nodeVariant="logoSeal" brandIcons/>;

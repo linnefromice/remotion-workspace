@@ -382,3 +382,20 @@ import { LogoTileNode, LogoSealNode, ActionRowNode } from "./AgentFlowCodexReCla
 
 元のアイコン版とステップ・ノード・判定パネルを共有し、部品と接続経路を切り替えます。
 未実装・任意工程の破線、人の判断、ルール昇格、AI生出力の保持は各版共通です。
+
+### ブランドを強調する Icon v2
+
+- `Inquiry-IconsV2`: LogoSeal版をもとに、入居者のLINE・LINE受付・LINE返信・業者のGmail / LINEをブランド表示。
+- `ClaimIntake-IconsV2`: LINE Webhookをブランド表示。未実装の破線・注記は維持。
+
+`src/shared/BrandSealNode.tsx` は既存コンパクトノードと同じ幅208px・ポート中心64pxで、ロゴ面とサービス名を主役にします。
+ロゴはローカルSVGを使用し、アクティブ状態とブランドの見やすさを分けています。
+サービスが未指定のAI・保存先にはベンダーロゴを割り当てません。元のLogoSeal版と尺・経路・判定内容を共有します。
+
+`Components > Nodes > Node-BrandSeal` でブランドノードの通常・アクティブ・未実装状態を比較できます。
+共通部品は `src/shared/BrandSealNode.tsx`。主ロゴ56px、補助ロゴ24pxに抑え、128pxの円形背景とサービス名で強調します。両Icon v2フローにも共通で反映されます。
+
+```tsx
+<BrandSealNode brand="line" role="問い合わせ受付" action="会話・写真を受け付ける" active />
+<BrandSealNode brand="gmailLine" role="業者への連絡" action="現地対応を手配" active={false} />
+```
