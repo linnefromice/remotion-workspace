@@ -204,3 +204,22 @@ Cloudflare構成図のキャプチャ（Realtime SFU / WebSocket Adapter 等の�
 - **アクティブ切り替えの遷移**: 「同時に光るノードは常に1つ」を厳密に守るため、ノードの
   アクティブ/非アクティブはハードカット、グローだけ切り替わり後10フレーム（約0.33秒）で
   ランプインさせた（点滅の基準「1秒3回超」には遠く及ばない）
+
+## AgentFlowCodex
+
+参照図の Cloudflare 音声エージェント構成を再現した独立コンポジション。
+既存の `AgentFlow` と同じく Examples の外に登録しています。
+
+- 1920×1080 / 30fps / 600フレーム（20秒）、音声なし
+- 各5秒：話す → AI応対 → 予約確認 → 人へ引き継ぐ
+- 青＝発話、オレンジ＝返答、緑＝有人音声、破線＝制御・業務
+- `src/AgentFlowCodex/constants.ts`：カード配置・配色・接続経路・時間設定
+- `src/AgentFlowCodex/index.tsx`：図・ステップ表示・波形・信号アニメーション
+- 全アニメーションは `useCurrentFrame()` 由来。サービス名は参照図の表記を使用。
+- ロゴはSVGによる簡略表現。日本語フォントはローカルの Hiragino Sans / Noto Sans CJK JP を使用。
+
+```bash
+pnpm dev
+pnpm exec remotion still AgentFlowCodex out/AgentFlowCodex.png --frame=75
+pnpm exec remotion render AgentFlowCodex out/AgentFlowCodex.mp4
+```
