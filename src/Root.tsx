@@ -20,6 +20,8 @@ import { LottieDemo } from "./LottieDemo";
 import { NoiseArt } from "./NoiseArt";
 import { CodeAnimation } from "./CodeAnimation";
 import { AgentFlow } from "./AgentFlow";
+import { AgentFlowCodex } from "./AgentFlowCodex";
+import { CANVAS_W, CANVAS_H, FPS, TOTAL_FRAMES } from "./AgentFlowCodex/constants";
 
 export const Root: React.FC = () => {
   return (
@@ -124,6 +126,14 @@ export const Root: React.FC = () => {
           />
         </Folder>
       </Folder>
+      <Composition
+        id="AgentFlowCodex"
+        component={AgentFlowCodex}
+        durationInFrames={TOTAL_FRAMES}
+        fps={FPS}
+        width={CANVAS_W}
+        height={CANVAS_H}
+      />
       <Composition
         id="AgentFlow"
         component={AgentFlow}
