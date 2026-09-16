@@ -32,6 +32,31 @@ pnpm exec remotion render <CompositionId>
 
 ## コンポジション一覧
 
+Studio のサイドバーは「題材 > 見せ方」で並べている。id がそのまま表示名になるので、
+題材と見せ方が id から読み取れる名前にしてある。
+
+```
+AgentFlow/
+  ClaimIntake/    通報受付（実装済みPoC: farleap/tenant-claim-intake-demoapp）  28秒
+    ClaimIntake-Cards / -Icons / -LogoSeal / -ActionRow
+  Inquiry/        問い合わせ対応フロー（構想）                                  24秒
+    Inquiry-Cards / -Icons / -LogoSeal / -ActionRow
+  Reference/      Cloudflare 音声エージェント参照図                             20秒
+    Reference-Cloudflare / Reference-Cloudflare-Refactored
+  Exhibition/     展示会ループ                                                  20秒
+    Exhibition-Loop
+Components/       部品カタログ（すべて Still）
+  Nodes/          Node-Service / Node-Icon / Node-Card
+  Parts/          Part-Icons / Part-Connectors / Part-StepsAndLegend / Part-Misc
+Examples/         Remotion の機能サンプル
+  Basics/ 3D/ Effects/
+```
+
+同じ題材の4つ（`Cards` / `Icons` / `LogoSeal` / `ActionRow`）は**ノードの描き方だけが違い**、
+ノード・エッジ・ステップ・判定パネルは共有している。見せ方の比較用。
+
+### Examples の内訳
+
 | ID | 内容 | 時間 | 主な技術 |
 |----|------|------|----------|
 | BasicAnimation | テキストと図形のスプリングアニメーション | 5秒 | `interpolate`, `spring`, `Sequence` |
@@ -45,7 +70,6 @@ pnpm exec remotion render <CompositionId>
 | LottieDemo | Lottie アニメーションの再生 | 9秒 | `@remotion/lottie` |
 | NoiseArt | プロシージャルノイズによるジェネラティブアート | 10秒 | `@remotion/noise` |
 | CodeAnimation | Shiki によるシンタックスハイライト付きコード表示 | 12秒 | `shiki` |
-| AgentFlow | 展示会ループ用「エージェント連動図」（賃貸管理 AI エージェントの5ステップを巡回） | 20秒（シームレスループ） | SVG ベジェパス, `@remotion/google-fonts` |
 
 すべてのコンポジションは 1920×1080 / 30fps です。
 
@@ -86,10 +110,10 @@ Notion「2609向けデモ＞AIエージェント動いている風フローの�
 
 ```bash
 # 動画（H.264 / yuv420p / 1920x1080 / 30fps / 20秒）
-npx remotion render AgentFlow out/agent-flow.mp4 --image-format=png --pixel-format=yuv420p
+npx remotion render Exhibition-Loop out/agent-flow.mp4 --image-format=png --pixel-format=yuv420p
 
 # 静止画（frame 420 = ④承認のちょうど中央、360〜479フレームの中点）
-npx remotion still AgentFlow out/still-approve.png --frame=420
+npx remotion still Exhibition-Loop out/still-approve.png --frame=420
 ```
 
 `--image-format=png` と `--pixel-format=yuv420p` を明示的に付けている理由は「詰まった点」参照
@@ -158,7 +182,7 @@ Cloudflare構成図のキャプチャ（Realtime SFU / WebSocket Adapter 等の�
 |---|---|
 | `remotion render` の実測時間 | 約10〜12秒（Apple M5 Max, 18コア / Concurrency 8x, CPU使用率 450〜640%）。複数回計測でこの範囲に収まった |
 | mp4 のファイルサイズ | 515 KB（1920×1080/30fps/20秒、H.264/yuv420p） |
-| 静止画の書き出し | 成功。`npx remotion still AgentFlow out/still-approve.png --frame=420`（1920×1080 PNG, 約2.6秒） |
+| 静止画の書き出し | 成功。`npx remotion still Exhibition-Loop out/still-approve.png --frame=420`（1920×1080 PNG, 約2.6秒） |
 | コンポーネントの行数 | 合計 1015行（`src/AgentFlow/index.tsx` 739行 + `src/AgentFlow/constants.ts` 276行の2ファイル。指示書反映後の行数） |
 | ループの継ぎ目（frame599→0） | 繋がっている。各ステップは`useCurrentFrame()`由来の純関数のみで決定しており、frame599時点で⑤(記録)がグロー安定状態・edge④→⑤のドットが⑤到達直前、frame0で⑤→①のedgeが始点(⑤)から再開するため、要素の増減やカメラの動きが一切ない設計上、視覚的なジャンプは発生しない |
 | グロー・波形によるレンダー負荷 | 有り無しで比較レンダーした結果、有効時 約13.6〜14.8秒 / 無効時 約12.9〜13.6秒。**体感で1割前後の差**で、有意なボトルネックにはならなかった（`box-shadow`のCSSグローとSVG `feGaussianBlur`は常時1つのノード/エッジにしかかからない設計にしたため） |
@@ -220,8 +244,8 @@ Cloudflare構成図のキャプチャ（Realtime SFU / WebSocket Adapter 等の�
 
 ```bash
 pnpm dev
-pnpm exec remotion still AgentFlowCodex out/AgentFlowCodex.png --frame=75
-pnpm exec remotion render AgentFlowCodex out/AgentFlowCodex.mp4
+pnpm exec remotion still Reference-Cloudflare out/AgentFlowCodex.png --frame=75
+pnpm exec remotion render Reference-Cloudflare out/AgentFlowCodex.mp4
 ```
 
 ## AgentFlowCodexReClaude
@@ -253,13 +277,13 @@ PNG が `AgentFlowCodex` と**バイト単位で完全一致**することを確
 
 ```bash
 pnpm dev
-pnpm exec remotion still AgentFlowCodexReClaude out/AgentFlowCodexReClaude.png --frame=75
-pnpm exec remotion render AgentFlowCodexReClaude out/AgentFlowCodexReClaude.mp4
+pnpm exec remotion still Reference-Cloudflare-Refactored out/reference-refactored.png --frame=75
+pnpm exec remotion render Reference-Cloudflare-Refactored out/reference-refactored.mp4
 ```
 
 ## コンポーネントプレビュー（Draw.io のシェイプパレット的なもの）
 
-`AgentFlowCodexReClaude` を構成する部品（`Icon`, `NodeCard`, `EdgeLine`, `Legend`, `StepBar`,
+`Reference-Cloudflare-Refactored` を構成する部品（`Icon`, `NodeCard`, `EdgeLine`, `Legend`, `StepBar`,
 `Waveform`, `CloudflareLogo`, `Label` など）を単体で確認したいとき用に、`src/AgentFlowCodexReClaude/index.tsx`
 から各部品を `export` し、`src/AgentFlowCodexReClaude/previews/` 配下に部品ごとの静止画コンポジションを追加した。
 
@@ -267,23 +291,23 @@ Remotion Studio のサイドバーで `Components > AgentFlowCodexReClaude` を�
 
 | コンポジション | 内容 |
 |---|---|
-| `Components-AgentFlowCodexReClaude-Icons` | 7種のノードアイコン一覧 |
-| `Components-AgentFlowCodexReClaude-NodeCards` | 全7ノードの非アクティブ/アクティブ両状態 |
-| `Components-AgentFlowCodexReClaude-Connectors` | 4色×非アクティブ/アクティブの接続線スタイル |
-| `Components-AgentFlowCodexReClaude-LegendAndSteps` | 凡例と4ステップぶんの StepBar |
-| `Components-AgentFlowCodexReClaude-Misc` | ロゴ・ラベル・波形 |
+| `Part-Icons` | 7種のノードアイコン一覧 |
+| `Node-Card` | 全7ノードの非アクティブ/アクティブ両状態 |
+| `Part-Connectors` | 4色×非アクティブ/アクティブの接続線スタイル |
+| `Part-StepsAndLegend` | 凡例と4ステップぶんの StepBar |
+| `Part-Misc` | ロゴ・ラベル・波形 |
 
 `NodeCard`/`Legend`/`StepBar` は本体の図で使う想定の `position: absolute` 座標を内部に持ったままなので、
 プレビュー側で真似ると二重オフセットで崩れる。`NodeCard` は打ち消し用のラッパー（`translate` 相当のカウンターオフセット）で、
 `Legend`/`StepBar` は元の座標系と同じ幅の `position: relative` な帯（`CANVAS_W` 基準）を用意することで対応している。
 
-これらのプレビュー用コンポジションは `AgentFlowCodexReClaude` 本体の見た目には一切影響しない
+これらのプレビュー用コンポジションは `Reference-Cloudflare-Refactored` 本体の見た目には一切影響しない
 （`export` の追加のみで、既存コードは変更していない。frame 0/75/300/599 で本体の出力が
 引き続きバイト単位で一致することを確認済み）。
 
 ### アイコン中心のノード部品
 
-Studio: `http://localhost:3000/Components-AgentFlowCodexReClaude-IconNodes`
+Studio: `http://localhost:3000/Node-Icon`
 
 `src/AgentFlowCodexReClaude/components/IconNode.tsx` は `card`（カード内ラベル）、
 `square`（四角枠＋下部ラベル）、`circle`（丸枠＋下部ラベル）の3形状を提供します。
@@ -309,7 +333,7 @@ import { ServiceIcon } from "./AgentFlowCodexReClaude/components/ServiceIcon";
 
 ### サービスノードの4バリエーション
 
-Studio: `http://localhost:3000/Components-AgentFlowCodexReClaude-ServiceNodes`
+Studio: `http://localhost:3000/Node-Service`
 
 `src/AgentFlowCodexReClaude/components/ServiceNode.tsx`:
 
@@ -351,10 +375,10 @@ import { LogoTileNode, LogoSealNode, ActionRowNode } from "./AgentFlowCodexReCla
 
 | コンポジション | ノード | 尺 |
 |---|---|---|
-| AgentFlowInquiryLogoSeal | LogoSealNode | 24秒 |
-| AgentFlowInquiryActionRow | ActionRowNode | 24秒 |
-| AgentFlowClaimIntakeLogoSeal | LogoSealNode | 28秒 |
-| AgentFlowClaimIntakeActionRow | ActionRowNode | 28秒 |
+| Inquiry-LogoSeal | LogoSealNode | 24秒 |
+| Inquiry-ActionRow | ActionRowNode | 24秒 |
+| ClaimIntake-LogoSeal | LogoSealNode | 28秒 |
+| ClaimIntake-ActionRow | ActionRowNode | 28秒 |
 
 元のアイコン版とステップ・ノード・判定パネルを共有し、部品と接続経路を切り替えます。
 未実装・任意工程の破線、人の判断、ルール昇格、AI生出力の保持は各版共通です。

@@ -19,60 +19,189 @@ import { TransitionDemo } from "./TransitionDemo";
 import { LottieDemo } from "./LottieDemo";
 import { NoiseArt } from "./NoiseArt";
 import { CodeAnimation } from "./CodeAnimation";
-import { AgentFlow } from "./AgentFlow";
+
+// フロー図
+import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
+import {
+  AgentFlowClaimIntakeIcons,
+  AgentFlowClaimIntakeLogoSeal,
+  AgentFlowClaimIntakeActionRow,
+} from "./AgentFlowClaimIntakeIcons";
+import {
+  CANVAS_W as CLAIM_W,
+  CANVAS_H as CLAIM_H,
+  FPS as CLAIM_FPS,
+  TOTAL_FRAMES as CLAIM_FRAMES,
+} from "./AgentFlowClaimIntake/constants";
+import { AgentFlowInquiry } from "./AgentFlowInquiry";
+import {
+  AgentFlowInquiryIcons,
+  AgentFlowInquiryLogoSeal,
+  AgentFlowInquiryActionRow,
+} from "./AgentFlowInquiryIcons";
+import {
+  CANVAS_W as INQUIRY_W,
+  CANVAS_H as INQUIRY_H,
+  FPS as INQUIRY_FPS,
+  TOTAL_FRAMES as INQUIRY_FRAMES,
+} from "./AgentFlowInquiry/constants";
 import { AgentFlowCodex } from "./AgentFlowCodex";
-import { CANVAS_W, CANVAS_H, FPS, TOTAL_FRAMES } from "./AgentFlowCodex/constants";
+import {
+  CANVAS_W as CODEX_W,
+  CANVAS_H as CODEX_H,
+  FPS as CODEX_FPS,
+  TOTAL_FRAMES as CODEX_FRAMES,
+} from "./AgentFlowCodex/constants";
 import { AgentFlowCodexReClaude } from "./AgentFlowCodexReClaude";
 import {
-  CANVAS_W as RECLAUDE_CANVAS_W,
-  CANVAS_H as RECLAUDE_CANVAS_H,
+  CANVAS_W as RECLAUDE_W,
+  CANVAS_H as RECLAUDE_H,
   FPS as RECLAUDE_FPS,
-  TOTAL_FRAMES as RECLAUDE_TOTAL_FRAMES,
+  TOTAL_FRAMES as RECLAUDE_FRAMES,
 } from "./AgentFlowCodexReClaude/constants";
-import { IconsPreview } from "./AgentFlowCodexReClaude/previews/IconsPreview";
+import { AgentFlow } from "./AgentFlow";
+
+// 部品カタログ
 import { ServiceNodesPreview } from "./AgentFlowCodexReClaude/previews/ServiceNodesPreview";
 import { IconNodesPreview } from "./AgentFlowCodexReClaude/previews/IconNodesPreview";
 import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPreview";
+import { IconsPreview } from "./AgentFlowCodexReClaude/previews/IconsPreview";
 import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsPreview";
 import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
-import { AgentFlowInquiryIcons, AgentFlowInquiryLogoSeal, AgentFlowInquiryActionRow } from "./AgentFlowInquiryIcons";
-import { AgentFlowInquiry } from "./AgentFlowInquiry";
-import { AgentFlowClaimIntakeIcons, AgentFlowClaimIntakeLogoSeal, AgentFlowClaimIntakeActionRow } from "./AgentFlowClaimIntakeIcons";
-import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
-import {
-  CANVAS_W as CLAIM_CANVAS_W,
-  CANVAS_H as CLAIM_CANVAS_H,
-  FPS as CLAIM_FPS,
-  TOTAL_FRAMES as CLAIM_TOTAL_FRAMES,
-} from "./AgentFlowClaimIntake/constants";
-import {
-  CANVAS_W as INQUIRY_CANVAS_W,
-  CANVAS_H as INQUIRY_CANVAS_H,
-  FPS as INQUIRY_FPS,
-  TOTAL_FRAMES as INQUIRY_TOTAL_FRAMES,
-} from "./AgentFlowInquiry/constants";
 
+const HD = { fps: 30, width: 1920, height: 1080 } as const;
+const STILL = { durationInFrames: 1, ...HD } as const;
+
+/**
+ * サイドバーの並びは「題材 > 見せ方」。
+ * id がそのままサイドバーの表示名になるので、題材と見せ方が読み取れる名前にしている。
+ * 同じ題材の4つはノードの描き方だけが違い、構造とタイムラインは共有している。
+ */
 export const Root: React.FC = () => {
   return (
     <>
+      <Folder name="AgentFlow">
+        {/* 実装済みPoC（farleap/tenant-claim-intake-demoapp）の構造 */}
+        <Folder name="ClaimIntake">
+          <Composition
+            id="ClaimIntake-Cards"
+            component={AgentFlowClaimIntake}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-Icons"
+            component={AgentFlowClaimIntakeIcons}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-LogoSeal"
+            component={AgentFlowClaimIntakeLogoSeal}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-ActionRow"
+            component={AgentFlowClaimIntakeActionRow}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+        </Folder>
+
+        {/* 問い合わせ対応フローの構想 */}
+        <Folder name="Inquiry">
+          <Composition
+            id="Inquiry-Cards"
+            component={AgentFlowInquiry}
+            durationInFrames={INQUIRY_FRAMES}
+            fps={INQUIRY_FPS}
+            width={INQUIRY_W}
+            height={INQUIRY_H}
+          />
+          <Composition
+            id="Inquiry-Icons"
+            component={AgentFlowInquiryIcons}
+            durationInFrames={INQUIRY_FRAMES}
+            fps={INQUIRY_FPS}
+            width={INQUIRY_W}
+            height={INQUIRY_H}
+          />
+          <Composition
+            id="Inquiry-LogoSeal"
+            component={AgentFlowInquiryLogoSeal}
+            durationInFrames={INQUIRY_FRAMES}
+            fps={INQUIRY_FPS}
+            width={INQUIRY_W}
+            height={INQUIRY_H}
+          />
+          <Composition
+            id="Inquiry-ActionRow"
+            component={AgentFlowInquiryActionRow}
+            durationInFrames={INQUIRY_FRAMES}
+            fps={INQUIRY_FPS}
+            width={INQUIRY_W}
+            height={INQUIRY_H}
+          />
+        </Folder>
+
+        {/* Cloudflare 音声エージェント参照図の再現と、その保守性リファクタ版 */}
+        <Folder name="Reference">
+          <Composition
+            id="Reference-Cloudflare"
+            component={AgentFlowCodex}
+            durationInFrames={CODEX_FRAMES}
+            fps={CODEX_FPS}
+            width={CODEX_W}
+            height={CODEX_H}
+          />
+          <Composition
+            id="Reference-Cloudflare-Refactored"
+            component={AgentFlowCodexReClaude}
+            durationInFrames={RECLAUDE_FRAMES}
+            fps={RECLAUDE_FPS}
+            width={RECLAUDE_W}
+            height={RECLAUDE_H}
+          />
+        </Folder>
+
+        {/* 展示会で流す20秒シームレスループ */}
+        <Folder name="Exhibition">
+          <Composition id="Exhibition-Loop" component={AgentFlow} durationInFrames={600} {...HD} />
+        </Folder>
+      </Folder>
+
+      <Folder name="Components">
+        <Folder name="Nodes">
+          <Composition id="Node-Service" component={ServiceNodesPreview} {...STILL} />
+          <Composition id="Node-Icon" component={IconNodesPreview} {...STILL} />
+          <Composition id="Node-Card" component={NodeCardsPreview} {...STILL} />
+        </Folder>
+        <Folder name="Parts">
+          <Composition id="Part-Icons" component={IconsPreview} {...STILL} />
+          <Composition id="Part-Connectors" component={ConnectorsPreview} {...STILL} />
+          <Composition id="Part-StepsAndLegend" component={LegendAndStepsPreview} {...STILL} />
+          <Composition id="Part-Misc" component={MiscPreview} {...STILL} />
+        </Folder>
+      </Folder>
+
       <Folder name="Examples">
         <Folder name="Basics">
-          <Composition
-            id="BasicAnimation"
-            component={BasicAnimation}
-            durationInFrames={150}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
+          <Composition id="BasicAnimation" component={BasicAnimation} durationInFrames={150} {...HD} />
           <Composition
             id="DataVisualization"
             component={DataVisualization}
             durationInFrames={210}
-            fps={30}
-            width={1920}
-            height={1080}
+            {...HD}
             schema={dataVisualizationSchema}
             defaultProps={defaultDataVisualizationProps}
           />
@@ -80,228 +209,22 @@ export const Root: React.FC = () => {
             id="PresentationSlides"
             component={PresentationSlides}
             durationInFrames={450}
-            fps={30}
-            width={1920}
-            height={1080}
+            {...HD}
             schema={presentationSlidesSchema}
             defaultProps={defaultPresentationSlidesProps}
           />
         </Folder>
         <Folder name="3D">
-          <Composition
-            id="ThreeScene"
-            component={ThreeScene}
-            durationInFrames={240}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="ParticleSystem"
-            component={ParticleSystem}
-            durationInFrames={240}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
+          <Composition id="ThreeScene" component={ThreeScene} durationInFrames={240} {...HD} />
+          <Composition id="ParticleSystem" component={ParticleSystem} durationInFrames={240} {...HD} />
         </Folder>
         <Folder name="Effects">
-          <Composition
-            id="AudioVisualizer"
-            component={AudioVisualizer}
-            durationInFrames={300}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="MotionGraphics"
-            component={MotionGraphics}
-            durationInFrames={300}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="TransitionDemo"
-            component={TransitionDemo}
-            durationInFrames={540}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="LottieDemo"
-            component={LottieDemo}
-            durationInFrames={270}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="NoiseArt"
-            component={NoiseArt}
-            durationInFrames={300}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="CodeAnimation"
-            component={CodeAnimation}
-            durationInFrames={360}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-        </Folder>
-      </Folder>
-      <Composition
-        id="AgentFlowCodex"
-        component={AgentFlowCodex}
-        durationInFrames={TOTAL_FRAMES}
-        fps={FPS}
-        width={CANVAS_W}
-        height={CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowCodexReClaude"
-        component={AgentFlowCodexReClaude}
-        durationInFrames={RECLAUDE_TOTAL_FRAMES}
-        fps={RECLAUDE_FPS}
-        width={RECLAUDE_CANVAS_W}
-        height={RECLAUDE_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlow"
-        component={AgentFlow}
-        durationInFrames={600}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="AgentFlowInquiryLogoSeal"
-        component={AgentFlowInquiryLogoSeal}
-        durationInFrames={INQUIRY_TOTAL_FRAMES}
-        fps={INQUIRY_FPS}
-        width={INQUIRY_CANVAS_W}
-        height={INQUIRY_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowInquiryActionRow"
-        component={AgentFlowInquiryActionRow}
-        durationInFrames={INQUIRY_TOTAL_FRAMES}
-        fps={INQUIRY_FPS}
-        width={INQUIRY_CANVAS_W}
-        height={INQUIRY_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowInquiryIcons"
-        component={AgentFlowInquiryIcons}
-        durationInFrames={INQUIRY_TOTAL_FRAMES}
-        fps={INQUIRY_FPS}
-        width={INQUIRY_CANVAS_W}
-        height={INQUIRY_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowClaimIntakeLogoSeal"
-        component={AgentFlowClaimIntakeLogoSeal}
-        durationInFrames={CLAIM_TOTAL_FRAMES}
-        fps={CLAIM_FPS}
-        width={CLAIM_CANVAS_W}
-        height={CLAIM_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowClaimIntakeActionRow"
-        component={AgentFlowClaimIntakeActionRow}
-        durationInFrames={CLAIM_TOTAL_FRAMES}
-        fps={CLAIM_FPS}
-        width={CLAIM_CANVAS_W}
-        height={CLAIM_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowClaimIntakeIcons"
-        component={AgentFlowClaimIntakeIcons}
-        durationInFrames={CLAIM_TOTAL_FRAMES}
-        fps={CLAIM_FPS}
-        width={CLAIM_CANVAS_W}
-        height={CLAIM_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowClaimIntake"
-        component={AgentFlowClaimIntake}
-        durationInFrames={CLAIM_TOTAL_FRAMES}
-        fps={CLAIM_FPS}
-        width={CLAIM_CANVAS_W}
-        height={CLAIM_CANVAS_H}
-      />
-      <Composition
-        id="AgentFlowInquiry"
-        component={AgentFlowInquiry}
-        durationInFrames={INQUIRY_TOTAL_FRAMES}
-        fps={INQUIRY_FPS}
-        width={INQUIRY_CANVAS_W}
-        height={INQUIRY_CANVAS_H}
-      />
-      <Folder name="Components">
-        <Folder name="AgentFlowCodexReClaude">
-          <Composition
-            id="Components-AgentFlowCodexReClaude-Icons"
-            component={IconsPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-ServiceNodes"
-            component={ServiceNodesPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-IconNodes"
-            component={IconNodesPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-NodeCards"
-            component={NodeCardsPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-Connectors"
-            component={ConnectorsPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-LegendAndSteps"
-            component={LegendAndStepsPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="Components-AgentFlowCodexReClaude-Misc"
-            component={MiscPreview}
-            durationInFrames={1}
-            fps={30}
-            width={1920}
-            height={1080}
-          />
+          <Composition id="AudioVisualizer" component={AudioVisualizer} durationInFrames={300} {...HD} />
+          <Composition id="MotionGraphics" component={MotionGraphics} durationInFrames={300} {...HD} />
+          <Composition id="TransitionDemo" component={TransitionDemo} durationInFrames={540} {...HD} />
+          <Composition id="LottieDemo" component={LottieDemo} durationInFrames={270} {...HD} />
+          <Composition id="NoiseArt" component={NoiseArt} durationInFrames={300} {...HD} />
+          <Composition id="CodeAnimation" component={CodeAnimation} durationInFrames={360} {...HD} />
         </Folder>
       </Folder>
     </>

@@ -82,7 +82,7 @@ Line で問合せ受付 -> データ化
 - 3行目は「参照データ層」。判断基準と業者マスタを並べると、どちらも「参照されるだけで自分からは動かないもの」という共通性が位置で伝わる。業者マスタから④への線は空いた2行目を縦に抜ける
 - ノードサイズは 208x116（任意ゲートのみ 168x92）。ノードが11個あるので、既存 `AgentFlow` の 340x260 から大きく縮めた。見出し25px、補足12.5px、英字ラベル11px
 - `ルール・コンテキスト` は枠の内側の最下段に置く。人（枠外）とAI（枠内）の境界に接する位置になり、「人の意図がシステムに入る接点」という意味が位置で伝わる
-- 改善サイクルの2本（③から担当者へ降りる線、担当者からルールへ上がる線）は、`AgentFlowCodexReClaude` の `human-in` / `human-out` と同じく平行に並走させる
+- 改善サイクルの2本（③から担当者へ降りる線、担当者からルールへ上がる線）は、`Reference-Cloudflare-Refactored` の `human-in` / `human-out` と同じく平行に並走させる
 
 ## 4. ノード定義
 
@@ -220,10 +220,10 @@ Line で問合せ受付 -> データ化
 | `src/AgentFlowInquiry/constants.ts` | グリッド、ノード11個、エッジ13本、配色、タイムライン |
 | `src/AgentFlowInquiry/index.tsx` | 図の描画、直角ルーティング、ステップバー、凡例、進捗バー |
 
-- ノード座標もエッジ経由点も、すべて列（`COL_A/B/C`）と行（`ROW_1/2/3`）の定数から導出している。`AgentFlowCodexReClaude` のリファクタで得た「座標を2箇所に書かない」を最初から適用した
+- ノード座標もエッジ経由点も、すべて列（`COL_A/B/C`）と行（`ROW_1/2/3`）の定数から導出している。`Reference-Cloudflare-Refactored` のリファクタで得た「座標を2箇所に書かない」を最初から適用した
 - `ServiceIcon` に `inbox`（受付）と `sliders`（判断基準）を追加した。これで重複は「入居者と一次回答がどちらも `message`」だけになるが、どちらもLINEの会話を指すので意図どおり
 - `StepBar` はこのコンポジション内に実装し、`STEPS.length` から段数を決める。ステップ数を変えてもコードは変わらない
-- エッジ描画（角丸折れ線、進行ドット、流れる破線）は `AgentFlowInquiry` 内にローカル実装した。`AgentFlowCodexReClaude` の `EdgeLine` は向こうのデータモデルに結合しているため。3つ目のフロー図を作るときは `src/shared/` へ切り出す
+- エッジ描画（角丸折れ線、進行ドット、流れる破線）は `AgentFlowInquiry` 内にローカル実装した。`Reference-Cloudflare-Refactored` の `EdgeLine` は向こうのデータモデルに結合しているため。3つ目のフロー図を作るときは `src/shared/` へ切り出す
 
 ## 11. 未決事項
 
@@ -240,9 +240,9 @@ Line で問合せ受付 -> データ化
 配置と接続経路は新しい図版用に定義し、右側に進行中のステップの説明を表示します。
 
 ```bash
-pnpm exec remotion still AgentFlowInquiryIcons out/inquiry-icons.png --frame=660
-pnpm exec remotion render AgentFlowInquiryIcons out/AgentFlowInquiryIcons.mp4
+pnpm exec remotion still Inquiry-Icons out/inquiry-icons.png --frame=660
+pnpm exec remotion render Inquiry-Icons out/AgentFlowInquiryIcons.mp4
 ```
 
-2026-09-16: `AgentFlowInquiryLogoSeal` と `AgentFlowInquiryActionRow` を追加。
+2026-09-16: `Inquiry-LogoSeal` と `Inquiry-ActionRow` を追加。
 既存アイコン版を共有し、`nodeVariant` でノード描画と208px幅に合わせた経路を切り替えます。

@@ -231,9 +231,9 @@ demoapp 自身の設計判断を踏襲する（`docs/architecture.md` §8）。
 AI生出力のP2とルールのP1は同時に残し、降格には人の理由が必要な点を維持しています。
 
 ```bash
-pnpm exec remotion still AgentFlowClaimIntakeIcons out/claim-intake-icons.png --frame=420
-pnpm exec remotion render AgentFlowClaimIntakeIcons out/AgentFlowClaimIntakeIcons.mp4
+pnpm exec remotion still ClaimIntake-Icons out/claim-intake-icons.png --frame=420
+pnpm exec remotion render ClaimIntake-Icons out/AgentFlowClaimIntakeIcons.mp4
 ```
 
-2026-09-16: `AgentFlowClaimIntakeLogoSeal` と `AgentFlowClaimIntakeActionRow` を追加。
+2026-09-16: `ClaimIntake-LogoSeal` と `ClaimIntake-ActionRow` を追加。
 既存アイコン版を共有し、ノードの描画と経路だけを切り替えます。記録チップと判定の非対称パネルは共通です。
