@@ -7,11 +7,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import {
-  getAudioData,
-  useAudioData,
-  visualizeAudio,
-} from "@remotion/media-utils";
+import { useAudioData, visualizeAudio } from "@remotion/media-utils";
 
 const AUDIO_SRC = staticFile("sample-audio.wav");
 const BAR_COUNT = 64;

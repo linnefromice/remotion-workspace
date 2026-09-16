@@ -6,11 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import {
-  TransitionSeries,
-  linearTiming,
-  springTiming,
-} from "@remotion/transitions";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { slide } from "@remotion/transitions/slide";
 import { fade } from "@remotion/transitions/fade";
 import { wipe } from "@remotion/transitions/wipe";

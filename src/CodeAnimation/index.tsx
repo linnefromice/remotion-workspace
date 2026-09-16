@@ -9,7 +9,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { type HighlighterCore, createHighlighter } from "shiki";
+import { createHighlighter } from "shiki";
 
 const SAMPLE_CODE = `import { useCurrentFrame, interpolate, spring } from "remotion";
 
@@ -233,11 +233,6 @@ const CodeBlock: React.FC<{
 
         // Line not yet reached
         if (lineStartChar >= totalCharsTyped) return null;
-
-        const lineRevealProgress = Math.min(
-          1,
-          (totalCharsTyped - lineStartChar) / Math.max(lineChars, 1)
-        );
 
         const lineOpacity = spring({
           frame: Math.max(
