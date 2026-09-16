@@ -29,8 +29,8 @@ import {
   type EdgeDef,
   type NodeDef,
 } from "./constants";
-
-type Point = [number, number];
+import { roundedPath, pointAtFraction } from "../shared/orthogonalRouting";
+import { ArrowMarkerDefs, arrowMarkerId } from "../shared/ArrowMarkers";
 
 // M PLUS Rounded 1c's "japanese" subset is served as many unicode-range
 // chunks per weight (a CJK font covers thousands of glyphs), so this
@@ -56,56 +56,8 @@ const { fontFamily: enFontFamily } = loadQuicksand("normal", {
 // this keeps every connector line-of-sight axis-aligned ("直角的") instead
 // of cutting diagonally across node borders or text.
 
-const sub = (a: Point, b: Point): Point => [a[0] - b[0], a[1] - b[1]];
-const add = (a: Point, b: Point): Point => [a[0] + b[0], a[1] + b[1]];
-const scale = (a: Point, s: number): Point => [a[0] * s, a[1] * s];
-const dist = (a: Point, b: Point): number => Math.hypot(b[0] - a[0], b[1] - a[1]);
-const normalize = (a: Point): Point => {
-  const len = Math.hypot(a[0], a[1]);
-  return len === 0 ? [0, 0] : [a[0] / len, a[1] / len];
-};
-
+// 角の丸めの半径。ルーティング本体は shared/orthogonalRouting.ts
 const CORNER_RADIUS = 26;
-
-const roundedPath = (points: Point[]): string => {
-  if (points.length < 2) return "";
-  if (points.length === 2) {
-    return `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
-  }
-  let d = `M ${points[0][0]} ${points[0][1]} `;
-  for (let i = 1; i < points.length - 1; i++) {
-    const prev = points[i - 1];
-    const curr = points[i];
-    const next = points[i + 1];
-    const dirIn = normalize(sub(curr, prev));
-    const dirOut = normalize(sub(next, curr));
-    const r = Math.min(CORNER_RADIUS, dist(prev, curr) / 2, dist(curr, next) / 2);
-    const p1 = sub(curr, scale(dirIn, r));
-    const p2 = add(curr, scale(dirOut, r));
-    d += `L ${p1[0]} ${p1[1]} Q ${curr[0]} ${curr[1]} ${p2[0]} ${p2[1]} `;
-  }
-  const last = points[points.length - 1];
-  d += `L ${last[0]} ${last[1]}`;
-  return d;
-};
-
-const pointAtFraction = (points: Point[], t: number): Point => {
-  const clamped = Math.max(0, Math.min(1, t));
-  const total = points.slice(1).reduce((sum, p, i) => sum + dist(points[i], p), 0);
-  let target = total * clamped;
-  for (let i = 0; i < points.length - 1; i++) {
-    const segLen = dist(points[i], points[i + 1]);
-    if (target <= segLen || i === points.length - 2) {
-      const ratio = segLen === 0 ? 0 : target / segLen;
-      return [
-        points[i][0] + (points[i + 1][0] - points[i][0]) * ratio,
-        points[i][1] + (points[i + 1][1] - points[i][1]) * ratio,
-      ];
-    }
-    target -= segLen;
-  }
-  return points[points.length - 1];
-};
 
 // A deterministic pseudo-wave built from a couple of summed sine waves. Pure
 // function of frame number, so the same frame always renders the same bar
@@ -127,7 +79,6 @@ const MARKER_COLORS = [
   COLORS.green,
   COLORS.border,
 ];
-const markerId = (color: string) => `arrow-${color.replace("#", "")}`;
 
 export const AgentFlow: React.FC = () => {
   const frame = useCurrentFrame();
@@ -194,25 +145,12 @@ const DiagramLayer: React.FC<{
         <filter id="edge-glow" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur stdDeviation="5" result="blur" />
         </filter>
-        {MARKER_COLORS.map((color) => (
-          <marker
-            key={color}
-            id={markerId(color)}
-            viewBox="0 0 10 10"
-            refX="8"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M0 0 L10 5 L0 10 Z" fill={color} />
-          </marker>
-        ))}
+        <ArrowMarkerDefs prefix="arrow-" colors={MARKER_COLORS} />
       </defs>
 
       {EDGES.map((edge: EdgeDef, index) => {
         const isActive = index === activeEdgeIndex;
-        const d = roundedPath(edge.points);
+        const d = roundedPath(edge.points, CORNER_RADIUS);
         const strokeColor = isActive ? edge.color : COLORS.border;
         const midpoint = pointAtFraction(edge.points, 0.5);
 
@@ -237,7 +175,7 @@ const DiagramLayer: React.FC<{
               strokeDashoffset={isActive ? -edgeT * 240 : 0}
               opacity={isActive ? 1 : 0.55}
               strokeLinecap="round"
-              markerEnd={`url(#${markerId(strokeColor)})`}
+              markerEnd={`url(#${arrowMarkerId("arrow-", strokeColor)})`}
             />
             {/* A fixed relay dot on inactive edges, echoing the reference
                 diagram's waypoint markers on its connector lines. */}
