@@ -19,6 +19,7 @@ import { TransitionDemo } from "./TransitionDemo";
 import { LottieDemo } from "./LottieDemo";
 import { NoiseArt } from "./NoiseArt";
 import { CodeAnimation } from "./CodeAnimation";
+import { AgentFlow } from "./AgentFlow";
 
 export const Root: React.FC = () => {
   return (
@@ -111,6 +112,14 @@ export const Root: React.FC = () => {
         id="CodeAnimation"
         component={CodeAnimation}
         durationInFrames={360}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="AgentFlow"
+        component={AgentFlow}
+        durationInFrames={600}
         fps={30}
         width={1920}
         height={1080}
