@@ -29,6 +29,19 @@ import {
   FPS as RECLAUDE_FPS,
   TOTAL_FRAMES as RECLAUDE_TOTAL_FRAMES,
 } from "./AgentFlowCodexReClaude/constants";
+import { IconsPreview } from "./AgentFlowCodexReClaude/previews/IconsPreview";
+import { IconNodesPreview } from "./AgentFlowCodexReClaude/previews/IconNodesPreview";
+import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPreview";
+import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsPreview";
+import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
+import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
+import { AgentFlowInquiry } from "./AgentFlowInquiry";
+import {
+  CANVAS_W as INQUIRY_CANVAS_W,
+  CANVAS_H as INQUIRY_CANVAS_H,
+  FPS as INQUIRY_FPS,
+  TOTAL_FRAMES as INQUIRY_TOTAL_FRAMES,
+} from "./AgentFlowInquiry/constants";
 
 export const Root: React.FC = () => {
   return (
@@ -157,6 +170,66 @@ export const Root: React.FC = () => {
         width={1920}
         height={1080}
       />
+      <Composition
+        id="AgentFlowInquiry"
+        component={AgentFlowInquiry}
+        durationInFrames={INQUIRY_TOTAL_FRAMES}
+        fps={INQUIRY_FPS}
+        width={INQUIRY_CANVAS_W}
+        height={INQUIRY_CANVAS_H}
+      />
+      <Folder name="Components">
+        <Folder name="AgentFlowCodexReClaude">
+          <Composition
+            id="Components-AgentFlowCodexReClaude-Icons"
+            component={IconsPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-IconNodes"
+            component={IconNodesPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-NodeCards"
+            component={NodeCardsPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-Connectors"
+            component={ConnectorsPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-LegendAndSteps"
+            component={LegendAndStepsPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-Misc"
+            component={MiscPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+        </Folder>
+      </Folder>
     </>
   );
 };
