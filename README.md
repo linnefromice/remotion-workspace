@@ -256,3 +256,53 @@ pnpm dev
 pnpm exec remotion still AgentFlowCodexReClaude out/AgentFlowCodexReClaude.png --frame=75
 pnpm exec remotion render AgentFlowCodexReClaude out/AgentFlowCodexReClaude.mp4
 ```
+
+## コンポーネントプレビュー（Draw.io のシェイプパレット的なもの）
+
+`AgentFlowCodexReClaude` を構成する部品（`Icon`, `NodeCard`, `EdgeLine`, `Legend`, `StepBar`,
+`Waveform`, `CloudflareLogo`, `Label` など）を単体で確認したいとき用に、`src/AgentFlowCodexReClaude/index.tsx`
+から各部品を `export` し、`src/AgentFlowCodexReClaude/previews/` 配下に部品ごとの静止画コンポジションを追加した。
+
+Remotion Studio のサイドバーで `Components > AgentFlowCodexReClaude` を開くと一覧できる。
+
+| コンポジション | 内容 |
+|---|---|
+| `Components-AgentFlowCodexReClaude-Icons` | 7種のノードアイコン一覧 |
+| `Components-AgentFlowCodexReClaude-NodeCards` | 全7ノードの非アクティブ/アクティブ両状態 |
+| `Components-AgentFlowCodexReClaude-Connectors` | 4色×非アクティブ/アクティブの接続線スタイル |
+| `Components-AgentFlowCodexReClaude-LegendAndSteps` | 凡例と4ステップぶんの StepBar |
+| `Components-AgentFlowCodexReClaude-Misc` | ロゴ・ラベル・波形 |
+
+`NodeCard`/`Legend`/`StepBar` は本体の図で使う想定の `position: absolute` 座標を内部に持ったままなので、
+プレビュー側で真似ると二重オフセットで崩れる。`NodeCard` は打ち消し用のラッパー（`translate` 相当のカウンターオフセット）で、
+`Legend`/`StepBar` は元の座標系と同じ幅の `position: relative` な帯（`CANVAS_W` 基準）を用意することで対応している。
+
+これらのプレビュー用コンポジションは `AgentFlowCodexReClaude` 本体の見た目には一切影響しない
+（`export` の追加のみで、既存コードは変更していない。frame 0/75/300/599 で本体の出力が
+引き続きバイト単位で一致することを確認済み）。
+
+### アイコン中心のノード部品
+
+Studio: `http://localhost:3000/Components-AgentFlowCodexReClaude-IconNodes`
+
+`src/AgentFlowCodexReClaude/components/IconNode.tsx` は `card`（カード内ラベル）、
+`square`（四角枠＋下部ラベル）、`circle`（丸枠＋下部ラベル）の3形状を提供します。
+`service` / `role` / `color` / `active` / `ports` で表示を変更できます。
+幅は208px、レイアウト側で座標を指定します。状態はpropsで渡すため、Remotionのフレームから制御できます。
+`ServiceIcon` はサービス公式ロゴではなく役割を表す10種類のSVGです。
+`icon` には任意のSVGや画像コンポーネントも渡せます。
+
+```tsx
+import { IconNode } from "./AgentFlowCodexReClaude/components/IconNode";
+import { ServiceIcon } from "./AgentFlowCodexReClaude/components/ServiceIcon";
+
+<IconNode
+  variant="square"
+  icon={<ServiceIcon name="calendar" />}
+  service="Calendar / CRM"
+  role="予約・顧客情報を照会"
+  color="#77d4c9"
+  active
+  ports={["left", "right"]}
+/>
+```
