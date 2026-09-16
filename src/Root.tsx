@@ -37,6 +37,13 @@ import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendA
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
 import { AgentFlowInquiryIcons } from "./AgentFlowInquiryIcons";
 import { AgentFlowInquiry } from "./AgentFlowInquiry";
+import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
+import {
+  CANVAS_W as CLAIM_CANVAS_W,
+  CANVAS_H as CLAIM_CANVAS_H,
+  FPS as CLAIM_FPS,
+  TOTAL_FRAMES as CLAIM_TOTAL_FRAMES,
+} from "./AgentFlowClaimIntake/constants";
 import {
   CANVAS_W as INQUIRY_CANVAS_W,
   CANVAS_H as INQUIRY_CANVAS_H,
@@ -178,6 +185,14 @@ export const Root: React.FC = () => {
         fps={INQUIRY_FPS}
         width={INQUIRY_CANVAS_W}
         height={INQUIRY_CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowClaimIntake"
+        component={AgentFlowClaimIntake}
+        durationInFrames={CLAIM_TOTAL_FRAMES}
+        fps={CLAIM_FPS}
+        width={CLAIM_CANVAS_W}
+        height={CLAIM_CANVAS_H}
       />
       <Composition
         id="AgentFlowInquiry"
