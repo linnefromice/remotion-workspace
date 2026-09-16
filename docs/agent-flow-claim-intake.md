@@ -221,3 +221,19 @@ demoapp 自身の設計判断を踏襲する（`docs/architecture.md` §8）。
 1. **記録層の粒度**: 5つ（会話 / judgments / inquiries / work_judgments / inquiry_events）に絞った。`attachments` `transcripts` を出すか
 2. **rejudge / rework**: admin の再判定と2段目の再実行を図に出していない。担当者から1本ずつ線が増える
 3. **SLA と計測**: SLA 超過や計測カードは扱っていない。デモの筋書きに入れるなら要検討
+
+## アイコン版（AgentFlowClaimIntakeIcons）
+
+2026-09-16: 既存版を維持し、`src/AgentFlowClaimIntakeIcons/` にアイコン版を追加。
+ノード・エッジ・7ステップ28秒・判定パネルの値は元の定義を共有します。
+`IconNode` と `ServiceIcon` でアイコンと下部ラベルを描画し、記録層はデータベースのアイコン付きチップとして表示します。
+ルールは白、人はオレンジ。未実装のLINEとP1では通らない追加質問は破線・非アクティブのままです。
+AI生出力のP2とルールのP1は同時に残し、降格には人の理由が必要な点を維持しています。
+
+```bash
+pnpm exec remotion still AgentFlowClaimIntakeIcons out/claim-intake-icons.png --frame=420
+pnpm exec remotion render AgentFlowClaimIntakeIcons out/AgentFlowClaimIntakeIcons.mp4
+```
+
+2026-09-16: `AgentFlowClaimIntakeLogoSeal` と `AgentFlowClaimIntakeActionRow` を追加。
+既存アイコン版を共有し、ノードの描画と経路だけを切り替えます。記録チップと判定の非対称パネルは共通です。

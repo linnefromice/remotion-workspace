@@ -306,3 +306,55 @@ import { ServiceIcon } from "./AgentFlowCodexReClaude/components/ServiceIcon";
   ports={["left", "right"]}
 />
 ```
+
+### サービスノードの4バリエーション
+
+Studio: `http://localhost:3000/Components-AgentFlowCodexReClaude-ServiceNodes`
+
+`src/AgentFlowCodexReClaude/components/ServiceNode.tsx`:
+
+- `logoTile`: 大きなロゴをタイルに配置
+- `logoSeal`: 円形ロゴと左右の接続線
+- `actionRow`: サービス名＋短い動作を横長のノードに
+- `caption`: 枠を抑え、動作を大きく表示
+
+幅は304px。`service`、`action`、任意の`detail`、`color`、`active`、`ports`を指定します。
+`icon`には枠いっぱいに収まるSVG / 画像を渡します。`logoBackground`でロゴ背景のコントラストを調整できます。
+文言は「資料を保存」「Issueを作成」のような短い動作を推奨します。
+アイコン中心の既存フローは変更せず、比較用コンポジションとして追加しています。
+
+```tsx
+<ServiceNode
+  variant="logoTile"
+  icon={<Img src={staticFile("service-icons/google-drive.svg")} style={{width: "100%", height: "100%"}} />}
+  service="Google Drive"
+  action="資料を保存"
+  detail="問い合わせの添付資料"
+  active
+/>
+```
+
+ロゴ素材の出典は `public/service-icons/README.md` を参照。
+
+### 実用ノードとフローのスタイル違い
+
+Caption以外は `ServiceNode.tsx` から個別部品としてインポートできます。
+
+```tsx
+import { LogoTileNode, LogoSealNode, ActionRowNode } from "./AgentFlowCodexReClaude/components/ServiceNode";
+
+<LogoSealNode icon={<ServiceIcon name="agent" size="100%" />} service="AI判定"
+  action="緊急度を判定" color="#b398f9" logoBackground="#182537" compact active />
+```
+
+`compact` は幅208px（通常304px）。既存フローとの比較用に次の4コンポジションを追加しています。
+
+| コンポジション | ノード | 尺 |
+|---|---|---|
+| AgentFlowInquiryLogoSeal | LogoSealNode | 24秒 |
+| AgentFlowInquiryActionRow | ActionRowNode | 24秒 |
+| AgentFlowClaimIntakeLogoSeal | LogoSealNode | 28秒 |
+| AgentFlowClaimIntakeActionRow | ActionRowNode | 28秒 |
+
+元のアイコン版とステップ・ノード・判定パネルを共有し、部品と接続経路を切り替えます。
+未実装・任意工程の破線、人の判断、ルール昇格、AI生出力の保持は各版共通です。

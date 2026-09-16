@@ -3,7 +3,7 @@ import React from "react";
 export type ServiceIconName = "phone" | "wave" | "calendar" | "check" | "people" | "agent" | "database" | "branch" | "tool" | "message" | "inbox" | "sliders";
 
 /** Role pictograms rather than vendor logos. Color is inherited from IconNode. */
-export const ServiceIcon: React.FC<{name: ServiceIconName}> = ({name}) => {
+export const ServiceIcon: React.FC<{name: ServiceIconName; size?: number | string}> = ({name, size = 56}) => {
   const paths: Record<ServiceIconName, React.ReactNode> = {
     phone: <><path d="m14 7-6 5c-5 10 18 33 28 28l5-6-10-8-5 5-9-9 5-5Z"/><path d="M31 7a16 16 0 0 1 13 13M30 14a9 9 0 0 1 7 7"/></>,
     wave: <>{[12, 24, 38, 48, 30, 18, 8].map((h, i) => <path key={i} d={`M${5 + i * 7} ${25 - h / 2}v${h}`}/>)}</>,
@@ -18,5 +18,5 @@ export const ServiceIcon: React.FC<{name: ServiceIconName}> = ({name}) => {
     inbox: <><path d="M5 27h11l4 7h10l4-7h11M5 27l7-19h26l7 19v14a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3Z"/></>,
     sliders: <><path d="M9 8v12M9 30v12M25 8v6M25 24v18M41 8v18M41 36v6"/><circle cx="9" cy="25" r="5"/><circle cx="25" cy="19" r="5"/><circle cx="41" cy="31" r="5"/></>,
   };
-  return <svg aria-hidden="true" width="56" height="56" viewBox="0 0 50 50" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
+  return <svg aria-hidden="true" width={size} height={size} viewBox="0 0 50 50" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 };
