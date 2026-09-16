@@ -223,3 +223,36 @@ pnpm dev
 pnpm exec remotion still AgentFlowCodex out/AgentFlowCodex.png --frame=75
 pnpm exec remotion render AgentFlowCodex out/AgentFlowCodex.mp4
 ```
+
+## AgentFlowCodexReClaude
+
+`AgentFlowCodex` の**保守性・可読性リファクタ版**。見た目・アニメーションは意図的に
+1ピクセルも変えていない（frame 0/1/40/75/149/150/220/299/300/450/500/599 で書き出した
+PNG が `AgentFlowCodex` と**バイト単位で完全一致**することを確認済み）。変えたのは
+「同じ数値をどう表現しているか」のみ。
+
+- **ノード座標とエッジ経路の重複を解消**: 元実装は7ノードの `x/y/w/h` と、各エッジの
+  SVGパス文字列（`'M380 306 H575'` など）を別々にベタ書きしており、ノードを動かすと
+  エッジ側を手で直す必要があった（同じ位置情報が2箇所に存在＝単一の情報源になっていない）。
+  ReClaude版は4列×2行の共有グリッド（`COL_*`/`ROW_*`）からノード座標を算出し、
+  エッジのパス文字列も `right('user')` のようなノード参照から構築する。ノードの位置が
+  変わればエッジも自動で追従する
+- **ハードコードされた曲線を検証つきで解読**: `delegate`/`human-in`/`human-out` などの
+  手描きS字カーブも、コーナー半径・レーンY座標を1つずつ数式で検算し、名前付き定数
+  （`HUMAN_CURVE_R`, `HUMAN_IN_CHANNEL_X` 等）に分解。グリッドに沿わない値（例:
+  `DELEGATE_DROP_X = 1714`）は「目視で決め打ちされた値」と正直にコメントし、
+  存在しない規則性を捏造しなかった
+- **色の一元管理**: JSX内に散らばっていた個別カラーコード（`#4a5d68` 等7色）を
+  `COLORS` オブジェクトへ集約
+- **型安全性**: `step: number` を `StepIndex = 0|1|2|3` に、`edge.d`（何のdか不明瞭）を
+  `edge.path` に変更。マーカー色の解決も `LEGEND.findIndex(...)` の毎フレーム線形探索から
+  `MARKER_ID_BY_COLOR` の直接引きに変更
+- **フォーマット**: 1行に複数要素を詰め込む圧縮スタイルから、リポジトリの既存コンポジション
+  と同じ「属性ごとに改行」スタイルに整形。`NodeCard`/`EdgeLine`/`StepBar`/`Legend`/
+  `ProgressBar` 等、責務ごとに小さいコンポーネントへ分割
+
+```bash
+pnpm dev
+pnpm exec remotion still AgentFlowCodexReClaude out/AgentFlowCodexReClaude.png --frame=75
+pnpm exec remotion render AgentFlowCodexReClaude out/AgentFlowCodexReClaude.mp4
+```

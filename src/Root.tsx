@@ -22,6 +22,13 @@ import { CodeAnimation } from "./CodeAnimation";
 import { AgentFlow } from "./AgentFlow";
 import { AgentFlowCodex } from "./AgentFlowCodex";
 import { CANVAS_W, CANVAS_H, FPS, TOTAL_FRAMES } from "./AgentFlowCodex/constants";
+import { AgentFlowCodexReClaude } from "./AgentFlowCodexReClaude";
+import {
+  CANVAS_W as RECLAUDE_CANVAS_W,
+  CANVAS_H as RECLAUDE_CANVAS_H,
+  FPS as RECLAUDE_FPS,
+  TOTAL_FRAMES as RECLAUDE_TOTAL_FRAMES,
+} from "./AgentFlowCodexReClaude/constants";
 
 export const Root: React.FC = () => {
   return (
@@ -133,6 +140,14 @@ export const Root: React.FC = () => {
         fps={FPS}
         width={CANVAS_W}
         height={CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowCodexReClaude"
+        component={AgentFlowCodexReClaude}
+        durationInFrames={RECLAUDE_TOTAL_FRAMES}
+        fps={RECLAUDE_FPS}
+        width={RECLAUDE_CANVAS_W}
+        height={RECLAUDE_CANVAS_H}
       />
       <Composition
         id="AgentFlow"
