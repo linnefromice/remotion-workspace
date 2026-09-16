@@ -20,7 +20,7 @@ import {
 // All animation is derived from the frame, including SVG dash travel.
 // No CSS animations or wall-clock state: seeking and rendering are identical.
 
-const Icon: React.FC<{ id: NodeDef["id"]; color: string }> = ({ id, color }) => {
+export const Icon: React.FC<{ id: NodeDef["id"]; color: string }> = ({ id, color }) => {
   // Glyph geometry only — these are fixed icon shapes, not layout, so the
   // path data is left as literal SVG commands.
   const paths: Record<NodeDef["id"], React.ReactNode> = {
@@ -81,7 +81,7 @@ const Icon: React.FC<{ id: NodeDef["id"]; color: string }> = ({ id, color }) => 
   );
 };
 
-const Waveform: React.FC<{
+export const Waveform: React.FC<{
   width: number;
   frame: number;
   color: string;
@@ -109,7 +109,7 @@ const Waveform: React.FC<{
   </svg>
 );
 
-const NodeCard: React.FC<{ node: NodeDef; frame: number; step: StepIndex }> = ({
+export const NodeCard: React.FC<{ node: NodeDef; frame: number; step: StepIndex }> = ({
   node,
   frame,
   step,
@@ -181,7 +181,7 @@ const NodeCard: React.FC<{ node: NodeDef; frame: number; step: StepIndex }> = ({
   );
 };
 
-const Label: React.FC<{
+export const Label: React.FC<{
   x: number;
   y: number;
   children: React.ReactNode;
@@ -203,20 +203,20 @@ const Label: React.FC<{
   </div>
 );
 
-const CloudflareLogo: React.FC = () => (
+export const CloudflareLogo: React.FC = () => (
   <svg width="55" height="37" viewBox="0 0 64 40">
     <path d="M2 31q-1-12 11-12Q13 8 25 9 36-5 47 12q13-2 15 13l-3 7H2Z" fill={COLORS.cloudflareLogo} />
     <path d="M3 33h53" stroke={COLORS.cloud} strokeWidth="3" />
   </svg>
 );
 
-const RuntimeFrame: React.FC = () => (
+export const RuntimeFrame: React.FC = () => (
   // The dashed-boundary "cloud" box grouping everything the runtime owns
   // (Realtime SFU / WebSocket Adapter / Durable Objects / Workers+D1).
   <rect x="520" y="131" width="963" height="853" rx="36" fill={COLORS.cloud} stroke={COLORS.internalBorder} strokeWidth="2.5" />
 );
 
-const ArrowheadDefs: React.FC = () => (
+export const ArrowheadDefs: React.FC = () => (
   <defs>
     {LEGEND.map(([color], i) => (
       <marker
@@ -235,7 +235,7 @@ const ArrowheadDefs: React.FC = () => (
   </defs>
 );
 
-const EdgeLine: React.FC<{ edge: EdgeDef; active: boolean; localFrame: number }> = ({
+export const EdgeLine: React.FC<{ edge: EdgeDef; active: boolean; localFrame: number }> = ({
   edge,
   active,
   localFrame,
@@ -275,7 +275,7 @@ const EdgeLine: React.FC<{ edge: EdgeDef; active: boolean; localFrame: number }>
   );
 };
 
-const StepBar: React.FC<{ step: StepIndex }> = ({ step }) => (
+export const StepBar: React.FC<{ step: StepIndex }> = ({ step }) => (
   <div style={{ position: "absolute", left: 68, top: 66, display: "flex", alignItems: "center", gap: 15 }}>
     {STEPS.map((label, i) => {
       const isCurrent = step === i;
@@ -306,7 +306,7 @@ const StepBar: React.FC<{ step: StepIndex }> = ({ step }) => (
   </div>
 );
 
-const Legend: React.FC = () => (
+export const Legend: React.FC = () => (
   <div style={{ position: "absolute", right: 68, top: 67, display: "flex", gap: 30 }}>
     {LEGEND.map(([color, label]) => (
       <div key={label} style={{ display: "flex", alignItems: "center", gap: 12, color: COLORS.muted, fontSize: 22 }}>
@@ -317,7 +317,7 @@ const Legend: React.FC = () => (
   </div>
 );
 
-const ProgressBar: React.FC<{ frame: number; step: StepIndex }> = ({ frame, step }) => (
+export const ProgressBar: React.FC<{ frame: number; step: StepIndex }> = ({ frame, step }) => (
   <div style={{ position: "absolute", left: 520, top: 1017, width: 963, height: 3, background: COLORS.progressTrack, borderRadius: 2 }}>
     <div
       style={{
