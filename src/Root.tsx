@@ -25,6 +25,7 @@ import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
 import {
   AgentFlowClaimIntakeIcons,
   AgentFlowClaimIntakeLogoSeal,
+  AgentFlowClaimIntakeIconsV2,
   AgentFlowClaimIntakeActionRow,
 } from "./AgentFlowClaimIntakeIcons";
 import {
@@ -37,6 +38,7 @@ import { AgentFlowInquiry } from "./AgentFlowInquiry";
 import {
   AgentFlowInquiryIcons,
   AgentFlowInquiryLogoSeal,
+  AgentFlowInquiryIconsV2,
   AgentFlowInquiryActionRow,
 } from "./AgentFlowInquiryIcons";
 import {
@@ -62,6 +64,7 @@ import {
 import { AgentFlow } from "./AgentFlow";
 
 // 部品カタログ
+import { BrandSealNodesPreview } from "./AgentFlowCodexReClaude/previews/BrandSealNodesPreview";
 import { ServiceNodesPreview } from "./AgentFlowCodexReClaude/previews/ServiceNodesPreview";
 import { IconNodesPreview } from "./AgentFlowCodexReClaude/previews/IconNodesPreview";
 import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPreview";
@@ -101,6 +104,14 @@ export const Root: React.FC = () => {
             height={CLAIM_H}
           />
           <Composition
+            id="ClaimIntake-IconsV2"
+            component={AgentFlowClaimIntakeIconsV2}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
             id="ClaimIntake-LogoSeal"
             component={AgentFlowClaimIntakeLogoSeal}
             durationInFrames={CLAIM_FRAMES}
@@ -131,6 +142,14 @@ export const Root: React.FC = () => {
           <Composition
             id="Inquiry-Icons"
             component={AgentFlowInquiryIcons}
+            durationInFrames={INQUIRY_FRAMES}
+            fps={INQUIRY_FPS}
+            width={INQUIRY_W}
+            height={INQUIRY_H}
+          />
+          <Composition
+            id="Inquiry-IconsV2"
+            component={AgentFlowInquiryIconsV2}
             durationInFrames={INQUIRY_FRAMES}
             fps={INQUIRY_FPS}
             width={INQUIRY_W}
@@ -182,6 +201,7 @@ export const Root: React.FC = () => {
 
       <Folder name="Components">
         <Folder name="Nodes">
+          <Composition id="Node-BrandSeal" component={BrandSealNodesPreview} {...STILL} />
           <Composition id="Node-Service" component={ServiceNodesPreview} {...STILL} />
           <Composition id="Node-Icon" component={IconNodesPreview} {...STILL} />
           <Composition id="Node-Card" component={NodeCardsPreview} {...STILL} />

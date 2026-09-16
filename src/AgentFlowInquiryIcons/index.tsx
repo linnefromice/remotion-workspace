@@ -1,5 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { BrandSealNode, type ChannelBrand } from '../shared/BrandSealNode';
 import { FlowServiceNode, type FlowNodeVariant } from '../shared/FlowServiceNode';
 import { inquiryServiceRoutes } from '../shared/serviceFlowRoutes';
 import { IconNode } from '../AgentFlowCodexReClaude/components/IconNode';
@@ -8,18 +9,20 @@ import { EDGES, STEPS, STEP_LEN, TOTAL_FRAMES, type StepIndex } from '../AgentFl
 import { ICON_NODES, ROUTES, nodeColor } from './constants';
 
 const PALETTE = ['#71d7ef', '#b398f9', '#b398f9', '#70dbb0', '#70dbb0', '#ffb17c'];
+const BRAND_CHANNELS: Partial<Record<string, ChannelBrand>> = {resident: 'line', intake: 'line', reply: 'line', vendor: 'gmailLine'};
+
 const ACTIONS: Record<string, string> = {"resident": "LINEで相談", "intake": "会話・写真を受付", "normalize": "物件・症状を整理", "dispatch": "業者へ連絡", "approval": "下書きを確認", "vendor": "現地対応を手配", "reply": "LINEで一次回答", "triage": "優先度を判定", "policy": "ルールと文脈を調整", "vendorDb": "対応業者を参照", "staff": "判定をレビュー"};
 
 const Tag: React.FC<{x: number; y: number; children: React.ReactNode; color?: string}> = ({x, y, children, color = '#acbbcd'}) =>
   <div style={{position: 'absolute', left: x, top: y, padding: '5px 10px', background: '#0b1421', color, borderRadius: 6, fontSize: 17, whiteSpace: 'nowrap'}}>{children}</div>;
 
-export const AgentFlowInquiryIcons: React.FC<{nodeVariant?: FlowNodeVariant}> = ({nodeVariant}) => {
+export const AgentFlowInquiryIcons: React.FC<{nodeVariant?: FlowNodeVariant; brandIcons?: boolean}> = ({nodeVariant, brandIcons = false}) => {
   const frame = useCurrentFrame();
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
   const routes = nodeVariant ? inquiryServiceRoutes(nodeVariant) : ROUTES;
   return <AbsoluteFill style={{background: '#0b1421', backgroundImage: 'radial-gradient(#273445 1px, transparent 1px)', backgroundSize: '24px 24px', color: '#edf3fa', fontFamily: '"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
-    <div style={{position: 'absolute', left: 60, top: 36, fontSize: 32, fontWeight: 700}}>問い合わせ対応 <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>FARLEAP / INQUIRY FLOW</span></div>
+    <div style={{position: 'absolute', left: 60, top: 36, fontSize: 32, fontWeight: 700}}>問い合わせ対応 <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>FARLEAP / INQUIRY FLOW{brandIcons ? ' / ICON V2' : ''}</span></div>
     <div style={{position: 'absolute', left: 60, top: 100, display: 'flex', gap: 28}}>
       {STEPS.map((label, i) => <div key={label} style={{display: 'flex', gap: 10, alignItems: 'center', fontSize: 20, color: i === step ? PALETTE[i] : '#8291a5'}}><span style={{border: '1px solid', borderRadius: '50%', width: 28, height: 28, display: 'grid', placeItems: 'center', background: i === step ? `${PALETTE[i]}20` : 'transparent'}}>{i + 1}</span>{label}</div>)}
     </div>
@@ -49,9 +52,10 @@ export const AgentFlowInquiryIcons: React.FC<{nodeVariant?: FlowNodeVariant}> = 
     <Tag x={921} y={711} color="#ffb17c">次の判定へ</Tag>
     {ICON_NODES.map(node => {
       const [x, y] = node.position;
+      const brand = brandIcons ? BRAND_CHANNELS[node.id] : undefined;
       const color = nodeColor(node.id);
       return <div key={node.id} style={{position: 'absolute', left: x - 104, top: y - (nodeVariant === 'actionRow' ? 52 : 64)}}>
-        {nodeVariant ? <FlowServiceNode variant={nodeVariant} icon={node.icon} title={`${node.num ? `${node.num}  ` : ''}${node.jp}`} action={ACTIONS[node.id] ?? node.desc} service={node.en} color={color} active={node.steps.includes(step)} dashed={node.optional}/> : <>
+        {brand ? <BrandSealNode brand={brand} role={`${node.num ? `${node.num}  ` : ''}${node.jp}`} action={ACTIONS[node.id] ?? node.desc} active={node.steps.includes(step)}/> : nodeVariant ? <FlowServiceNode variant={nodeVariant} icon={node.icon} title={`${node.num ? `${node.num}  ` : ''}${node.jp}`} action={ACTIONS[node.id] ?? node.desc} service={node.en} color={color} active={node.steps.includes(step)} dashed={node.optional}/> : <>
         {node.optional && <div style={{position: 'absolute', left: 35, top: -5, width: 138, height: 138, border: `1px dashed ${color}`, borderRadius: 21, boxSizing: 'border-box'}}/>}
         <IconNode icon={<ServiceIcon name={node.icon}/>} service={`${node.num ? `${node.num}  ` : ''}${node.jp}`} role={node.en} variant={['policy', 'vendorDb', 'staff', 'resident', 'vendor'].includes(node.id) ? 'circle' : 'square'} color={color} active={node.steps.includes(step)} ports={['left', 'right']}/>
         <div style={{textAlign: 'center', color: '#99adc4', fontSize: 15, marginTop: 9, whiteSpace: 'nowrap'}}>{node.desc}</div>
@@ -70,3 +74,5 @@ export const AgentFlowInquiryIcons: React.FC<{nodeVariant?: FlowNodeVariant}> = 
 
 export const AgentFlowInquiryLogoSeal: React.FC = () => <AgentFlowInquiryIcons nodeVariant="logoSeal"/>;
 export const AgentFlowInquiryActionRow: React.FC = () => <AgentFlowInquiryIcons nodeVariant="actionRow"/>;
+
+export const AgentFlowInquiryIconsV2: React.FC = () => <AgentFlowInquiryIcons nodeVariant="logoSeal" brandIcons/>;
