@@ -35,6 +35,7 @@ import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPre
 import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsPreview";
 import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
+import { AgentFlowInquiryIcons } from "./AgentFlowInquiryIcons";
 import { AgentFlowInquiry } from "./AgentFlowInquiry";
 import {
   CANVAS_W as INQUIRY_CANVAS_W,
@@ -169,6 +170,14 @@ export const Root: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="AgentFlowInquiryIcons"
+        component={AgentFlowInquiryIcons}
+        durationInFrames={INQUIRY_TOTAL_FRAMES}
+        fps={INQUIRY_FPS}
+        width={INQUIRY_CANVAS_W}
+        height={INQUIRY_CANVAS_H}
       />
       <Composition
         id="AgentFlowInquiry"

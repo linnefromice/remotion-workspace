@@ -229,3 +229,17 @@ Line で問合せ受付 -> データ化
 
 1. **ノード内テクスチャ**: 既存 `Waveform` は音声用。②データ化に「行が積み上がる」、③AI判定に「優先度バー3段」のような別表現を作るか。現状はアイコンのみで、処理中の質感は出していない
 2. **この先のスコープ**: 見積依頼・見積比較・発注承認・完了確認をどう足すか。ノードをさらに増やすか、別コンポジションに分けるか
+
+## アイコン版（AgentFlowInquiryIcons）
+
+2026-09-16: 元の図を残し、独立したアイコン中心の図版を追加。
+`src/AgentFlowInquiryIcons/` に配置し、Studio の `AgentFlowInquiryIcons` で確認できます。
+11ノード・13エッジ・6ステップ24秒は `AgentFlowInquiry/constants.ts` から共有します。
+四角いノードは処理、丸いノードは人・外部接点・参照データ、承認は破線の外枠で任意を表します。
+既存の `IconNode` / `ServiceIcon` を再利用し、サービス名と役割をアイコン下部に表示します。
+配置と接続経路は新しい図版用に定義し、右側に進行中のステップの説明を表示します。
+
+```bash
+pnpm exec remotion still AgentFlowInquiryIcons out/inquiry-icons.png --frame=660
+pnpm exec remotion render AgentFlowInquiryIcons out/AgentFlowInquiryIcons.mp4
+```
