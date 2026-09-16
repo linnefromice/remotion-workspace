@@ -30,13 +30,15 @@ import {
   TOTAL_FRAMES as RECLAUDE_TOTAL_FRAMES,
 } from "./AgentFlowCodexReClaude/constants";
 import { IconsPreview } from "./AgentFlowCodexReClaude/previews/IconsPreview";
+import { ServiceNodesPreview } from "./AgentFlowCodexReClaude/previews/ServiceNodesPreview";
 import { IconNodesPreview } from "./AgentFlowCodexReClaude/previews/IconNodesPreview";
 import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPreview";
 import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsPreview";
 import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
-import { AgentFlowInquiryIcons } from "./AgentFlowInquiryIcons";
+import { AgentFlowInquiryIcons, AgentFlowInquiryLogoSeal, AgentFlowInquiryActionRow } from "./AgentFlowInquiryIcons";
 import { AgentFlowInquiry } from "./AgentFlowInquiry";
+import { AgentFlowClaimIntakeIcons, AgentFlowClaimIntakeLogoSeal, AgentFlowClaimIntakeActionRow } from "./AgentFlowClaimIntakeIcons";
 import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
 import {
   CANVAS_W as CLAIM_CANVAS_W,
@@ -179,12 +181,52 @@ export const Root: React.FC = () => {
         height={1080}
       />
       <Composition
+        id="AgentFlowInquiryLogoSeal"
+        component={AgentFlowInquiryLogoSeal}
+        durationInFrames={INQUIRY_TOTAL_FRAMES}
+        fps={INQUIRY_FPS}
+        width={INQUIRY_CANVAS_W}
+        height={INQUIRY_CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowInquiryActionRow"
+        component={AgentFlowInquiryActionRow}
+        durationInFrames={INQUIRY_TOTAL_FRAMES}
+        fps={INQUIRY_FPS}
+        width={INQUIRY_CANVAS_W}
+        height={INQUIRY_CANVAS_H}
+      />
+      <Composition
         id="AgentFlowInquiryIcons"
         component={AgentFlowInquiryIcons}
         durationInFrames={INQUIRY_TOTAL_FRAMES}
         fps={INQUIRY_FPS}
         width={INQUIRY_CANVAS_W}
         height={INQUIRY_CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowClaimIntakeLogoSeal"
+        component={AgentFlowClaimIntakeLogoSeal}
+        durationInFrames={CLAIM_TOTAL_FRAMES}
+        fps={CLAIM_FPS}
+        width={CLAIM_CANVAS_W}
+        height={CLAIM_CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowClaimIntakeActionRow"
+        component={AgentFlowClaimIntakeActionRow}
+        durationInFrames={CLAIM_TOTAL_FRAMES}
+        fps={CLAIM_FPS}
+        width={CLAIM_CANVAS_W}
+        height={CLAIM_CANVAS_H}
+      />
+      <Composition
+        id="AgentFlowClaimIntakeIcons"
+        component={AgentFlowClaimIntakeIcons}
+        durationInFrames={CLAIM_TOTAL_FRAMES}
+        fps={CLAIM_FPS}
+        width={CLAIM_CANVAS_W}
+        height={CLAIM_CANVAS_H}
       />
       <Composition
         id="AgentFlowClaimIntake"
@@ -207,6 +249,14 @@ export const Root: React.FC = () => {
           <Composition
             id="Components-AgentFlowCodexReClaude-Icons"
             component={IconsPreview}
+            durationInFrames={1}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Components-AgentFlowCodexReClaude-ServiceNodes"
+            component={ServiceNodesPreview}
             durationInFrames={1}
             fps={30}
             width={1920}

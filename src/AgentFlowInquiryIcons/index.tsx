@@ -1,18 +1,23 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { FlowServiceNode, type FlowNodeVariant } from '../shared/FlowServiceNode';
+import { inquiryServiceRoutes } from '../shared/serviceFlowRoutes';
 import { IconNode } from '../AgentFlowCodexReClaude/components/IconNode';
 import { ServiceIcon } from '../AgentFlowCodexReClaude/components/ServiceIcon';
 import { EDGES, STEPS, STEP_LEN, TOTAL_FRAMES, type StepIndex } from '../AgentFlowInquiry/constants';
 import { ICON_NODES, ROUTES, nodeColor } from './constants';
 
 const PALETTE = ['#71d7ef', '#b398f9', '#b398f9', '#70dbb0', '#70dbb0', '#ffb17c'];
+const ACTIONS: Record<string, string> = {"resident": "LINEで相談", "intake": "会話・写真を受付", "normalize": "物件・症状を整理", "dispatch": "業者へ連絡", "approval": "下書きを確認", "vendor": "現地対応を手配", "reply": "LINEで一次回答", "triage": "優先度を判定", "policy": "ルールと文脈を調整", "vendorDb": "対応業者を参照", "staff": "判定をレビュー"};
+
 const Tag: React.FC<{x: number; y: number; children: React.ReactNode; color?: string}> = ({x, y, children, color = '#acbbcd'}) =>
   <div style={{position: 'absolute', left: x, top: y, padding: '5px 10px', background: '#0b1421', color, borderRadius: 6, fontSize: 17, whiteSpace: 'nowrap'}}>{children}</div>;
 
-export const AgentFlowInquiryIcons: React.FC = () => {
+export const AgentFlowInquiryIcons: React.FC<{nodeVariant?: FlowNodeVariant}> = ({nodeVariant}) => {
   const frame = useCurrentFrame();
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
+  const routes = nodeVariant ? inquiryServiceRoutes(nodeVariant) : ROUTES;
   return <AbsoluteFill style={{background: '#0b1421', backgroundImage: 'radial-gradient(#273445 1px, transparent 1px)', backgroundSize: '24px 24px', color: '#edf3fa', fontFamily: '"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
     <div style={{position: 'absolute', left: 60, top: 36, fontSize: 32, fontWeight: 700}}>問い合わせ対応 <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>FARLEAP / INQUIRY FLOW</span></div>
     <div style={{position: 'absolute', left: 60, top: 100, display: 'flex', gap: 28}}>
@@ -26,18 +31,18 @@ export const AgentFlowInquiryIcons: React.FC = () => {
         const active = step === edge.step && localFrame >= (edge.delay ?? 0);
         const color = edge.id === 'vendorDb-dispatch' ? '#a5b6ca' : PALETTE[edge.step];
         return <g key={edge.id}>
-          <path d={ROUTES[edge.id]} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" opacity={active ? .9 : .38} strokeDasharray={edge.dashed ? '7 8' : undefined} markerEnd={`url(#inquiry-icon-arrow-${edge.step})`}/>
-          {active && <path d={ROUTES[edge.id]} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 42" strokeDashoffset={-(localFrame - (edge.delay ?? 0)) * 3}/>}
+          <path d={routes[edge.id]} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" opacity={active ? .9 : .38} strokeDasharray={edge.dashed ? '7 8' : undefined} markerEnd={`url(#inquiry-icon-arrow-${edge.step})`}/>
+          {active && <path d={routes[edge.id]} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 42" strokeDashoffset={-(localFrame - (edge.delay ?? 0)) * 3}/>}
         </g>;
       })}
     </svg>
     <Tag x={335} y={151}>AGENT RUNTIME</Tag>
-    <Tag x={535} y={222}>会話・写真</Tag>
-    <Tag x={571} y={424}>データ ↓</Tag>
-    <Tag x={843} y={424}>↑ 判定結果</Tag>
+    <Tag x={nodeVariant ? 548 : 535} y={nodeVariant === 'actionRow' ? 190 : 222}>会話・写真</Tag>
+    <Tag x={nodeVariant ? 555 : 571} y={424}>データ ↓</Tag>
+    <Tag x={nodeVariant ? 863 : 843} y={424}>↑ 判定結果</Tag>
     <Tag x={917} y={222}>手配</Tag>
     <Tag x={1310} y={150} color="#ffb17c">下書きのときだけ承認</Tag>
-    <Tag x={537} y={514}>初期対応方針</Tag>
+    <Tag x={nodeVariant ? 550 : 537} y={nodeVariant === 'actionRow' ? 480 : 514}>{nodeVariant ? '対応方針' : '初期対応方針'}</Tag>
     <Tag x={1120} y={580}>業者を参照</Tag>
     <Tag x={340} y={748} color="#ffb17c">判定結果をレビュー</Tag>
     <Tag x={381} y={800} color="#ffb17c">ルール・文脈を調整</Tag>
@@ -45,10 +50,12 @@ export const AgentFlowInquiryIcons: React.FC = () => {
     {ICON_NODES.map(node => {
       const [x, y] = node.position;
       const color = nodeColor(node.id);
-      return <div key={node.id} style={{position: 'absolute', left: x - 104, top: y - 64}}>
+      return <div key={node.id} style={{position: 'absolute', left: x - 104, top: y - (nodeVariant === 'actionRow' ? 52 : 64)}}>
+        {nodeVariant ? <FlowServiceNode variant={nodeVariant} icon={node.icon} title={`${node.num ? `${node.num}  ` : ''}${node.jp}`} action={ACTIONS[node.id] ?? node.desc} service={node.en} color={color} active={node.steps.includes(step)} dashed={node.optional}/> : <>
         {node.optional && <div style={{position: 'absolute', left: 35, top: -5, width: 138, height: 138, border: `1px dashed ${color}`, borderRadius: 21, boxSizing: 'border-box'}}/>}
         <IconNode icon={<ServiceIcon name={node.icon}/>} service={`${node.num ? `${node.num}  ` : ''}${node.jp}`} role={node.en} variant={['policy', 'vendorDb', 'staff', 'resident', 'vendor'].includes(node.id) ? 'circle' : 'square'} color={color} active={node.steps.includes(step)} ports={['left', 'right']}/>
         <div style={{textAlign: 'center', color: '#99adc4', fontSize: 15, marginTop: 9, whiteSpace: 'nowrap'}}>{node.desc}</div>
+        </>}
       </div>;
     })}
     <div style={{position: 'absolute', left: 1340, top: 580, width: 500, borderTop: '1px solid #334356', paddingTop: 24}}>
@@ -60,3 +67,6 @@ export const AgentFlowInquiryIcons: React.FC = () => {
     <div style={{position: 'absolute', left: 60, right: 60, bottom: 24, height: 3, background: '#263346'}}><div style={{width: `${(frame + 1) / TOTAL_FRAMES * 100}%`, height: '100%', background: PALETTE[step]}}/></div>
   </AbsoluteFill>;
 };
+
+export const AgentFlowInquiryLogoSeal: React.FC = () => <AgentFlowInquiryIcons nodeVariant="logoSeal"/>;
+export const AgentFlowInquiryActionRow: React.FC = () => <AgentFlowInquiryIcons nodeVariant="actionRow"/>;

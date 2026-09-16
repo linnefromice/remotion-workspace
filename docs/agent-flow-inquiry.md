@@ -243,3 +243,6 @@ Line で問合せ受付 -> データ化
 pnpm exec remotion still AgentFlowInquiryIcons out/inquiry-icons.png --frame=660
 pnpm exec remotion render AgentFlowInquiryIcons out/AgentFlowInquiryIcons.mp4
 ```
+
+2026-09-16: `AgentFlowInquiryLogoSeal` と `AgentFlowInquiryActionRow` を追加。
+既存アイコン版を共有し、`nodeVariant` でノード描画と208px幅に合わせた経路を切り替えます。
