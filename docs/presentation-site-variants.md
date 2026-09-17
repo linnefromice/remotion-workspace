@@ -8,7 +8,9 @@
 安全ルール `SAFETY_GAS_ODOR` が発火してP1（即時）へ引き上げる**という筋。
 尺は全部 1920×1080 / 30fps / 840フレーム（28秒 = 120フレーム×7工程）。
 
-つくり方の手順は [`presentation-production-playbook.md`](./presentation-production-playbook.md)、
+つくり方の手順は [`presentation-production-playbook.md`](./presentation-production-playbook.md)
+（各段の詳細は [[1] 題材](./agent-flow-discovery.md) → [[2] 図](./agent-flow-diagram-patterns.md)
+→ [[3] 1枚](./presentation-page-patterns.md)）、
 経緯は [`presentation-site.md`](./presentation-site.md)、
 引き継ぎ用の一枚は [`presentation-site-brief.md`](./presentation-site-brief.md)。
 

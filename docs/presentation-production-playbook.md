@@ -3,6 +3,16 @@
 エージェントの処理フロー図から、商談や展示会で流せる見せ物まで持っていく手順。
 2026-09-16〜17 に ClaimIntake で実際に通した順番を、繰り返せる形に直したもの。
 
+この文書は**通しの手順**。各段を詳しくしたものが3本ある。
+
+| | | |
+|---|---|---|
+| [1] | [`agent-flow-discovery.md`](./agent-flow-discovery.md) | 題材の見つけ方。ブレストと調査、[2]への引き渡し票 |
+| [2] | [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md) | ノード図の作り方。骨格・座標・色・時間、[3]への引き渡し票 |
+| [3] | [`presentation-page-patterns.md`](./presentation-page-patterns.md) | ワンページの型のカタログと選び方 |
+
+**各段の出口が次の段の入口**になっていて、引き渡し票の形が決まっている。
+
 できあがったものの索引は [`presentation-site-variants.md`](./presentation-site-variants.md)、
 検討の生ログは [`presentation-site.md`](./presentation-site.md)、
 人に渡すときの一枚は [`presentation-site-brief.md`](./presentation-site-brief.md)。

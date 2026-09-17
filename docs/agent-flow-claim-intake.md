@@ -1,5 +1,8 @@
 # AgentFlowClaimIntake 設計メモ
 
+横断のパターンは [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md)。
+この文書はその個別の適用例。
+
 `farleap/tenant-claim-intake-demoapp`（入居者通報の受付と判定の PoC）を図解するコンポジションの設計。
 コンポジション名は暫定で `AgentFlowClaimIntake`。
 
