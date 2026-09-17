@@ -9,6 +9,8 @@
 |---|---|---|
 | [1] | [`agent-flow-discovery.md`](./agent-flow-discovery.md) | 題材の見つけ方。ブレストと調査、[2]への引き渡し票 |
 | [1]付録 | [`agent-flow-research-prompts.md`](./agent-flow-research-prompts.md) | 調査を外部のLLMに頼むときの貼り付け用の依頼書 |
+| 〃 | [`agent-flow-research-domains.md`](./agent-flow-research-domains.md) | 業界別の当てどころ（10業界＋当てはめ方） |
+| 〃 | [`agent-flow-research-example.md`](./agent-flow-research-example.md) | 依頼書を一度回してみた記録と、そこで直した点 |
 | [2] | [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md) | ノード図の作り方。骨格・座標・色・時間、[3]への引き渡し票 |
 | [3] | [`presentation-page-patterns.md`](./presentation-page-patterns.md) | ワンページの型のカタログと選び方 |
 
