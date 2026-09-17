@@ -1,6 +1,7 @@
 import React from "react";
 import { interpolate } from "remotion";
-import { COLORS, STEP_COLORS, STEP_LEN } from "../AgentFlowClaimIntake/constants";
+import { COLORS, STEP_COLORS, STEP_LEN } from "../../AgentFlowClaimIntake/constants";
+import { MONO } from "../parts/primitives";
 
 /**
  * 経過時間（検討メモ §3-2）と、inquiry_events の追記（demoapp の設計の核）を
@@ -15,8 +16,6 @@ import { COLORS, STEP_COLORS, STEP_LEN } from "../AgentFlowClaimIntake/constants
  *
  * 時刻はこのシナリオでの想定値。demoapp の実測ではない。
  */
-
-const MONO = '"SF Mono", Menlo, Consolas, monospace';
 
 type Event = {
 	/** 受付からの経過秒 */
