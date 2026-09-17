@@ -2,7 +2,7 @@ import React from "react";
 import {
 	ServiceIcon,
 	type ServiceIconName,
-} from "../AgentFlowCodexReClaude/components/ServiceIcon";
+} from "./ServiceIcon";
 
 /**
  * ServiceIcon は 56px 固定なので、カードに載せるサイズへ縮めて使う。

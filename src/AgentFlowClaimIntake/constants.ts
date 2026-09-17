@@ -1,4 +1,4 @@
-import type { ServiceIconName } from "../AgentFlowCodexReClaude/components/ServiceIcon";
+import type { ServiceIconName } from "../shared/ServiceIcon";
 
 // 設計メモ: docs/agent-flow-claim-intake.md
 // 題材: farleap/tenant-claim-intake-demoapp

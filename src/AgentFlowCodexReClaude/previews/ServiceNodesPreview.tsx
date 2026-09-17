@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Img, staticFile } from 'remotion';
-import { ServiceNode, type ServiceNodeVariant } from '../components/ServiceNode';
+import { ServiceNode, type ServiceNodeVariant } from '../../shared/ServiceNode';
 
 const VARIANTS: {id: ServiceNodeVariant; name: string; description: string}[] = [
   {id: 'logoTile', name: 'Logo Tile', description: '明るい面で、サービスロゴを主役に。'},

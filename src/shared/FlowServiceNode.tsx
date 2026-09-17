@@ -1,6 +1,6 @@
 import React from 'react';
-import { LogoSealNode, ActionRowNode } from '../AgentFlowCodexReClaude/components/ServiceNode';
-import { ServiceIcon, type ServiceIconName } from '../AgentFlowCodexReClaude/components/ServiceIcon';
+import { LogoSealNode, ActionRowNode } from './ServiceNode';
+import { ServiceIcon, type ServiceIconName } from './ServiceIcon';
 
 export type FlowNodeVariant = 'logoSeal' | 'actionRow';
 export const FlowServiceNode: React.FC<{

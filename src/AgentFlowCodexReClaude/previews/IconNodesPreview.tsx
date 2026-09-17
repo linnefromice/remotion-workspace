@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { IconNode } from "../components/IconNode";
-import { ServiceIcon, type ServiceIconName } from "../components/ServiceIcon";
+import { IconNode } from "../../shared/IconNode";
+import { ServiceIcon, type ServiceIconName } from "../../shared/ServiceIcon";
 import { COLORS } from "../constants";
 
 const callNodes: {service: string; role: string; icon: ServiceIconName; color: string}[] = [
