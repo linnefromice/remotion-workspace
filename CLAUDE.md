@@ -46,6 +46,10 @@ src/
 
 Directories are kebab-case. Design notes for the agent-flow diagrams live in `docs/`.
 
+When working on an agent-flow diagram, use the vocabulary in `docs/agent-flow-glossary.md`
+(row/column/lane, node tone, hero panel, the four renderings). It maps each term to the
+identifier in the code, so a request names exactly one thing.
+
 ## Adding a New Composition
 
 1. Create `src/<Name>/index.tsx` exporting a React component
