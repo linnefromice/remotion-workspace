@@ -16,6 +16,9 @@
 
 **各段の出口が次の段の入口**になっていて、引き渡し票の形が決まっている。
 
+個別の図の設計メモは `agent-flow-*.md`
+（[claim-intake](./agent-flow-claim-intake.md) / [inquiry](./agent-flow-inquiry.md) /
+[restoration](./agent-flow-restoration.md) / [proposal](./agent-flow-proposal.md)）。
 できあがったものの索引は [`presentation-site-variants.md`](./presentation-site-variants.md)、
 検討の生ログは [`presentation-site.md`](./presentation-site.md)、
 人に渡すときの一枚は [`presentation-site-brief.md`](./presentation-site-brief.md)。
