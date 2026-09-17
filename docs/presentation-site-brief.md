@@ -130,6 +130,10 @@ cmp before.png after.png
 
 ## 5. 進め方
 
+つくり方の手順そのものは
+[`presentation-production-playbook.md`](./presentation-production-playbook.md) にある。
+**§1 で自分の案を出したあとに読むこと。**
+
 - 案は**別コンポジションとして足す**。既存には触らない
 - 見せ方の切り替えは `zod` スキーマ＋`defaultProps` にすると、
   Studio の props パネルから組み合わせを試せます（`CLAUDE.md` にパターンあり）

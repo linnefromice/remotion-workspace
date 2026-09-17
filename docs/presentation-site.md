@@ -147,6 +147,8 @@ Studio の `AgentFlow > ClaimIntake > ClaimIntake-SideBySide`。
    AIがP1と言い、人が理由を書いて下げる側を見せると、主張が両側そろう
 4. **LINEノードのラベル重なり**（§4-4）を元のコンポジション側で直すか
 
+ここでの判断を手順に直したものは
+[`presentation-production-playbook.md`](./presentation-production-playbook.md)。
 できあがったものの索引は [`presentation-site-variants.md`](./presentation-site-variants.md)、
 他の人・エージェントに引き継ぐための一枚は
 [`presentation-site-brief.md`](./presentation-site-brief.md) にある。
