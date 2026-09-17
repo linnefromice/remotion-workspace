@@ -2,6 +2,7 @@ import React from "react";
 import { interpolate } from "remotion";
 import { COLORS, STEP_COLORS, STEP_LEN } from "../../AgentFlowClaimIntake/constants";
 import { MONO } from "../parts/primitives";
+import { ELAPSED_SECONDS, EVENTS } from "../scenario";
 
 /**
  * 経過時間（検討メモ §3-2）と、inquiry_events の追記（demoapp の設計の核）を
@@ -16,25 +17,6 @@ import { MONO } from "../parts/primitives";
  *
  * 時刻はこのシナリオでの想定値。demoapp の実測ではない。
  */
-
-type Event = {
-	/** 受付からの経過秒 */
-	t: number;
-	/** この秒数に到達する動画上のステップ */
-	step: number;
-	name: string;
-	detail: string;
-};
-
-const EVENTS: Event[] = [
-	{ t: 0, step: 0, name: "inquiry.created", detail: "#2026-0917-014" },
-	{ t: 4, step: 1, name: "transcript.completed", detail: "音声 0:12" },
-	{ t: 9, step: 2, name: "judgment.created", detail: "urgency=P2 / ai" },
-	{ t: 11, step: 3, name: "urgency.promoted", detail: "P2→P1 SAFETY_GAS_ODOR" },
-	{ t: 16, step: 4, name: "work_judgment.created", detail: "next_action ×3" },
-	{ t: 22, step: 5, name: "staff.viewed", detail: "admin" },
-	{ t: 47, step: 6, name: "reply.sent", detail: "一次回答" },
-];
 
 /** 軸の右端。47秒の点を端に寄せきらないための余白込み */
 const AXIS_SECONDS = 50;
@@ -53,7 +35,7 @@ const mmss = (sec: number) => `00:${String(Math.floor(sec)).padStart(2, "0")}`;
 /** ヘッダ右端に置く時計。図では伝わらない「速さ」を数字で出す */
 export const ElapsedClock: React.FC<{ frame: number }> = ({ frame }) => {
 	const sec = elapsedSeconds(frame);
-	const settled = sec >= 47;
+	const settled = sec >= ELAPSED_SECONDS;
 
 	return (
 		<div style={{ textAlign: "right" }}>

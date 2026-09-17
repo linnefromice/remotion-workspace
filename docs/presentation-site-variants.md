@@ -113,13 +113,16 @@
 src/ClaimIntakeSideBySide/
   index.tsx                   ページのレイアウト。公開窓口も兼ねる
   constants.ts                寸法（FLOW / STAGE）・スキーマ・プリセット
+  scenario.ts                 この1件の事実（受付番号・AIの値・ルールID・経過秒）
   parts/primitives.tsx        Caption / CodeBlock / Phone / Badge / Row など小部品
-  scenes/index.tsx            工程ごとの「現場」。シナリオの値はここに直書き
+  scenes/index.tsx            工程ごとの「現場」7枚と、それを並べた SCENES
   panels/Counterfactual.tsx   下段の帯（反実仮想）
   panels/EventTimeline.tsx    下段の帯（追記タイムライン）と経過時計
 ```
 
-寸法は `constants.ts` にしか書かない（座標を2箇所に持たないため）。
+寸法は `constants.ts`、シナリオの値は `scenario.ts` にしか書かない。
+`P2` `P1` `SAFETY_GAS_ODOR` `47` は現場・下段の帯・タイムラインの3箇所から
+参照されるので、直書きすると必ずずれる。
 フロー図は `AgentFlowClaimIntakeIcons` をそのまま縮小して埋めていて、
 中身は `useCurrentFrame()` から状態が決まるので**同期のコードは無い**。
 
@@ -142,7 +145,29 @@ src/ClaimIntakeSideBySide/
 
 `showComparison` を false にすると、工程4の比較帯が原値保存の説明に替わる。
 
-実装は `src/ClaimIntakeDecisionStory/index.tsx` の1ファイル。
+### フロー図を添えた版
+
+DecisionStory の弱点（全体の経路が分からない）を、既存のフロー図で埋めたもの。
+
+| コンポジション | 置き方 |
+|---|---|
+| `ClaimIntake-DecisionStory-Side` | 横に並べる。**こちらを推奨** |
+| `ClaimIntake-DecisionStory-Stacked` | 縦に積む |
+
+どちらも 1920×1080 を前提に作られた2枚を1枚に入れるので、
+**両方が読める大きさには収まらない**。主役は DecisionStory のままにして、
+フロー図は「いまどこの話か」だけを示す地図まで小さくしてある。
+判定の値は DecisionStory が言うので、地図側の判定パネルは外している。
+
+縦積みは左右が大きく余る。横並びのほうが締まる。
+
+### ファイルの置き場
+
+```
+src/ClaimIntakeDecisionStory/
+  index.tsx     本体。工程ごとの文言は STEPS に1つにまとめてある
+  WithMap.tsx   フロー図を地図として添える版（横並び / 縦積み）
+```
 
 ---
 
@@ -165,7 +190,5 @@ src/ClaimIntakeSideBySide/
    「説明された」が「試した」に変わるはずだが、**動画では作れない**
 2. **降格のシナリオ**。判定の非対称の片側（ルールによる昇格）しか描けていない。
    AIがP1と言い、人が理由を書いて下げる側を見せると、主張が両側そろう
-3. **`DecisionStory` の整形**。1行が1,000字を超えるJSXが残っている。
-   このリポジトリでは他のファイルで一度ほどいた書き方なので、そろえる余地がある
-4. **元の図のラベル重なり**。`ClaimIntake-IconsV2` の LINE ノードで
+3. **元の図のラベル重なり**。`ClaimIntake-IconsV2` の LINE ノードで
    「Webhook / 外部チャネル」の折り返しが下のタグに被っている
