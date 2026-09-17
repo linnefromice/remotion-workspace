@@ -1,4 +1,5 @@
 import React from "react";
+import { z } from "zod";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { AgentFlowClaimIntakeIcons } from "../AgentFlowClaimIntakeIcons";
 import {
@@ -11,6 +12,7 @@ import {
 	TOTAL_FRAMES,
 } from "../AgentFlowClaimIntake/constants";
 import { Counterfactual, Scene, SCENE_TITLES } from "./scenes";
+import { ElapsedClock, EventTimeline } from "./timeline";
 
 /**
  * プレゼン用1枚サイトの仮置き版。検討メモ: docs/presentation-site.md
@@ -30,12 +32,27 @@ const FLOW_H = CANVAS_H * FLOW_SCALE; // 641.25
 /** 右カラム。x + paddingLeft + w が、左端と同じ 56px の余白で終わるようにする */
 const STAGE = { x: 1244, y: 150, w: 590 };
 
-export const ClaimIntakeSideBySide: React.FC<{
+/**
+ * 何を足すかは Studio の props パネルから切り替えられるようにしてある。
+ * 案を1つずつコンポジションに切ると数が増えるわりに、組み合わせを試せない。
+ */
+export const sideBySideSchema = z.object({
 	/** 埋め込むフロー図から判定の非対称パネルを外し、地図に徹させる（メモ §4-2） */
-	mapOnly?: boolean;
-	/** 余っている下段に、ルールの有無で結末が変わることを置く（メモ §3-1 / §4-3） */
-	counterfactual?: boolean;
-}> = ({ mapOnly = false, counterfactual = false }) => {
+	mapOnly: z.boolean(),
+	/** 下段に、ルールの有無で結末が変わることを置く（メモ §3-1 / §4-3） */
+	counterfactual: z.boolean(),
+	/** 下段を inquiry_events の追記タイムラインにする。counterfactual とは排他 */
+	timeline: z.boolean(),
+	/** ヘッダ右に、受付からの経過秒を出す（メモ §3-2） */
+	clock: z.boolean(),
+});
+
+export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> = ({
+	mapOnly,
+	counterfactual,
+	timeline,
+	clock,
+}) => {
 	const frame = useCurrentFrame();
 	const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN));
 	const localFrame = frame % STEP_LEN;
@@ -62,6 +79,12 @@ export const ClaimIntakeSideBySide: React.FC<{
 					FARLEAP / CLAIM INTAKE。左はエージェントの全体像、右はそのとき実際に出ている画面
 				</div>
 			</div>
+
+			{clock && (
+				<div style={{ position: "absolute", right: FLOW.x, top: 52 }}>
+					<ElapsedClock frame={frame} />
+				</div>
+			)}
 
 			{/* 左: 既存のフロー図をそのまま縮小して埋め込む */}
 			<div
@@ -127,20 +150,25 @@ export const ClaimIntakeSideBySide: React.FC<{
 					{SCENE_TITLES[step]}
 				</div>
 				<div style={{ opacity: enter, transform: `translateY(${(1 - enter) * 12}px)` }}>
-					<Scene step={step} />
+					<Scene step={step} hideElapsed={clock || timeline} />
 				</div>
 			</div>
 
-			{counterfactual && (
+			{/* 下段。縦に積める余地が1帯ぶんしか無いので、どちらか一方だけ置ける */}
+			{(counterfactual || timeline) && (
 				<div
 					style={{
 						position: "absolute",
 						left: FLOW.x,
 						right: FLOW.x,
-						top: 902,
+						top: counterfactual ? 902 : 890,
 					}}
 				>
-					<Counterfactual step={step} />
+					{counterfactual ? (
+						<Counterfactual step={step} />
+					) : (
+						<EventTimeline frame={frame} width={CANVAS_W - FLOW.x * 2} />
+					)}
 				</div>
 			)}
 
@@ -166,10 +194,16 @@ export const ClaimIntakeSideBySide: React.FC<{
 	);
 };
 
-/** 案1: 左のフロー図を地図に徹させ、左右で同じことを言わないようにする */
-export const ClaimIntakeSideBySideMap: React.FC = () => <ClaimIntakeSideBySide mapOnly />;
-
-/** 案2: 余っている下段に、ルールの有無で結末が変わることを置く */
-export const ClaimIntakeSideBySideCounterfactual: React.FC = () => (
-	<ClaimIntakeSideBySide counterfactual />
-);
+/** Studio に出す組み合わせ。schema があるので props パネルから他の組み合わせも試せる */
+export const SIDE_BY_SIDE_PRESETS = {
+	/** 仮置きのまま。何も足していない */
+	plain: { mapOnly: false, counterfactual: false, timeline: false, clock: false },
+	/** 案1: 左のフロー図を地図に徹させ、左右で同じことを言わないようにする */
+	map: { mapOnly: true, counterfactual: false, timeline: false, clock: false },
+	/** 案2: 下段に、ルールの有無で結末が変わることを置く */
+	counterfactual: { mapOnly: false, counterfactual: true, timeline: false, clock: false },
+	/** 案1+案2に時計を足したもの。#15 で「両方入れるのが素直」と書いた形 */
+	full: { mapOnly: true, counterfactual: true, timeline: false, clock: true },
+	/** 案3: 下段を inquiry_events の追記タイムラインにする */
+	timeline: { mapOnly: true, counterfactual: false, timeline: true, clock: false },
+} as const satisfies Record<string, z.infer<typeof sideBySideSchema>>;
