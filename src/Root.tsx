@@ -67,9 +67,19 @@ import {
   TOTAL_FRAMES as RECLAUDE_FRAMES,
 } from "./agent-flow/reference/codex-reclaude/constants";
 import { AgentFlow } from "./agent-flow/exhibition";
-import { AgentFlowRestoration } from "./agent-flow/restoration";
+import {
+  AgentFlowRestoration,
+  AgentFlowRestorationLogoSeal,
+  AgentFlowRestorationActionRow,
+  AgentFlowRestorationIconsV2,
+} from "./agent-flow/restoration";
 import { STEPS as RST_STEPS, STEP_LEN as RST_STEP_LEN } from "./agent-flow/restoration/constants";
-import { AgentFlowProposal } from "./agent-flow/proposal";
+import {
+  AgentFlowProposal,
+  AgentFlowProposalLogoSeal,
+  AgentFlowProposalActionRow,
+  AgentFlowProposalIconsV2,
+} from "./agent-flow/proposal";
 import { STEPS as PRP_STEPS, STEP_LEN as PRP_STEP_LEN } from "./agent-flow/proposal/constants";
 
 // 部品カタログ
@@ -231,6 +241,30 @@ export const Root: React.FC = () => {
             width={1920}
             height={1080}
           />
+          <Composition
+            id="Restoration-IconsV2"
+            component={AgentFlowRestorationIconsV2}
+            durationInFrames={RST_STEPS.length * RST_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Restoration-LogoSeal"
+            component={AgentFlowRestorationLogoSeal}
+            durationInFrames={RST_STEPS.length * RST_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Restoration-ActionRow"
+            component={AgentFlowRestorationActionRow}
+            durationInFrames={RST_STEPS.length * RST_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
         </Folder>
 
         {/* 新規契約候補者への提案（構想）。docs/agent-flow-proposal.md */}
@@ -238,6 +272,30 @@ export const Root: React.FC = () => {
           <Composition
             id="Proposal-Cards"
             component={AgentFlowProposal}
+            durationInFrames={PRP_STEPS.length * PRP_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Proposal-IconsV2"
+            component={AgentFlowProposalIconsV2}
+            durationInFrames={PRP_STEPS.length * PRP_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Proposal-LogoSeal"
+            component={AgentFlowProposalLogoSeal}
+            durationInFrames={PRP_STEPS.length * PRP_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+          <Composition
+            id="Proposal-ActionRow"
+            component={AgentFlowProposalActionRow}
             durationInFrames={PRP_STEPS.length * PRP_STEP_LEN}
             fps={30}
             width={1920}

@@ -63,6 +63,10 @@ export type NodeDef = {
 	dashed?: boolean;
 	/** 記録層のチップ。小さく、アイコンを持たない */
 	record?: boolean;
+	/** 見た目の版を切り替えても、いつもの箱のまま描く（記録層や小さな入力元） */
+	plain?: boolean;
+	/** 版によっては desc の代わりに使う短い動作 */
+	action?: string;
 	steps: number[];
 	cx: number;
 	cy: number;
@@ -117,6 +121,8 @@ export type FlowSpec = {
 		heroStep: number;
 	};
 	legend: ReadonlyArray<readonly [color: string, label: string]>;
+	/** IconsV2 で実ロゴを出すノード。それ以外はピクトグラムのまま */
+	brands?: Record<string, "line" | "gmailLine">;
 	notes?: ReadonlyArray<{ x: number; y: number; text: string; color?: string }>;
 };
 

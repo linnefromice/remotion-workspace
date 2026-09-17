@@ -5,6 +5,8 @@ import { loadFont as loadQuicksand } from "@remotion/google-fonts/Quicksand";
 import { roundedPath, pointAtFraction, type Point } from "./orthogonalRouting";
 import { ArrowMarkerDefs, arrowMarkerId } from "./ArrowMarkers";
 import { IconGlyph } from "./IconGlyph";
+import { BrandSealNode, type ChannelBrand } from "./BrandSealNode";
+import { FlowServiceNode } from "./FlowServiceNode";
 import {
 	CANVAS_H,
 	CANVAS_W,
@@ -44,7 +46,18 @@ const midpoint = (points: Point[]): Point => pointAtFraction(points, 0.5);
 /** 一定フレームで 0 から 1 へ。点灯の立ち上がりに使う */
 const rampIn = (elapsed: number, frames = 10) => Math.max(0, Math.min(1, elapsed / frames));
 
-export const FlowDiagram: React.FC<{ spec: FlowSpec }> = ({ spec }) => {
+/**
+ * ノードの見た目の版。構造とタイムラインは共有し、差分は描き方だけに閉じる。
+ * docs/agent-flow-diagram-patterns.md §6
+ */
+export type DiagramVariant = "cards" | "logoSeal" | "actionRow";
+
+export const FlowDiagram: React.FC<{
+	spec: FlowSpec;
+	variant?: DiagramVariant;
+	/** ロゴを持つノードだけ実ロゴに差し替える（IconsV2） */
+	brandIcons?: boolean;
+}> = ({ spec, variant = "cards", brandIcons = false }) => {
 	const frame = useCurrentFrame();
 	const total = spec.stepLen * spec.steps.length;
 	const step = Math.min(spec.steps.length - 1, Math.floor(frame / spec.stepLen));
@@ -97,7 +110,14 @@ export const FlowDiagram: React.FC<{ spec: FlowSpec }> = ({ spec }) => {
 			<Legend spec={spec} />
 
 			{spec.nodes.map((node) => (
-				<NodeCard key={node.id} node={node} step={step} localFrame={localFrame} />
+				<NodeCard
+					key={node.id}
+					node={node}
+					step={step}
+					localFrame={localFrame}
+					variant={variant}
+					brand={brandIcons ? spec.brands?.[node.id] : undefined}
+				/>
 			))}
 
 			<HeroPanel spec={spec} step={step} localFrame={localFrame} />
@@ -202,15 +222,47 @@ const EdgeLabels: React.FC<{ edges: EdgeDef[]; step: number }> = ({ edges, step 
 	</>
 );
 
-const NodeCard: React.FC<{ node: NodeDef; step: number; localFrame: number }> = ({
-	node,
-	step,
-	localFrame,
-}) => {
+const NodeCard: React.FC<{
+	node: NodeDef;
+	step: number;
+	localFrame: number;
+	variant: DiagramVariant;
+	brand?: ChannelBrand;
+}> = ({ node, step, localFrame, variant, brand }) => {
 	const isActive = node.steps.includes(step);
 	const glow = isActive ? rampIn(localFrame) : 0;
 	const accent = TONE_ACCENT[node.tone];
 	const border = isActive ? accent : COLORS.borderRest;
+
+	// 記録層と小さな入力元は、版が変わってもいつもの箱のまま
+	if (variant !== "cards" && !node.record && !node.plain) {
+		// 部品側の左右のポートが、カードの左右の辺の中点に一致するよう置く
+		const portOffset = variant === "actionRow" ? 52 : 64;
+		return (
+			<div style={{ position: "absolute", left: node.cx - 104, top: node.cy - portOffset }}>
+				{brand ? (
+					<BrandSealNode
+						brand={brand}
+						role={node.jp}
+						action={node.action ?? node.desc}
+						active={isActive}
+						planned={node.dashed}
+					/>
+				) : (
+					<FlowServiceNode
+						variant={variant}
+						icon={node.icon ?? "database"}
+						title={node.jp}
+						action={node.action ?? node.desc}
+						service={node.en}
+						color={accent}
+						active={isActive}
+						dashed={node.dashed}
+					/>
+				)}
+			</div>
+		);
+	}
 
 	if (node.record) {
 		return (
