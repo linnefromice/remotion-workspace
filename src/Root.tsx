@@ -30,8 +30,8 @@ import {
 } from "./AgentFlowClaimIntakeIcons";
 import {
   ClaimIntakeSideBySide,
-  ClaimIntakeSideBySideMap,
-  ClaimIntakeSideBySideCounterfactual,
+  SIDE_BY_SIDE_PRESETS,
+  sideBySideSchema,
 } from "./ClaimIntakeSideBySide";
 import {
   CANVAS_W as CLAIM_W,
@@ -132,10 +132,12 @@ export const Root: React.FC = () => {
             width={CLAIM_W}
             height={CLAIM_H}
           />
-          {/* プレゼン用1枚サイトの仮置き。docs/presentation-site.md */}
+          {/* プレゼン用1枚サイト。案の切り替えは props パネルから。docs/presentation-site.md */}
           <Composition
             id="ClaimIntake-SideBySide"
             component={ClaimIntakeSideBySide}
+            schema={sideBySideSchema}
+            defaultProps={SIDE_BY_SIDE_PRESETS.plain}
             durationInFrames={CLAIM_FRAMES}
             fps={CLAIM_FPS}
             width={CLAIM_W}
@@ -143,7 +145,9 @@ export const Root: React.FC = () => {
           />
           <Composition
             id="ClaimIntake-SideBySide-Map"
-            component={ClaimIntakeSideBySideMap}
+            component={ClaimIntakeSideBySide}
+            schema={sideBySideSchema}
+            defaultProps={SIDE_BY_SIDE_PRESETS.map}
             durationInFrames={CLAIM_FRAMES}
             fps={CLAIM_FPS}
             width={CLAIM_W}
@@ -151,7 +155,29 @@ export const Root: React.FC = () => {
           />
           <Composition
             id="ClaimIntake-SideBySide-Counterfactual"
-            component={ClaimIntakeSideBySideCounterfactual}
+            component={ClaimIntakeSideBySide}
+            schema={sideBySideSchema}
+            defaultProps={SIDE_BY_SIDE_PRESETS.counterfactual}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-SideBySide-Full"
+            component={ClaimIntakeSideBySide}
+            schema={sideBySideSchema}
+            defaultProps={SIDE_BY_SIDE_PRESETS.full}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-SideBySide-Timeline"
+            component={ClaimIntakeSideBySide}
+            schema={sideBySideSchema}
+            defaultProps={SIDE_BY_SIDE_PRESETS.timeline}
             durationInFrames={CLAIM_FRAMES}
             fps={CLAIM_FPS}
             width={CLAIM_W}

@@ -269,7 +269,11 @@ export const SCENE_TITLES = [
 	"CSVの1行",
 ] as const;
 
-export const Scene: React.FC<{ step: number }> = ({ step }) => {
+export const Scene: React.FC<{
+	step: number;
+	/** ヘッダに時計を出しているときは、出口の「47秒」を繰り返さない */
+	hideElapsed?: boolean;
+}> = ({ step, hideElapsed = false }) => {
 	switch (step) {
 		case 0:
 			return (
@@ -467,20 +471,22 @@ export const Scene: React.FC<{ step: number }> = ({ step }) => {
 						出口にも AIの値（urgency_ai）と、昇格させたルール（fired_rule_ids）が並ぶ。
 						あとから「なぜP1だったのか」を1行で追える。
 					</Caption>
-					<div
-						style={{
-							marginTop: 34,
-							paddingTop: 22,
-							borderTop: `1px solid ${COLORS.borderRest}`,
-							fontSize: 19,
-						}}
-					>
-						受付から一次回答まで{" "}
-						<strong style={{ fontSize: 34, color: COLORS.green, fontFamily: MONO }}>
-							47
-						</strong>{" "}
-						秒
-					</div>
+					{!hideElapsed && (
+						<div
+							style={{
+								marginTop: 34,
+								paddingTop: 22,
+								borderTop: `1px solid ${COLORS.borderRest}`,
+								fontSize: 19,
+							}}
+						>
+							受付から一次回答まで{" "}
+							<strong style={{ fontSize: 34, color: COLORS.green, fontFamily: MONO }}>
+								47
+							</strong>{" "}
+							秒
+						</div>
+					)}
 				</>
 			);
 	}
