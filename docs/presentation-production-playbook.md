@@ -8,6 +8,7 @@
 | | | |
 |---|---|---|
 | [1] | [`agent-flow-discovery.md`](./agent-flow-discovery.md) | 題材の見つけ方。ブレストと調査、[2]への引き渡し票 |
+| [1]付録 | [`agent-flow-research-prompts.md`](./agent-flow-research-prompts.md) | 調査を外部のLLMに頼むときの貼り付け用の依頼書 |
 | [2] | [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md) | ノード図の作り方。骨格・座標・色・時間、[3]への引き渡し票 |
 | [3] | [`presentation-page-patterns.md`](./presentation-page-patterns.md) | ワンページの型のカタログと選び方 |
 
