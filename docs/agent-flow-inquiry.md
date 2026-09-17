@@ -1,5 +1,8 @@
 # AgentFlowInquiry 設計メモ
 
+横断のパターンは [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md)。
+この文書はその個別の適用例。
+
 賃貸管理の問い合わせ対応フローを、実際に動かす仕組みに沿って図解するコンポジションの設計。
 コンポジション名は暫定で `AgentFlowInquiry`。
 
