@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion render",
-    "upgrade": "remotion upgrade"
+    "upgrade": "remotion upgrade",
+    "gallery:agent-flow": "node scripts/agent-flow-gallery/capture.mjs",
+    "test:gallery": "node --test scripts/agent-flow-gallery/model.test.mjs"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,8 @@
     "zod": "4.5.4"
   },
   "devDependencies": {
+    "@remotion/bundler": "4.0.525",
+    "@remotion/renderer": "4.0.525",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@types/three": "^0.186.0",

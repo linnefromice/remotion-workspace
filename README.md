@@ -399,3 +399,28 @@ import { LogoTileNode, LogoSealNode, ActionRowNode } from "./shared/ServiceNode"
 <BrandSealNode brand="line" role="問い合わせ受付" action="会話・写真を受け付ける" active />
 <BrandSealNode brand="gmailLine" role="業者への連絡" action="現地対応を手配" active={false} />
 ```
+
+## AgentFlow の静止画一覧
+
+```bash
+pnpm gallery:agent-flow                # 全AgentFlowを各動画の中間フレームで撮影
+open out/agent-flow-gallery/index.html # macOSで一覧を開く（HTMLを直接開いても可）
+pnpm gallery:agent-flow --frame=420    # 同じフレームで比較して再生成
+pnpm test:gallery                      # 対象抽出・フレーム選択のテスト
+```
+
+`src/Root.tsx` の `AgentFlow` フォルダ配下を自動収集し、題材別の一覧を生成します。
+検索・題材の絞り込み・クリック拡大・原寸PNG表示に対応。サーバーやStudioの起動は不要です。
+フレームは0始まり。指定が動画の尺を超える場合は最終フレームを撮影し、実際のフレームを各画像に表示します。
+
+- PNGは各コンポジションの解像度で生成。既定propsを使用し、元動画を変更しません。
+- 一度だけバンドルし、同じバンドル・ブラウザーを使って順に撮影します（`swangle`）。
+- 全件成功後に一覧を更新。失敗時は前回の一覧を維持し、コマンドはエラー終了します。
+- 出力は `out/agent-flow-gallery/`（git対象外）。`captures-*` 内の `manifest.json` に日時・フレーム・解像度を保存。
+  過去の撮影フォルダは残すため、不要になったらこの出力ディレクトリを削除して再生成できます。
+- 対象抽出はRoot内の静的な `<Folder name="…">` / `<Composition id="…">` 登録に対応。
+  動的な名前・IDはエラーになります。別ファイルやループへ登録を移す際は抽出処理も更新してください。
+- 実装: `scripts/agent-flow-gallery/`。Remotionの公開API
+  [bundle](https://www.remotion.dev/docs/bundle)、
+  [getCompositions](https://www.remotion.dev/docs/renderer/get-compositions)、
+  [renderStill](https://www.remotion.dev/docs/renderer/render-still) を使用。
