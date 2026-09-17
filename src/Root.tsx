@@ -28,6 +28,7 @@ import {
   AgentFlowClaimIntakeIconsV2,
   AgentFlowClaimIntakeActionRow,
 } from "./AgentFlowClaimIntakeIcons";
+import { ClaimIntakeSideBySide } from "./ClaimIntakeSideBySide";
 import {
   CANVAS_W as CLAIM_W,
   CANVAS_H as CLAIM_H,
@@ -122,6 +123,15 @@ export const Root: React.FC = () => {
           <Composition
             id="ClaimIntake-ActionRow"
             component={AgentFlowClaimIntakeActionRow}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          {/* プレゼン用1枚サイトの仮置き。docs/presentation-site.md */}
+          <Composition
+            id="ClaimIntake-SideBySide"
+            component={ClaimIntakeSideBySide}
             durationInFrames={CLAIM_FRAMES}
             fps={CLAIM_FPS}
             width={CLAIM_W}
