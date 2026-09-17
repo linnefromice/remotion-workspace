@@ -2,7 +2,6 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { loadFont as loadMPlusRounded1c } from "@remotion/google-fonts/MPLUSRounded1c";
 import { loadFont as loadQuicksand } from "@remotion/google-fonts/Quicksand";
-import { ServiceIcon } from "../AgentFlowCodexReClaude/components/ServiceIcon";
 import {
   CANVAS_H,
   CANVAS_W,
@@ -29,9 +28,11 @@ import {
   TOTAL_FRAMES,
   type EdgeDef,
   type NodeDef,
-  type Point,
   type StepIndex,
 } from "./constants";
+import { roundedPath, pointAtFraction } from "../shared/orthogonalRouting";
+import { ArrowMarkerDefs, arrowMarkerId } from "../shared/ArrowMarkers";
+import { IconGlyph } from "../shared/IconGlyph";
 
 const { fontFamily: jpFont } = loadMPlusRounded1c("normal", {
   weights: ["400", "500", "700"],
@@ -44,57 +45,10 @@ const { fontFamily: enFont } = loadQuicksand("normal", {
   subsets: ["latin"],
 });
 
-// --- 直角ルーティング -------------------------------------------------------
-// エッジは経由点の配列。角を小さく丸めた折れ線として描き、進行ドットは
-// 折れ線上の距離で位置を出す。斜めにノードを横切る線を作らないための仕組み。
-
-const sub = (a: Point, b: Point): Point => [a[0] - b[0], a[1] - b[1]];
-const add = (a: Point, b: Point): Point => [a[0] + b[0], a[1] + b[1]];
-const scale = (a: Point, s: number): Point => [a[0] * s, a[1] * s];
-const dist = (a: Point, b: Point) => Math.hypot(b[0] - a[0], b[1] - a[1]);
-const normalize = (a: Point): Point => {
-  const len = Math.hypot(a[0], a[1]);
-  return len === 0 ? [0, 0] : [a[0] / len, a[1] / len];
-};
-
+// 角の丸めの半径。ルーティング本体は shared/orthogonalRouting.ts
 const CORNER_RADIUS = 18;
 
-const roundedPath = (points: Point[]): string => {
-  if (points.length < 2) return "";
-  let d = `M ${points[0][0]} ${points[0][1]} `;
-  for (let i = 1; i < points.length - 1; i++) {
-    const prev = points[i - 1];
-    const curr = points[i];
-    const next = points[i + 1];
-    const r = Math.min(CORNER_RADIUS, dist(prev, curr) / 2, dist(curr, next) / 2);
-    const p1 = sub(curr, scale(normalize(sub(curr, prev)), r));
-    const p2 = add(curr, scale(normalize(sub(next, curr)), r));
-    d += `L ${p1[0]} ${p1[1]} Q ${curr[0]} ${curr[1]} ${p2[0]} ${p2[1]} `;
-  }
-  const last = points[points.length - 1];
-  return `${d}L ${last[0]} ${last[1]}`;
-};
-
-const pointAtFraction = (points: Point[], t: number): Point => {
-  const clamped = Math.max(0, Math.min(1, t));
-  const total = points.slice(1).reduce((sum, p, i) => sum + dist(points[i], p), 0);
-  let target = total * clamped;
-  for (let i = 0; i < points.length - 1; i++) {
-    const segment = dist(points[i], points[i + 1]);
-    if (target <= segment || i === points.length - 2) {
-      const ratio = segment === 0 ? 0 : target / segment;
-      return [
-        points[i][0] + (points[i + 1][0] - points[i][0]) * ratio,
-        points[i][1] + (points[i + 1][1] - points[i][1]) * ratio,
-      ];
-    }
-    target -= segment;
-  }
-  return points[points.length - 1];
-};
-
 const MARKER_COLORS = [COLORS.cyan, COLORS.violet, COLORS.orange, COLORS.green, COLORS.grey, COLORS.textSub];
-const markerId = (color: string) => `inq-arrow-${color.replace("#", "")}`;
 
 export const AgentFlowInquiry: React.FC = () => {
   const frame = useCurrentFrame();
@@ -110,20 +64,7 @@ export const AgentFlowInquiry: React.FC = () => {
           <filter id="inq-glow" x="-60%" y="-60%" width="220%" height="220%">
             <feGaussianBlur stdDeviation="5" />
           </filter>
-          {MARKER_COLORS.map((color) => (
-            <marker
-              key={color}
-              id={markerId(color)}
-              viewBox="0 0 10 10"
-              refX="8"
-              refY="5"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto-start-reverse"
-            >
-              <path d="M0 0 L10 5 L0 10 Z" fill={color} />
-            </marker>
-          ))}
+          <ArrowMarkerDefs prefix="inq-arrow-" colors={MARKER_COLORS} />
         </defs>
 
         <rect
@@ -185,7 +126,7 @@ const Edge: React.FC<{ edge: EdgeDef; active: boolean; localFrame: number }> = (
   active,
   localFrame,
 }) => {
-  const d = roundedPath(edge.points);
+  const d = roundedPath(edge.points, CORNER_RADIUS);
   const stroke = active ? edge.color : COLORS.textSub;
   const elapsed = localFrame - (edge.delay ?? 0);
   // delay 後から、そのステップの残り時間で端から端まで進む
@@ -206,7 +147,7 @@ const Edge: React.FC<{ edge: EdgeDef; active: boolean; localFrame: number }> = (
         strokeDashoffset={active ? -elapsed * 3 : 0}
         opacity={active ? 1 : 0.32}
         strokeLinecap="round"
-        markerEnd={`url(#${markerId(stroke)})`}
+        markerEnd={`url(#${arrowMarkerId("inq-arrow-", stroke)})`}
       />
       {active && <circle cx={dotX} cy={dotY} r={5.5} fill={edge.color} filter="url(#inq-glow)" />}
     </g>
@@ -306,20 +247,6 @@ const NodeCard: React.FC<{ node: NodeDef; step: StepIndex; localFrame: number }>
 };
 
 /** ServiceIcon は 56px 固定なので、必要なサイズへ縮めて使う */
-const IconGlyph: React.FC<{ name: NodeDef["icon"]; size: number }> = ({ name, size }) => (
-  <span
-    style={{
-      display: "block",
-      width: size,
-      height: size,
-      lineHeight: 0,
-      transform: `scale(${size / 56})`,
-      transformOrigin: "top left",
-    }}
-  >
-    <ServiceIcon name={name} />
-  </span>
-);
 
 const FrameLabel: React.FC = () => (
   <div

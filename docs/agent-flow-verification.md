@@ -101,7 +101,22 @@ Apple M5 Max（18コア）/ Concurrency 8x での実測。
 
 1. **レイアウトの試行錯誤が遅い**。Studio のプレビューは速いが、詰めの微調整は
    数値を変える → 書き出す → 見る、の往復になる
-2. **共有部品の置き場**。エッジ描画のロジックが `AgentFlowInquiry` と `AgentFlowClaimIntake` に
-   同じ内容で2つある。3枚目を作るときに `src/shared/` へ寄せる
-3. **日本語の改行制御**。カード幅に対して文字数が多いと1文字だけ次行に落ちる。
+2. **日本語の改行制御**。カード幅に対して文字数が多いと1文字だけ次行に落ちる。
    現状は幅と字数を手で合わせている
+
+## 8. 共有部品への集約（2026-09-17）
+
+図が3枚になった時点で、同じ実装が3箇所にある状態になっていたので `src/shared/` へ寄せた。
+
+| 寄せたもの | 重複していた場所 |
+|---|---|
+| `orthogonalRouting.ts`（`roundedPath` / `pointAtFraction` とベクトル演算） | AgentFlow / Inquiry / ClaimIntake の3つ |
+| `ArrowMarkers.tsx`（色ごとの矢印 marker と id 生成） | 同じ3つ |
+| `IconGlyph.tsx`（`ServiceIcon` を縮めて載せるラッパー） | Inquiry / ClaimIntake の2つ |
+
+3つのコピーは変数名と早期 return が違うだけで、動作は同じだった。角の丸め半径は
+図ごとに違う（AgentFlow 26px / 他 18px）ので、定数のままにして引数で渡している。
+
+**この集約でも出力は変えていない**。Exhibition-Loop / Inquiry-Cards / ClaimIntake-Cards を
+各ステップにまたがる18フレームで書き出し、`cmp` でバイト単位の一致を確認した。
+§5 と同じやり方で、構造だけを動かしたことを機械的に示している。
