@@ -96,7 +96,13 @@ const RecordChip: React.FC<{
 export const AgentFlowClaimIntakeIcons: React.FC<{
   nodeVariant?: FlowNodeVariant;
   brandIcons?: boolean;
-}> = ({nodeVariant, brandIcons = false}) => {
+  /**
+   * 判定の非対称パネルを出さない。
+   * この図を縮小して他の構図に埋め込むとき、埋め込み先が同じことを
+   * 言っていると重複するため（docs/presentation-site.md §4-2）。
+   */
+  hidePanel?: boolean;
+}> = ({nodeVariant, brandIcons = false, hidePanel = false}) => {
   const frame = useCurrentFrame();
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
@@ -311,40 +317,42 @@ export const AgentFlowClaimIntakeIcons: React.FC<{
       })}
 
       {/* 判定の非対称。AIの生出力とルールの結論を並べ、両方が残ることを見せる */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 320,
-          top: 785,
-          width: 495,
-          padding: '18px 22px',
-          boxSizing: 'border-box',
-          border: '1px solid #42516a',
-          background: '#182233',
-          borderRadius: 16,
-        }}
-      >
-        <div style={{fontSize: 21, fontWeight: 700}}>判定の非対称</div>
-        <div style={{fontSize: 13, color: '#a7b8cc', marginTop: 5}}>{PANEL_SUBTITLE}</div>
-        {PANEL_ROWS.map((row, i) => (
-          <div
-            key={row.label}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              marginTop: 10,
-              fontSize: 14,
-              color: step >= row.revealStep ? (i === 0 ? TONES.ai : TONES.rule) : '#8392a6',
-            }}
-          >
-            <span style={{width: 133}}>{row.label}</span>
-            <strong style={{fontSize: 24, width: 40}}>{step >= row.revealStep ? row.value : '—'}</strong>
-            <span style={{fontSize: 12}}>{row.note}</span>
-          </div>
-        ))}
-        <div style={{fontSize: 14, color: TONES.human, marginTop: 10}}>{PANEL_FOOTER}</div>
-      </div>
+      {!hidePanel && (
+        <div
+          style={{
+            position: 'absolute',
+            left: 320,
+            top: 785,
+            width: 495,
+            padding: '18px 22px',
+            boxSizing: 'border-box',
+            border: '1px solid #42516a',
+            background: '#182233',
+            borderRadius: 16,
+          }}
+        >
+          <div style={{fontSize: 21, fontWeight: 700}}>判定の非対称</div>
+          <div style={{fontSize: 13, color: '#a7b8cc', marginTop: 5}}>{PANEL_SUBTITLE}</div>
+          {PANEL_ROWS.map((row, i) => (
+            <div
+              key={row.label}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                marginTop: 10,
+                fontSize: 14,
+                color: step >= row.revealStep ? (i === 0 ? TONES.ai : TONES.rule) : '#8392a6',
+              }}
+            >
+              <span style={{width: 133}}>{row.label}</span>
+              <strong style={{fontSize: 24, width: 40}}>{step >= row.revealStep ? row.value : '—'}</strong>
+              <span style={{fontSize: 12}}>{row.note}</span>
+            </div>
+          ))}
+          <div style={{fontSize: 14, color: TONES.human, marginTop: 10}}>{PANEL_FOOTER}</div>
+        </div>
+      )}
 
       <div style={{position: 'absolute', left: 60, right: 60, bottom: 16, height: 3, background: '#263346'}}>
         <div style={{width: `${(frame + 1) / TOTAL_FRAMES * 100}%`, height: '100%', background: STEP_TONES[step]}} />

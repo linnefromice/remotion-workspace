@@ -28,7 +28,11 @@ import {
   AgentFlowClaimIntakeIconsV2,
   AgentFlowClaimIntakeActionRow,
 } from "./AgentFlowClaimIntakeIcons";
-import { ClaimIntakeSideBySide } from "./ClaimIntakeSideBySide";
+import {
+  ClaimIntakeSideBySide,
+  ClaimIntakeSideBySideMap,
+  ClaimIntakeSideBySideCounterfactual,
+} from "./ClaimIntakeSideBySide";
 import {
   CANVAS_W as CLAIM_W,
   CANVAS_H as CLAIM_H,
@@ -132,6 +136,22 @@ export const Root: React.FC = () => {
           <Composition
             id="ClaimIntake-SideBySide"
             component={ClaimIntakeSideBySide}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-SideBySide-Map"
+            component={ClaimIntakeSideBySideMap}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-SideBySide-Counterfactual"
+            component={ClaimIntakeSideBySideCounterfactual}
             durationInFrames={CLAIM_FRAMES}
             fps={CLAIM_FPS}
             width={CLAIM_W}

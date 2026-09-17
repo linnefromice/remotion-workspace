@@ -10,7 +10,7 @@ import {
 	STEP_LEN,
 	TOTAL_FRAMES,
 } from "../AgentFlowClaimIntake/constants";
-import { Scene, SCENE_TITLES } from "./scenes";
+import { Counterfactual, Scene, SCENE_TITLES } from "./scenes";
 
 /**
  * プレゼン用1枚サイトの仮置き版。検討メモ: docs/presentation-site.md
@@ -30,7 +30,12 @@ const FLOW_H = CANVAS_H * FLOW_SCALE; // 641.25
 /** 右カラム。x + paddingLeft + w が、左端と同じ 56px の余白で終わるようにする */
 const STAGE = { x: 1244, y: 150, w: 590 };
 
-export const ClaimIntakeSideBySide: React.FC = () => {
+export const ClaimIntakeSideBySide: React.FC<{
+	/** 埋め込むフロー図から判定の非対称パネルを外し、地図に徹させる（メモ §4-2） */
+	mapOnly?: boolean;
+	/** 余っている下段に、ルールの有無で結末が変わることを置く（メモ §3-1 / §4-3） */
+	counterfactual?: boolean;
+}> = ({ mapOnly = false, counterfactual = false }) => {
 	const frame = useCurrentFrame();
 	const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN));
 	const localFrame = frame % STEP_LEN;
@@ -79,7 +84,11 @@ export const ClaimIntakeSideBySide: React.FC = () => {
 						transformOrigin: "top left",
 					}}
 				>
-					<AgentFlowClaimIntakeIcons nodeVariant="logoSeal" brandIcons />
+					<AgentFlowClaimIntakeIcons
+						nodeVariant="logoSeal"
+						brandIcons
+						hidePanel={mapOnly}
+					/>
 				</div>
 			</div>
 
@@ -122,6 +131,19 @@ export const ClaimIntakeSideBySide: React.FC = () => {
 				</div>
 			</div>
 
+			{counterfactual && (
+				<div
+					style={{
+						position: "absolute",
+						left: FLOW.x,
+						right: FLOW.x,
+						top: 902,
+					}}
+				>
+					<Counterfactual step={step} />
+				</div>
+			)}
+
 			<div
 				style={{
 					position: "absolute",
@@ -143,3 +165,11 @@ export const ClaimIntakeSideBySide: React.FC = () => {
 		</AbsoluteFill>
 	);
 };
+
+/** 案1: 左のフロー図を地図に徹させ、左右で同じことを言わないようにする */
+export const ClaimIntakeSideBySideMap: React.FC = () => <ClaimIntakeSideBySide mapOnly />;
+
+/** 案2: 余っている下段に、ルールの有無で結末が変わることを置く */
+export const ClaimIntakeSideBySideCounterfactual: React.FC = () => (
+	<ClaimIntakeSideBySide counterfactual />
+);
