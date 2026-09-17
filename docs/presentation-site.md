@@ -195,3 +195,13 @@ Studio の `AgentFlow > ClaimIntake > ClaimIntake-SideBySide`。
 - 入力確認の工程は写真付きテキストのケースに合わせた。音声の文字起こしを行ったようには描かない。
 - 比較帯と記録帯を時間で切り替えることで、既存案の「下段の場所の取り合い」を解消。
   その代わり、全体経路の把握は既存フロー案に任せる。商談で順に見せて比較できる。
+
+## 2026-09-18 / Side Evidence
+
+Sideの入口を [一元参照シート](side-reference.md) に集約。DecisionStory-Sideを中心に、SideBySide系との名称・役割の違い、題材の事実、7工程、コードの正本、検証基準をまとめた。
+
+新案 `ClaimIntake-DecisionStory-Side-Evidence` は、縮小したDecisionStoryをそのまま配置せず、Side専用の判断台帳を作る。通報文・AI原値・安全ルール結論・人の確認を固定位置に置き、未処理の欄を順に開く。原値は消さない。右は既存LogoSealの全経路を保持した位置案内。下段は時刻とイベントの追記記録で、比較用の仮定は解説帯に限定した。地図の細部より判断の読みやすさを優先する。
+
+画像と28秒動画、既存Sideの7工程、関連8案の一覧は `out/side-design-studies/index.html`。`node scripts/side-design-studies.mjs` で再生成できる。旧コンポーネントや既定値は変更しない。
+
+検証: 既存8案のframe420は変更前とバイト一致。新案の7中間フレームと工程境界を確認し、28秒・840フレーム・yuv420pで出力。参照ページは24画像・全リンク・動画シーク、320〜1440pxの4幅を確認。AgentFlow一覧は38件。

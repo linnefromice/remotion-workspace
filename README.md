@@ -424,3 +424,27 @@ pnpm test:gallery                      # 対象抽出・フレーム選択のテ
   [bundle](https://www.remotion.dev/docs/bundle)、
   [getCompositions](https://www.remotion.dev/docs/renderer/get-compositions)、
   [renderStill](https://www.remotion.dev/docs/renderer/render-still) を使用。
+
+### Inquiryの新しいデザイン案
+
+`AgentFlow > Inquiry > DesignStudies` に次の3案があります（各24秒）。
+
+- `Inquiry-Transit`: 明るい路線図。全体の経路を追う。
+- `Inquiry-Orbit`: AI判定を中心に、主体と判断基準の関係を見る。
+- `Inquiry-Relay`: 送り手・情報・受け手を大きく表示し、受け渡しを追う。
+
+`pnpm gallery:agent-flow` で既存案と一緒に静止画一覧を更新できます。
+設計・検証メモは [inquiry-design-studies.md](docs/inquiry-design-studies.md)。
+今回の比較用出力は `out/inquiry-design-studies/index.html`（動画3本・静止画18枚、git対象外）。
+
+追加案: `Inquiry-Lanes`（担当別レーン）、`Inquiry-Chronicle`（縦に追う処理順）、
+`Inquiry-Caseboard`（案件カードを中心に主体が関わる）。同じDesignStudiesフォルダにあり、
+比較ページには合計6案を掲載しています。
+
+さらに **Branches**（手配と回答への分岐）と **Terraces**（理解・伝達・判断支援を段で構成）を追加し、Inquiryのデザイン比較は全8案です。`out/inquiry-design-studies/index.html` で各案の24秒動画と工程別の静止画を確認できます。
+
+### Sideの参照シートと新案
+
+[Side 一元参照シート](docs/side-reference.md) に、既存Sideの構成・SideBySide系との差・シナリオ・実装箇所を集約しています。新案 `ClaimIntake-DecisionStory-Side-Evidence` は、判断の原値・ルールの結論・人の確認を別欄に蓄積するSide専用レイアウトです。
+
+`node scripts/side-design-studies.mjs` で `out/side-design-studies/index.html`（参照シート・新案動画・工程別静止画・既存8案との比較）を生成できます。静止画だけなら `--stills-only`、そのバンドルから動画を追加するなら `--video-only` を指定します。
