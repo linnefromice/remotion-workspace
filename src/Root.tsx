@@ -78,6 +78,8 @@ import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsP
 import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
 
+import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./ClaimIntakeDecisionStory";
+
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
 const STILL = { durationInFrames: 1, ...HD } as const;
 
@@ -92,6 +94,9 @@ export const Root: React.FC = () => {
       <Folder name="AgentFlow">
         {/* 実装済みPoC（farleap/tenant-claim-intake-demoapp）の構造 */}
         <Folder name="ClaimIntake">
+          <Composition id="ClaimIntake-DecisionStory" component={ClaimIntakeDecisionStory}
+            schema={decisionStorySchema} defaultProps={decisionStoryDefaults}
+            durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
           <Composition
             id="ClaimIntake-Cards"
             component={AgentFlowClaimIntake}
