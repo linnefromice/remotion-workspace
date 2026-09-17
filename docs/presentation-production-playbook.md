@@ -13,6 +13,7 @@
 | 〃 | [`agent-flow-research-example.md`](./agent-flow-research-example.md) | 依頼書を一度回してみた記録と、そこで直した点 |
 | [2] | [`agent-flow-diagram-patterns.md`](./agent-flow-diagram-patterns.md) | ノード図の作り方。骨格・座標・色・時間、[3]への引き渡し票 |
 | [3] | [`presentation-page-patterns.md`](./presentation-page-patterns.md) | ワンページの型のカタログと選び方 |
+| 共通 | [`agent-flow-glossary.md`](./agent-flow-glossary.md) | 用語集。**指示を書くときはこの言葉を使う** |
 
 **各段の出口が次の段の入口**になっていて、引き渡し票の形が決まっている。
 

@@ -4,6 +4,9 @@
 1枚のフロー図に落とすまで。できた図を資料にするのは
 [`presentation-page-patterns.md`](./presentation-page-patterns.md)（[3]）。
 
+用語の対応表は [`agent-flow-glossary.md`](./agent-flow-glossary.md)。
+**指示を書くときはそちらの言葉を使う。**
+
 実際に作った2枚（ClaimIntake / Inquiry）から、繰り返し使える形を抜き出したもの。
 個別の設計は [`agent-flow-claim-intake.md`](./agent-flow-claim-intake.md) と
 [`agent-flow-inquiry.md`](./agent-flow-inquiry.md) にある。
