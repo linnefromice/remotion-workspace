@@ -67,6 +67,10 @@ import {
   TOTAL_FRAMES as RECLAUDE_FRAMES,
 } from "./agent-flow/reference/codex-reclaude/constants";
 import { AgentFlow } from "./agent-flow/exhibition";
+import { AgentFlowRestoration } from "./agent-flow/restoration";
+import { STEPS as RST_STEPS, STEP_LEN as RST_STEP_LEN } from "./agent-flow/restoration/constants";
+import { AgentFlowProposal } from "./agent-flow/proposal";
+import { STEPS as PRP_STEPS, STEP_LEN as PRP_STEP_LEN } from "./agent-flow/proposal/constants";
 
 // 部品カタログ
 import { BrandSealNodesPreview } from "./agent-flow/reference/codex-reclaude/previews/BrandSealNodesPreview";
@@ -214,6 +218,30 @@ export const Root: React.FC = () => {
             fps={CLAIM_FPS}
             width={CLAIM_W}
             height={CLAIM_H}
+          />
+        </Folder>
+
+        {/* 原状回復の負担区分（構想）。docs/agent-flow-restoration.md */}
+        <Folder name="Restoration">
+          <Composition
+            id="Restoration-Cards"
+            component={AgentFlowRestoration}
+            durationInFrames={RST_STEPS.length * RST_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
+          />
+        </Folder>
+
+        {/* 新規契約候補者への提案（構想）。docs/agent-flow-proposal.md */}
+        <Folder name="Proposal">
+          <Composition
+            id="Proposal-Cards"
+            component={AgentFlowProposal}
+            durationInFrames={PRP_STEPS.length * PRP_STEP_LEN}
+            fps={30}
+            width={1920}
+            height={1080}
           />
         </Folder>
 
