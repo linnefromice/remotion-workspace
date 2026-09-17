@@ -194,7 +194,7 @@ Line で問合せ受付 -> データ化
 
 | 使うもの | 出どころ | 備考 |
 |---|---|---|
-| `IconNode` | `AgentFlowCodexReClaude/components/` | ポート（left/right/bottom）付き。ノード10個なので大きい `NodeCard` より収まりが良い |
+| `IconNode` | `src/shared/` | ポート（left/right/bottom）付き。ノード10個なので大きい `NodeCard` より収まりが良い |
 | `ServiceIcon` | 同上 | 役割ピクトグラム。2種類ほど追加が必要 |
 | `EdgeLine` | `AgentFlowCodexReClaude/index.tsx` | 直角ルーティング、流れる破線、進行ドット、矢印 |
 | `RuntimeFrame` | 同上 | ランタイム枠。ラベルとタグラインは差し替え |

@@ -1,4 +1,4 @@
-import type { ServiceIconName } from "../AgentFlowCodexReClaude/components/ServiceIcon";
+import type { ServiceIconName } from "../shared/ServiceIcon";
 
 // 設計メモ: docs/agent-flow-inquiry.md
 // ノードもエッジもこのファイルのグリッドから導出する。座標を2箇所に書かない。

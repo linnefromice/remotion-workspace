@@ -309,7 +309,7 @@ Remotion Studio のサイドバーで `Components > AgentFlowCodexReClaude` を�
 
 Studio: `http://localhost:3000/Node-Icon`
 
-`src/AgentFlowCodexReClaude/components/IconNode.tsx` は `card`（カード内ラベル）、
+`src/shared/IconNode.tsx` は `card`（カード内ラベル）、
 `square`（四角枠＋下部ラベル）、`circle`（丸枠＋下部ラベル）の3形状を提供します。
 `service` / `role` / `color` / `active` / `ports` で表示を変更できます。
 幅は208px、レイアウト側で座標を指定します。状態はpropsで渡すため、Remotionのフレームから制御できます。
@@ -317,8 +317,8 @@ Studio: `http://localhost:3000/Node-Icon`
 `icon` には任意のSVGや画像コンポーネントも渡せます。
 
 ```tsx
-import { IconNode } from "./AgentFlowCodexReClaude/components/IconNode";
-import { ServiceIcon } from "./AgentFlowCodexReClaude/components/ServiceIcon";
+import { IconNode } from "./shared/IconNode";
+import { ServiceIcon } from "./shared/ServiceIcon";
 
 <IconNode
   variant="square"
@@ -335,7 +335,7 @@ import { ServiceIcon } from "./AgentFlowCodexReClaude/components/ServiceIcon";
 
 Studio: `http://localhost:3000/Node-Service`
 
-`src/AgentFlowCodexReClaude/components/ServiceNode.tsx`:
+`src/shared/ServiceNode.tsx`:
 
 - `logoTile`: 大きなロゴをタイルに配置
 - `logoSeal`: 円形ロゴと左右の接続線
@@ -365,7 +365,7 @@ Studio: `http://localhost:3000/Node-Service`
 Caption以外は `ServiceNode.tsx` から個別部品としてインポートできます。
 
 ```tsx
-import { LogoTileNode, LogoSealNode, ActionRowNode } from "./AgentFlowCodexReClaude/components/ServiceNode";
+import { LogoTileNode, LogoSealNode, ActionRowNode } from "./shared/ServiceNode";
 
 <LogoSealNode icon={<ServiceIcon name="agent" size="100%" />} service="AI判定"
   action="緊急度を判定" color="#b398f9" logoBackground="#182537" compact active />
