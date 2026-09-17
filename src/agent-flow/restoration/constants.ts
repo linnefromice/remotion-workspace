@@ -43,7 +43,8 @@ const REC_H = 62;
 
 const FRAME_MARGIN = 36;
 const COL_GAP = 75;
-const ROW_GAP = 80;
+// LogoSeal 版はノードの下にラベルが約160px伸びる。4版すべてが収まる行間にする
+const ROW_GAP = 164;
 
 const FRAME_X = 320;
 const FRAME_Y = 120;
@@ -83,6 +84,7 @@ const NODES: NodeDef[] = [
 		jp: "立会い",
 		en: "WALKTHROUGH",
 		desc: "担当者が所見を自由文で記録",
+		action: "所見を自由文で残す",
 		icon: "inbox",
 		tone: "input",
 		steps: [0],
@@ -105,6 +107,7 @@ const NODES: NodeDef[] = [
 		jp: "損耗の分類",
 		en: "CLASSIFY / AI",
 		desc: "通常損耗か、故意過失かを構造化出力",
+		action: "損耗を分類する",
 		icon: "agent",
 		tone: "ai",
 		steps: [1],
@@ -125,6 +128,7 @@ const NODES: NodeDef[] = [
 		jp: "経過年数",
 		en: "DEPRECIATION",
 		desc: "残存価値割合を引く・クロスは6年で1円",
+		action: "残存価値割合を引く",
 		icon: "database",
 		tone: "rule",
 		steps: [3],
@@ -135,6 +139,7 @@ const NODES: NodeDef[] = [
 		jp: "見積の突合",
 		en: "ESTIMATE CHECK",
 		desc: "施工範囲が過大でないか・㎡単位が原則",
+		action: "施工範囲を確かめる",
 		icon: "branch",
 		tone: "ai",
 		steps: [4],
@@ -145,6 +150,7 @@ const NODES: NodeDef[] = [
 		jp: "見積の受領",
 		en: "ESTIMATE INTAKE",
 		desc: "施工業者から受け取る（枠の外の主体）",
+		action: "業者から受け取る",
 		icon: "tool",
 		tone: "input",
 		steps: [4],
@@ -158,7 +164,7 @@ const NODES: NodeDef[] = [
 		icon: "people",
 		tone: "human",
 		steps: [5],
-		...card(COL_B, 660),
+		...card(COL_C, 794),
 	},
 	{
 		id: "invoice",
@@ -168,7 +174,7 @@ const NODES: NodeDef[] = [
 		icon: "database",
 		tone: "record",
 		steps: [6],
-		...card(COL_D, 660),
+		...card(COL_D, 794),
 	},
 	{
 		id: "recWalk",
@@ -237,8 +243,8 @@ const GAP_Y = 330;
 /** COL_C と COL_D のあいだ。縦に抜けてもカードに当たらない */
 const GAP_X = 1167;
 /** 枠の下、担当者の行より上。記録層へ回り込むときに使う */
-const SETTLE_LANE = 560;
-const SPECIAL_Y = 900;
+const SETTLE_LANE = 640;
+const SPECIAL_Y = 985;
 
 const EDGES: EdgeDef[] = [
 	{
@@ -368,8 +374,9 @@ const EDGES: EdgeDef[] = [
 		points: [
 			[left("classify"), cy("classify") + 34],
 			[OPTIONAL_LANE, cy("classify") + 34],
-			[OPTIONAL_LANE, cy("staff")],
-			[left("staff"), cy("staff")],
+			[OPTIONAL_LANE, SETTLE_LANE + 40],
+			[cx("staff") - 60, SETTLE_LANE + 40],
+			[cx("staff") - 60, top("staff")],
 		] as Point[],
 		color: COLORS.grey,
 		step: null,
@@ -381,9 +388,9 @@ const EDGES: EdgeDef[] = [
 		points: [
 			[left("depreciation"), cy("depreciation")],
 			[left("depreciation") - 50, cy("depreciation")],
-			[left("depreciation") - 50, cy("staff") - 60],
-			[cx("staff"), cy("staff") - 60],
-			[cx("staff"), top("staff")],
+			[left("depreciation") - 50, SETTLE_LANE],
+			[cx("staff") + 60, SETTLE_LANE],
+			[cx("staff") + 60, top("staff")],
 		] as Point[],
 		color: COLORS.grey,
 		step: null,
@@ -443,6 +450,7 @@ export const RESTORATION: FlowSpec = {
 		],
 		footer: "増額できるのは人だけ（理由必須）",
 	},
+	brands: { vendor: "gmailLine" },
 	legend: [
 		[COLORS.cyan, "入力"],
 		[COLORS.violet, "AIの推論"],

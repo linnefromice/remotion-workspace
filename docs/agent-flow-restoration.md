@@ -7,6 +7,7 @@
 
 - 2026-09-17 引き渡し票を埋め、図の設計まで
 - 2026-09-17 `Restoration-Cards` として実装。入力の必須/任意を確定
+- 2026-09-17 規定の4版（Cards / LogoSeal / IconsV2 / ActionRow）を実装
 
 ---
 

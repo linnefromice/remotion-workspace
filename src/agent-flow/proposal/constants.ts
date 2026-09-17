@@ -53,7 +53,8 @@ const COL_D = COL_C + NODE_W + COL_GAP;
 
 const ROW_1 = FRAME_Y + FRAME_MARGIN + NODE_H / 2;
 /** 落ちた候補を置く行。枠の中に残すことで「消えていない」ことを見せる */
-const ROW_2 = ROW_1 + NODE_H + 84;
+// LogoSeal 版はノードの下にラベルが約160px伸びる。4版すべてが収まる行間にする
+const ROW_2 = ROW_1 + NODE_H + 164;
 
 const FRAME_H = ROW_2 + NODE_H / 2 + FRAME_MARGIN - FRAME_Y;
 
@@ -82,6 +83,7 @@ const NODES: NodeDef[] = [
 		jp: "候補者",
 		en: "LEAD",
 		desc: "希望を自由文か口頭で伝える",
+		action: "希望を伝える",
 		icon: "people",
 		tone: "input",
 		steps: [0, 6],
@@ -102,6 +104,7 @@ const NODES: NodeDef[] = [
 		jp: "希望の構造化",
 		en: "STRUCTURE / AI",
 		desc: "エリア・予算・入居時期・譲れない条件",
+		action: "希望を項目に分解",
 		icon: "agent",
 		tone: "ai",
 		steps: [1],
@@ -130,6 +133,7 @@ const NODES: NodeDef[] = [
 	{
 		// 在庫の入力元。どれか1つではなく、3つとも入る
 		id: "srcCore",
+		plain: true,
 		jp: "自社基幹",
 		en: "CORE",
 		desc: "",
@@ -139,6 +143,7 @@ const NODES: NodeDef[] = [
 	},
 	{
 		id: "srcReins",
+		plain: true,
 		jp: "レインズ",
 		en: "REINS",
 		desc: "",
@@ -148,6 +153,7 @@ const NODES: NodeDef[] = [
 	},
 	{
 		id: "srcPortal",
+		plain: true,
 		jp: "ポータル",
 		en: "PORTAL",
 		desc: "",
@@ -184,7 +190,7 @@ const NODES: NodeDef[] = [
 		icon: "people",
 		tone: "human",
 		steps: [5],
-		...card(COL_C, 760),
+		...card(COL_C, 810),
 	},
 	{
 		id: "proposal",
@@ -194,7 +200,7 @@ const NODES: NodeDef[] = [
 		icon: "message",
 		tone: "record",
 		steps: [6],
-		...card(COL_D, 760),
+		...card(COL_D, 810),
 	},
 	{
 		id: "recIntake",
@@ -257,8 +263,8 @@ const cx = (id: string) => byId(id).cx;
 const cy = (id: string) => byId(id).cy;
 
 /** 枠の下、営業担当の行より上 */
-const LANE_Y = 640;
-const DELIVER_Y = 960;
+const LANE_Y = 700;
+const DELIVER_Y = 985;
 
 const EDGES: EdgeDef[] = [
 	{
@@ -479,6 +485,7 @@ export const PROPOSAL: FlowSpec = {
 		],
 		footer: "戻せるのは人だけ（根拠必須）",
 	},
+	brands: { lead: "line" },
 	legend: [
 		[COLORS.cyan, "入力"],
 		[COLORS.violet, "AIの推論"],
