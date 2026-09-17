@@ -1,90 +1,90 @@
 import React from "react";
 import { Composition, Folder } from "remotion";
-import { BasicAnimation } from "./BasicAnimation";
+import { BasicAnimation } from "./examples/basics/basic-animation";
 import {
   DataVisualization,
   dataVisualizationSchema,
   defaultDataVisualizationProps,
-} from "./DataVisualization";
+} from "./examples/basics/data-visualization";
 import {
   PresentationSlides,
   presentationSlidesSchema,
   defaultPresentationSlidesProps,
-} from "./PresentationSlides";
-import { ThreeScene } from "./ThreeScene";
-import { ParticleSystem } from "./ParticleSystem";
-import { AudioVisualizer } from "./AudioVisualizer";
-import { MotionGraphics } from "./MotionGraphics";
-import { TransitionDemo } from "./TransitionDemo";
-import { LottieDemo } from "./LottieDemo";
-import { NoiseArt } from "./NoiseArt";
-import { CodeAnimation } from "./CodeAnimation";
+} from "./examples/basics/presentation-slides";
+import { ThreeScene } from "./examples/3d/three-scene";
+import { ParticleSystem } from "./examples/3d/particle-system";
+import { AudioVisualizer } from "./examples/effects/audio-visualizer";
+import { MotionGraphics } from "./examples/effects/motion-graphics";
+import { TransitionDemo } from "./examples/effects/transition-demo";
+import { LottieDemo } from "./examples/effects/lottie-demo";
+import { NoiseArt } from "./examples/effects/noise-art";
+import { CodeAnimation } from "./examples/effects/code-animation";
 
 // フロー図
-import { AgentFlowClaimIntake } from "./AgentFlowClaimIntake";
+import { AgentFlowClaimIntake } from "./agent-flow/claim-intake/cards";
 import {
   AgentFlowClaimIntakeIcons,
   AgentFlowClaimIntakeLogoSeal,
   AgentFlowClaimIntakeIconsV2,
   AgentFlowClaimIntakeActionRow,
-} from "./AgentFlowClaimIntakeIcons";
+} from "./agent-flow/claim-intake/icons";
 import {
   ClaimIntakeSideBySide,
   SIDE_BY_SIDE_PRESETS,
   sideBySideSchema,
-} from "./ClaimIntakeSideBySide";
+} from "./agent-flow/claim-intake/side-by-side";
 import {
   CANVAS_W as CLAIM_W,
   CANVAS_H as CLAIM_H,
   FPS as CLAIM_FPS,
   TOTAL_FRAMES as CLAIM_FRAMES,
-} from "./AgentFlowClaimIntake/constants";
-import { AgentFlowInquiry } from "./AgentFlowInquiry";
+} from "./agent-flow/claim-intake/cards/constants";
+import { AgentFlowInquiry } from "./agent-flow/inquiry/cards";
 import {
   AgentFlowInquiryIcons,
   AgentFlowInquiryLogoSeal,
   AgentFlowInquiryIconsV2,
   AgentFlowInquiryActionRow,
-} from "./AgentFlowInquiryIcons";
+} from "./agent-flow/inquiry/icons";
 import {
   CANVAS_W as INQUIRY_W,
   CANVAS_H as INQUIRY_H,
   FPS as INQUIRY_FPS,
   TOTAL_FRAMES as INQUIRY_FRAMES,
-} from "./AgentFlowInquiry/constants";
-import { AgentFlowCodex } from "./AgentFlowCodex";
+} from "./agent-flow/inquiry/cards/constants";
+import { AgentFlowCodex } from "./agent-flow/reference/codex";
 import {
   CANVAS_W as CODEX_W,
   CANVAS_H as CODEX_H,
   FPS as CODEX_FPS,
   TOTAL_FRAMES as CODEX_FRAMES,
-} from "./AgentFlowCodex/constants";
-import { AgentFlowCodexReClaude } from "./AgentFlowCodexReClaude";
+} from "./agent-flow/reference/codex/constants";
+import { AgentFlowCodexReClaude } from "./agent-flow/reference/codex-reclaude";
 import {
   CANVAS_W as RECLAUDE_W,
   CANVAS_H as RECLAUDE_H,
   FPS as RECLAUDE_FPS,
   TOTAL_FRAMES as RECLAUDE_FRAMES,
-} from "./AgentFlowCodexReClaude/constants";
-import { AgentFlow } from "./AgentFlow";
+} from "./agent-flow/reference/codex-reclaude/constants";
+import { AgentFlow } from "./agent-flow/exhibition";
 
 // 部品カタログ
-import { BrandSealNodesPreview } from "./AgentFlowCodexReClaude/previews/BrandSealNodesPreview";
-import { ServiceNodesPreview } from "./AgentFlowCodexReClaude/previews/ServiceNodesPreview";
-import { IconNodesPreview } from "./AgentFlowCodexReClaude/previews/IconNodesPreview";
-import { NodeCardsPreview } from "./AgentFlowCodexReClaude/previews/NodeCardsPreview";
-import { IconsPreview } from "./AgentFlowCodexReClaude/previews/IconsPreview";
-import { ConnectorsPreview } from "./AgentFlowCodexReClaude/previews/ConnectorsPreview";
-import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendAndStepsPreview";
-import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
+import { BrandSealNodesPreview } from "./agent-flow/reference/codex-reclaude/previews/BrandSealNodesPreview";
+import { ServiceNodesPreview } from "./agent-flow/reference/codex-reclaude/previews/ServiceNodesPreview";
+import { IconNodesPreview } from "./agent-flow/reference/codex-reclaude/previews/IconNodesPreview";
+import { NodeCardsPreview } from "./agent-flow/reference/codex-reclaude/previews/NodeCardsPreview";
+import { IconsPreview } from "./agent-flow/reference/codex-reclaude/previews/IconsPreview";
+import { ConnectorsPreview } from "./agent-flow/reference/codex-reclaude/previews/ConnectorsPreview";
+import { LegendAndStepsPreview } from "./agent-flow/reference/codex-reclaude/previews/LegendAndStepsPreview";
+import { MiscPreview } from "./agent-flow/reference/codex-reclaude/previews/MiscPreview";
 
-import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./ClaimIntakeDecisionStory";
+import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./agent-flow/claim-intake/decision-story";
 import {
   ClaimIntakeDecisionStoryWithMap,
   withMapDefaults,
   withMapSchema,
   withMapStacked,
-} from "./ClaimIntakeDecisionStory/WithMap";
+} from "./agent-flow/claim-intake/decision-story/WithMap";
 
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
 const STILL = { durationInFrames: 1, ...HD } as const;

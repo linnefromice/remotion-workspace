@@ -20,8 +20,31 @@ No test framework or linter is configured.
 
 - **Entry point:** `src/index.ts` registers the root component via `registerRoot(Root)`
 - **Composition registry:** `src/Root.tsx` declares all `<Composition>` entries with their IDs, dimensions (1920×1080), FPS (30), and durations
-- **Composition modules:** Each directory under `src/` (e.g., `src/BasicAnimation/`, `src/ThreeScene/`) exports a single React component from `index.tsx`
+- **Composition modules:** each leaf directory exports a React component from `index.tsx`
 - **Config:** `remotion.config.ts` sets JPEG output format and overwrite-on-render
+
+### Source layout
+
+`src/` mirrors the folder tree shown in Remotion Studio, so a composition's ID tells you where its source lives.
+
+```
+src/
+  Root.tsx                       all <Composition> entries
+  shared/                        parts used by more than one diagram
+  agent-flow/                    Studio: AgentFlow/
+    claim-intake/                  Studio: AgentFlow > ClaimIntake
+      cards/ icons/ decision-story/ side-by-side/
+    inquiry/                       Studio: AgentFlow > Inquiry
+      cards/ icons/
+    reference/                     Studio: AgentFlow > Reference
+      codex/ codex-reclaude/         (codex-reclaude/previews/ backs Studio's Components folder;
+                                      it previews that diagram's own parts, so it stays there)
+    exhibition/                    Studio: AgentFlow > Exhibition
+  examples/                      Studio: Examples/
+    basics/ 3d/ effects/
+```
+
+Directories are kebab-case. Design notes for the agent-flow diagrams live in `docs/`.
 
 ## Adding a New Composition
 
