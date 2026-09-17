@@ -79,6 +79,12 @@ import { LegendAndStepsPreview } from "./AgentFlowCodexReClaude/previews/LegendA
 import { MiscPreview } from "./AgentFlowCodexReClaude/previews/MiscPreview";
 
 import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./ClaimIntakeDecisionStory";
+import {
+  ClaimIntakeDecisionStoryWithMap,
+  withMapDefaults,
+  withMapSchema,
+  withMapStacked,
+} from "./ClaimIntakeDecisionStory/WithMap";
 
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
 const STILL = { durationInFrames: 1, ...HD } as const;
@@ -97,6 +103,27 @@ export const Root: React.FC = () => {
           <Composition id="ClaimIntake-DecisionStory" component={ClaimIntakeDecisionStory}
             schema={decisionStorySchema} defaultProps={decisionStoryDefaults}
             durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
+          {/* DecisionStory にフロー図を地図として添えた版。横並びと縦積みを比べる */}
+          <Composition
+            id="ClaimIntake-DecisionStory-Side"
+            component={ClaimIntakeDecisionStoryWithMap}
+            schema={withMapSchema}
+            defaultProps={withMapDefaults}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
+          <Composition
+            id="ClaimIntake-DecisionStory-Stacked"
+            component={ClaimIntakeDecisionStoryWithMap}
+            schema={withMapSchema}
+            defaultProps={withMapStacked}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
           <Composition
             id="ClaimIntake-Cards"
             component={AgentFlowClaimIntake}

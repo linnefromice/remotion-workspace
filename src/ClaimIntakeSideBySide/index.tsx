@@ -14,7 +14,7 @@ import {
 import { FLOW, FLOW_H, FLOW_SCALE, STAGE, sideBySideSchema } from "./constants";
 import { Counterfactual } from "./panels/Counterfactual";
 import { ElapsedClock, EventTimeline } from "./panels/EventTimeline";
-import { Scene, SCENE_TITLES } from "./scenes";
+import { ElapsedSummary, SCENES } from "./scenes";
 
 export { SIDE_BY_SIDE_PRESETS, sideBySideSchema } from "./constants";
 
@@ -35,7 +35,8 @@ export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> =
 	clock,
 }) => {
 	const frame = useCurrentFrame();
-	const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN));
+	const step = Math.min(SCENES.length - 1, Math.floor(frame / STEP_LEN));
+	const { title, Screen } = SCENES[step];
 	const localFrame = frame % STEP_LEN;
 	const accent = STEP_COLORS[step];
 
@@ -127,11 +128,11 @@ export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> =
 					</span>
 					<span style={{ fontSize: 19, color: accent }}>{STEPS[step]}</span>
 				</div>
-				<div style={{ fontSize: 32, fontWeight: 700, marginBottom: 30 }}>
-					{SCENE_TITLES[step]}
-				</div>
+				<div style={{ fontSize: 32, fontWeight: 700, marginBottom: 30 }}>{title}</div>
 				<div style={{ opacity: enter, transform: `translateY(${(1 - enter) * 12}px)` }}>
-					<Scene step={step} hideElapsed={clock || timeline} />
+					<Screen />
+					{/* 時計や時間軸を出しているときは、出口で同じ数字を繰り返さない */}
+					{step === SCENES.length - 1 && !clock && !timeline && <ElapsedSummary />}
 				</div>
 			</div>
 

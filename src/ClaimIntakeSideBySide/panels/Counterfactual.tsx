@@ -1,5 +1,6 @@
 import React from "react";
 import { COLORS } from "../../AgentFlowClaimIntake/constants";
+import { CASE, ELAPSED_SECONDS, PROMOTION_STEP } from "../scenario";
 
 // --- 反実仮想 ---------------------------------------------------------------
 // 検討メモ §3-1。フロー図は仕組みを語れるが、失敗したときの損失を語れない。
@@ -59,20 +60,24 @@ const Track: React.FC<{
 );
 
 export const Counterfactual: React.FC<{ step: number }> = ({ step }) => {
-	// ルールが効くのはステップ4（ルール昇格）から。それまではどちらも中立に置く
-	const fired = step >= 3;
+	// ルールが効くのは昇格の工程から。それまではどちらも中立に置く
+	const fired = step >= PROMOTION_STEP;
 
 	return (
 		<div style={{ display: "flex", gap: 24 }}>
 			<Track
 				title="セーフティルールが無い場合"
-				beats={["AIのP2のまま", "翌営業日に手配", "ガスのにおいは誰も見ない"]}
+				beats={[`AIの${CASE.aiUrgency}のまま`, "翌営業日に手配", "ガスのにおいは誰も見ない"]}
 				color={COLORS.grey}
 				dim
 			/>
 			<Track
 				title="セーフティルールがある場合"
-				beats={["P1へ昇格", "即時架電・当日手配", "47秒で一次回答"]}
+				beats={[
+					`${CASE.resolvedUrgency}へ昇格`,
+					"即時架電・当日手配",
+					`${ELAPSED_SECONDS}秒で一次回答`,
+				]}
 				color={COLORS.rule}
 				dim={!fired}
 			/>

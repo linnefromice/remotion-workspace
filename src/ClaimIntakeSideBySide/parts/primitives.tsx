@@ -10,9 +10,6 @@ import { COLORS } from "../../AgentFlowClaimIntake/constants";
 
 export const MONO = '"SF Mono", Menlo, Consolas, monospace';
 
-/** シナリオ全体で使い回す1件の通報 */
-export const TICKET = "#2026-0917-014";
-
 // --- 小さな部品 -------------------------------------------------------------
 
 export const Caption: React.FC<{ color?: string; children: React.ReactNode }> = ({
