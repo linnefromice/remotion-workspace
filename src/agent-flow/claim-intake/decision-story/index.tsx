@@ -36,7 +36,7 @@ const card: React.CSSProperties = {
  * 工程ごとの文言。見出し・補足・記録の3つは必ず同時に変わるので、
  * 別々の配列に持たず1つにまとめている。
  */
-const STEPS = [
+export const STORY_STEPS = [
 	{
 		name: "通報受付",
 		title: "この一文を、見逃さない。",
@@ -82,6 +82,8 @@ const STEPS = [
 ] as const;
 
 /** 中段の帯に出す1行。見出しと本文の対で、工程ごとに入れ替わる */
+export const StoryTextOpacity = React.createContext<number | undefined>(undefined);
+
 const Note: React.FC<{
 	label: string;
 	size: number;
@@ -89,12 +91,15 @@ const Note: React.FC<{
 	labelColor?: string;
 	mono?: boolean;
 	children: React.ReactNode;
-}> = ({ label: text, size, marginTop = 15, labelColor, mono, children }) => (
+}> = ({ label: text, size, marginTop = 15, labelColor, mono, children }) => {
+ const opacity = React.useContext(StoryTextOpacity);
+ return (
 	<>
-		<div style={labelColor ? { ...label, color: labelColor } : label}>{text}</div>
+		<div style={{...label, ...(labelColor ? {color: labelColor} : null), ...(opacity === undefined ? null : {opacity})}}>{text}</div>
 		<div
 			style={{
 				fontSize: size,
+				...(opacity === undefined ? null : {opacity}),
 				marginTop,
 				...(mono ? { fontFamily: "monospace" } : null),
 			}}
@@ -103,6 +108,7 @@ const Note: React.FC<{
 		</div>
 	</>
 );
+};
 
 /** 安全ルールの工程だけ、帯を左右に割って仮定と実際を並べる */
 const Comparison: React.FC = () => (
@@ -124,7 +130,7 @@ const Comparison: React.FC = () => (
  * 工程ごとに、いま言うべきことを1つだけ出す。
  * 安全ルールの工程で比較を出さない選択をしたときは、原値を保存する話に替える。
  */
-const Band: React.FC<{ step: number; showComparison: boolean }> = ({
+export const StoryBand: React.FC<{ step: number; showComparison: boolean }> = ({
 	step,
 	showComparison,
 }) => {
@@ -169,9 +175,9 @@ export const ClaimIntakeDecisionStory: React.FC<z.infer<typeof decisionStorySche
 	showComparison,
 }) => {
 	const frame = useCurrentFrame();
-	const step = Math.min(STEPS.length - 1, Math.floor(frame / 120));
+	const step = Math.min(STORY_STEPS.length - 1, Math.floor(frame / 120));
 	const enter = interpolate(frame % 120, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-	const current = STEPS[step];
+	const current = STORY_STEPS[step];
 
 	return (
 		<AbsoluteFill
@@ -287,7 +293,7 @@ export const ClaimIntakeDecisionStory: React.FC<z.infer<typeof decisionStorySche
 
 			<div style={{ marginTop: 24, height: 132, ...card, padding: "22px 30px" }}>
 				<div style={{ opacity: enter }}>
-					<Band step={step} showComparison={showComparison} />
+					<StoryBand step={step} showComparison={showComparison} />
 				</div>
 			</div>
 
@@ -299,7 +305,7 @@ export const ClaimIntakeDecisionStory: React.FC<z.infer<typeof decisionStorySche
 					marginTop: 25,
 				}}
 			>
-				{STEPS.map((s, i) => (
+				{STORY_STEPS.map((s, i) => (
 					<div
 						key={s.name}
 						style={{

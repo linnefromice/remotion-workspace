@@ -93,3 +93,33 @@ test('Full demo maps all seven six-second scenes to the original four-second sta
   assert.doesNotMatch(html,/NaN|Infinity/);
  }
 });
+
+test('Stacked story fades at stage boundaries, remains readable, and holds its ending', () => {
+  const {ClaimIntakeDecisionStoryDiagramStacked}=require('../src/agent-flow/claim-intake/decision-story/DiagramStacked.tsx');
+  const opacityAt=f=>{frame=f;const html=render(ClaimIntakeDecisionStoryDiagramStacked);return Number(html.match(/data-story-transition="\d" style="opacity:([\d.]+)/)[1]);};
+  for(let stage=0;stage<7;stage++) {
+    const start=stage*120;
+    assert.equal(opacityAt(start),0);
+    assert.ok(opacityAt(start+7)>0 && opacityAt(start+7)<1);
+    assert.equal(opacityAt(start+15),1);
+    assert.equal(opacityAt(start+60),1);
+    if(stage<6){assert.ok(opacityAt(start+115)<1);assert.equal(opacityAt(start+119),0);}
+  }
+  assert.equal(opacityAt(839),1);
+});
+
+test('Stacked story keeps panel geometry and borders outside faded text', () => {
+  const {ClaimIntakeDecisionStoryDiagramStacked}=require('../src/agent-flow/claim-intake/decision-story/DiagramStacked.tsx');
+  for(const f of [0,15,119,120,360,479,600,719,839]) {
+    frame=f;
+    const html=render(ClaimIntakeDecisionStoryDiagramStacked);
+    const story=html.slice(html.indexOf('left:297.6px;width:1840px'));
+    assert.doesNotMatch(story,/translateY/);
+    const styles=[...story.matchAll(/style="([^"]*)"/g)].map(m=>m[1]);
+    const shapes=styles.filter(s=>/border|background/.test(s));
+    assert.ok(shapes.length>=3);
+    assert.ok(shapes.every(s=>!s.includes('opacity')));
+    assert.match(story,/height:202px/);
+    assert.match(story,/height:132px;box-sizing:border-box/);
+  }
+});
