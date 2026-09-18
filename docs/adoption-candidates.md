@@ -190,6 +190,8 @@ Studioの`subject`で`restoration / proposal / claimIntake`を切り替えられ
 
 ## Side（図の横に置くもの）
 
+置ける場所と要素の目録は [`side-catalog.md`](./side-catalog.md)。
+
 試作を実装済み: ClockはmapOnly=true、差し込み例は`Side-SlotExample`、画面主体の42秒版は`Side-DemoFull`。[設計・検証結果](./side-prototype.md)。以下の未実装メモは依頼時点の経緯として残す。
 
 | 候補 | ID | 置き場 |
