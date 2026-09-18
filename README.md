@@ -448,3 +448,5 @@ pnpm test:gallery                      # 対象抽出・フレーム選択のテ
 [Side 一元参照シート](docs/side-reference.md) に、既存Sideの構成・SideBySide系との差・シナリオ・実装箇所を集約しています。新案 `ClaimIntake-DecisionStory-Side-Evidence` は、判断の原値・ルールの結論・人の確認を別欄に蓄積するSide専用レイアウトです。
 
 `node scripts/side-design-studies.mjs` で `out/side-design-studies/index.html`（参照シート・新案動画・工程別静止画・既存8案との比較）を生成できます。静止画だけなら `--stills-only`、そのバンドルから動画を追加するなら `--video-only` を指定します。
+
+Sideの追加案 **Ledger**（`ClaimIntake-DecisionStory-Side-Ledger`）も同じ比較ページに掲載しています。紙の台帳に判断を縦に積み、右の全体図は非アクティブな経路も破線で残します。既存Side・Evidence・Ledgerの3案を同じ工程で比較できます。

@@ -94,3 +94,15 @@ ID: `ClaimIntake-DecisionStory-Side-Evidence`。既存の既定値・出力は�
 - AgentFlow全38件の一覧に新案が含まれることを確認。
 
 成果物: [参照・比較ページ](../out/side-design-studies/index.html) / [28秒動画](../out/side-design-studies/ClaimIntake-DecisionStory-Side-Evidence.mp4)
+
+## 第2案: Side Ledger
+
+ID: `ClaimIntake-DecisionStory-Side-Ledger`。実装: [Ledger.tsx](../src/agent-flow/claim-intake/side-studies/Ledger.tsx)。
+
+Evidenceの横3欄に対して、Ledgerは7工程を固定した縦の判断台帳。左面は紙の色、右面は暗い地図と解説の面に分ける。AIのP2を保存した行が残り、その下に安全ルールのP1が白い行として加わる。過去の記録は消えず、これからの行は記録待ち。時刻は台帳だけに表示する。
+
+右の全体経路図は幅832px（Evidenceは648px）に拡大。通らない経路も残し、現在以外は薄い破線にする。既存Iconsの `inactiveDashed` は既定falseとし、Ledgerだけで有効にするため、既存案の出力は変わらない。未実装・条件不一致の経路と、進行中の経路の点の動きも維持する。
+
+前案と同じ題材・28秒・7工程を使用。原値の保持、白の安全ルール、人だけの降格権限、シナリオ時刻の注記を維持する。新案のみの動画生成は、静止画生成後に `node scripts/side-design-studies.mjs --video-only --ledger-only`。
+
+Ledger検証結果: TypeScriptとギャラリー3テストが成功。7工程の中間、開始・終了、ルール昇格と人の確認の前後を静止画で確認。既存38件の代表PNGは変更前とバイト一致。新動画は1920×1080 / 30fps / 840フレーム / 28秒 / yuv420pで、レンダリング前後のソースSHA一致。比較ページは32画像・全リンク・2動画の読み込みと14秒へのシーク、320 / 768 / 1024 / 1440pxの表示を確認。全39件のギャラリーにも追加した。

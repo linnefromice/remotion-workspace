@@ -1,3 +1,4 @@
+import { ClaimIntakeSideLedger } from "./agent-flow/claim-intake/side-studies/Ledger";
 import React from "react";
 import { Composition, Folder } from "remotion";
 import { BasicAnimation } from "./examples/basics/basic-animation";
@@ -126,6 +127,7 @@ export const Root: React.FC = () => {
       <Folder name="AgentFlow">
         {/* 実装済みPoC（farleap/tenant-claim-intake-demoapp）の構造 */}
         <Folder name="ClaimIntake">
+          <Composition id="ClaimIntake-DecisionStory-Side-Ledger" component={ClaimIntakeSideLedger} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
           <Composition
             id="ClaimIntake-DecisionStory-Side-Evidence"
             component={ClaimIntakeSideEvidence}

@@ -102,7 +102,9 @@ export const AgentFlowClaimIntakeIcons: React.FC<{
    * 言っていると重複するため（docs/presentation-site.md §4-2）。
    */
   hidePanel?: boolean;
-}> = ({nodeVariant, brandIcons = false, hidePanel = false}) => {
+  /** 全経路を残した埋め込み用。既存の出力は既定値で維持する。 */
+  inactiveDashed?: boolean;
+}> = ({nodeVariant, brandIcons = false, hidePanel = false, inactiveDashed = false}) => {
   const frame = useCurrentFrame();
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
@@ -205,7 +207,7 @@ export const AgentFlowClaimIntakeIcons: React.FC<{
                 strokeWidth="2"
                 strokeLinejoin="round"
                 opacity={active ? .9 : .35}
-                strokeDasharray={edge.dashed ? '7 8' : undefined}
+                strokeDasharray={edge.dashed || (inactiveDashed && !active) ? '7 8' : undefined}
                 markerEnd={`url(#claim-icons-${index})`}
               />
               {active && (

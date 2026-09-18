@@ -7,7 +7,8 @@
     "build": "remotion render",
     "upgrade": "remotion upgrade",
     "gallery:agent-flow": "node scripts/agent-flow-gallery/capture.mjs",
-    "test:gallery": "node --test scripts/agent-flow-gallery/model.test.mjs"
+    "test:gallery": "node --test scripts/agent-flow-gallery/model.test.mjs",
+    "test:inquiry-routes": "node --test scripts/inquiry-routes.test.cjs"
   },
   "keywords": [],
   "author": "",

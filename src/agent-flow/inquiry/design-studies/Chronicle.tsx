@@ -1,3 +1,5 @@
+import { RouteOverview } from './RouteOverview';
+import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 import { STEPS } from '../cards/constants';
@@ -51,10 +53,10 @@ export const InquiryChronicle: React.FC = () => {
         <div style={{ fontSize: 31, marginTop: 14 }}>{link.payload}</div>
       </div>
       <div style={{ marginTop: 40, display: 'flex', gap: 22, alignItems: 'center' }}><Mark id={link.from} size={88} light /><span style={{ fontSize: 30, color: '#876644' }}>→</span><Mark id={link.to} size={88} light /></div>
-      <div style={{ marginTop: 38, color: '#71695d', fontSize: 21, lineHeight: 1.9, whiteSpace: 'pre-line' }}>
-        {step === 3 ? '業者マスタを参照し、連絡へ。\n下書きの場合は承認を経て送信。' : step === 5 ? '担当者が調整するのは判断基準。\n次の問い合わせの判定で参照する。' : '前の工程で得た情報を、\n次の主体が受け取って進める。'}
-      </div>
+      <div style={{marginTop:28,fontSize:16,color:'#71695d'}}>全体経路 / ※ 承認は下書きの場合のみ</div>
+      <div style={{height:235,marginTop:12}}><RouteOverview link={link} progress={progress} id="chronicle"/></div>
     </div>
-    <StudyFooter step={step} light note="処理順の説明ビュー / 実アプリの監査ログや処理時刻を再現したものではありません" />
+    <div style={{position:'absolute',left:64,top:177,fontSize:16,color:'#71695d'}}>説明用の処理順 / 実際の監査ログや時刻を示すものではありません</div>
+    <StudyFooter step={step} light note={ROUTE_LEGEND} />
   </AbsoluteFill>;
 };

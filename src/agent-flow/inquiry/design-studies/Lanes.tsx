@@ -1,3 +1,4 @@
+import { RouteLines, ROUTE_LEGEND, type StudyLink } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { NODES, type NodeId } from '../cards/constants';
@@ -27,21 +28,26 @@ const LANE: Record<NodeId, string> = Object.fromEntries(
   ]),
 ) as Record<NodeId, string>;
 
-export const InquiryLanes: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { step, link, progress } = moment(frame);
+function pointsFor(link: StudyLink): Point[] {
   const [sx, sy] = POS[link.from], [tx, ty] = POS[link.to];
+  if (link.id === 'triage-normalize') return [[sx - 52, sy + 14], [tx + 52, ty + 14]];
   const sameRow = sy === ty;
   const direction = tx >= sx ? 1 : -1;
   // レーンをまたぐ線は、移動先のレーンのすぐ上の余白を通す
   const gutter = ty > sy ? ty - 116 : sy - 116;
-  const points: Point[] = !sameRow
+  return  !sameRow
     ? // レーンをまたぐときは、移動先のレーンのすぐ上の余白を横に走る
       [[sx + 52, sy], [sx + 144, sy], [sx + 144, gutter], [tx - 144, gutter], [tx - 144, ty], [tx - 52, ty]]
     : Math.abs(tx - sx) > 300
       ? // 同じレーンでも離れているときは、いったん上へ逃がして他のノードを跨がない
         [[sx, sy - 52], [sx, sy - 104], [tx, ty - 104], [tx, ty - 52]]
       : [[sx + direction * 52, sy], [tx - direction * 52, ty]];
+}
+
+export const InquiryLanes: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { step, link, progress } = moment(frame);
+  const points = pointsFor(link);
   const [x, y] = pointAlong(points, Math.min(progress / .82, 1));
   const accent = color(link.from);
   return <AbsoluteFill style={{ background: '#10262d', fontFamily: FONT, color: '#edf5f1' }}>
@@ -74,8 +80,7 @@ export const InquiryLanes: React.FC = () => {
       </div>
     ))}
     <svg width={1920} height={1080} style={{ position: 'absolute', inset: 0 }}>
-      <defs><marker id="lanes-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="context-stroke" strokeWidth="1.5" /></marker></defs>
-      <path markerEnd="url(#lanes-arrow)" d={points.map(([px, py], i) => `${i ? 'L' : 'M'}${px} ${py}`).join(' ')} stroke={accent} strokeWidth={3} fill="none" strokeLinejoin="round" strokeDasharray={link.dashed ? '6 8' : undefined} />
+      <RouteLines activeId={link.id} pointsFor={pointsFor} accent={accent} muted="#657e86" markerId="lanes-all-arrow" />
       <circle cx={x} cy={y} r={9} fill={accent} stroke="#10262d" strokeWidth={4} />
     </svg>
     {NODES.map(({ id }) => {
@@ -90,6 +95,6 @@ export const InquiryLanes: React.FC = () => {
       </div>;
     })}
     <div style={{ position: 'absolute', left: 1480, top: 785, width: 295, color: '#c9c4bc', lineHeight: 1.9, fontSize: 18 }}>下書きは人が承認。<br />判断基準は人が調整。<br />業者マスタは参照情報。</div>
-    <StudyFooter step={step} note="担当別の受け渡しビュー / 現在の接続を表示・破線は参照や任意の工程" />
+    <StudyFooter step={step} note={ROUTE_LEGEND} />
   </AbsoluteFill>;
 };

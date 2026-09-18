@@ -1,3 +1,5 @@
+import { RouteOverview } from './RouteOverview';
+import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { NODES, STEPS, type NodeId } from '../cards/constants';
@@ -52,11 +54,13 @@ export const InquiryCaseboard: React.FC = () => {
     <div style={{ position: 'absolute', left: CENTER[0] - HALF[0], top: CENTER[1] - HALF[1], width: HALF[0] * 2, height: HALF[1] * 2,
       background: '#fffcf7', border: '1px solid #c6b7cd', borderRadius: 18, padding: '26px 32px', boxShadow: '0 18px 38px #52436312' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', color: '#847487', fontSize: 15, letterSpacing: 2 }}><span>CASE 01 / 問い合わせ</span><span>説明用の案件カード</span></div>
-      <div style={{ fontSize: 30, fontWeight: 700, marginTop: 15, marginBottom: 22 }}>{link.title}。</div>
-      {STEPS.map((name, i) => <div key={name} style={{ display: 'flex', gap: 18, alignItems: 'center', height: 59, borderTop: '1px solid #e9e2e8', color: i > step ? '#85808a' : '#40374c', background: i === step ? '#f1eaf3' : 'transparent', padding: '0 12px' }}>
+      <div style={{ fontSize: 30, fontWeight: 700, marginTop: 15, marginBottom: 12 }}>{link.title}。</div>
+      {STEPS.map((name, i) => <div key={name} style={{ display: 'flex', gap: 18, alignItems: 'center', height: 32, borderTop: '1px solid #e9e2e8', color: i > step ? '#85808a' : '#40374c', background: i === step ? '#f1eaf3' : 'transparent', padding: '0 12px' }}>
         <div style={{ width: 95, flexShrink: 0, fontSize: 17, fontWeight: 700 }}>{i + 1} {name}</div>
-        <div style={{ fontSize: 18 }}>{i <= step ? CONTENT[i] : 'このあとの工程'}</div>
+        <div style={{ fontSize: 16 }}>{i <= step ? CONTENT[i] : 'このあとの工程'}</div>
       </div>)}
+      <div style={{fontSize:14,marginTop:8,color:'#706479'}}>全体経路 / ※ 承認は下書きの場合のみ</div>
+      <div style={{height:185}}><RouteOverview link={link} progress={progress} id="caseboard"/></div>
     </div>
     {NODES.map(({ id }) => {
       const [x, y] = positions[id];
@@ -66,6 +70,7 @@ export const InquiryCaseboard: React.FC = () => {
         <div style={{ fontSize: 20, fontWeight: 700, marginTop: 10 }}>{ROLE[id]}</div>
       </div>;
     })}
-    <StudyFooter step={step} light note="中央のカードは説明用のまとめ / 実システムの保存先や新しい処理ノードを意味しません" />
+    <div style={{position:'absolute',left:64,top:220,fontSize:16,color:'#706479'}}>外側の線は案件への関与の演出 / 実際の接続は中央の全体経路を参照</div>
+    <StudyFooter step={step} light note={ROUTE_LEGEND} />
   </AbsoluteFill>;
 };

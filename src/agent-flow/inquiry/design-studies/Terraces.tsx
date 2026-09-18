@@ -1,3 +1,4 @@
+import { RouteLines, ROUTE_LEGEND, type StudyLink } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { NODES } from '../cards/constants';
@@ -29,14 +30,18 @@ const deckPaths = (d: (typeof DECKS)[number]) => ({
     `M${d.x} ${d.y}H${d.x + d.w}V${d.y + DECK.top}` +
     `L${d.x + d.w - DECK.skew} ${d.y + DECK.front}H${d.x - DECK.skew}V${d.y + DECK.riser}Z`,
 });
-export const InquiryTerraces: React.FC = () => {
- const {step,link,progress}=moment(useCurrentFrame());
+function pointsFor(link: StudyLink): Point[] {
  const [sx,sy]=POS[link.from],[tx,ty]=POS[link.to];
  // 行をまたぐ線は、移動先の段のすぐ上の余白を通す。
  // Math.min(sy,ty) にすると、下へ向かうときも最上段の上まで上がってしまう
- const gutter = ty - 100;
- const points:Point[] = sy===ty ? [[sx,sy-48],[sx,gutter],[tx,gutter],[tx,ty-48]]
+ const gutter = ty - (link.id === 'triage-normalize' ? 122 : 100);
+ return  sy===ty ? [[sx,sy-48],[sx,gutter],[tx,gutter],[tx,ty-48]]
    : [[sx-54,sy],[sx-120,sy],[sx-120,gutter],[tx-120,gutter],[tx-120,ty],[tx-54,ty]];
+}
+
+export const InquiryTerraces: React.FC = () => {
+ const {step,link,progress}=moment(useCurrentFrame());
+  const points = pointsFor(link);
  const [x,y]=pointAlong(points,Math.min(1,progress/.85));
  return <AbsoluteFill style={{background:'#f7f4ed',color:'#303d42',fontFamily:FONT}}>
   <div style={{position:'absolute',left:64,top:40,fontSize:17,letterSpacing:3,color:'#677476'}}>FARLEAP / INQUIRY · 08 · TERRACES</div>
@@ -52,8 +57,7 @@ export const InquiryTerraces: React.FC = () => {
        </g>
      );
    })}
-   <defs><marker id="terraces-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#67568d" strokeWidth="1.5"/></marker></defs>
-   <path d={points.map(([px,py],i)=>`${i?'L':'M'}${px} ${py}`).join(' ')} fill="none" stroke="#67568d" strokeWidth={3} strokeDasharray={link.dashed?'6 7':undefined} markerEnd="url(#terraces-arrow)"/>
+      <RouteLines activeId={link.id} pointsFor={pointsFor} accent="#67568d" muted="#77818a" markerId="terraces-all-arrow" />
    <circle cx={x} cy={y} r={9} fill="#67568d" stroke="#f7f4ed" strokeWidth={3}/>
   </svg>
   {DECKS.map((d) => (
@@ -98,6 +102,7 @@ export const InquiryTerraces: React.FC = () => {
     );
   })}
   <div style={{position:'absolute',left:1315,top:770,width:465,fontSize:21,lineHeight:1.9,color:'#626c70'}}>人が判定をレビューし、基準を調整。<br/>業者マスタとともに、次の判断を支える。<div style={{fontSize:16,marginTop:12}}>下書きの連絡は、担当者が確認して送る。</div></div>
-  <StudyFooter step={step} light note="段は役割のまとまりを表現 / 現在の接続のみ表示・立体配置はシステム構成を示しません"/>
+    <div style={{position:'absolute',left:64,top:180,fontSize:16,color:'#677476'}}>段は役割のまとまり / 実際のシステム構成を表すものではありません</div>
+  <StudyFooter step={step} light note={ROUTE_LEGEND}/>
  </AbsoluteFill>;
 };

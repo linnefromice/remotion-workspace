@@ -1,3 +1,5 @@
+import { RouteOverview } from './RouteOverview';
+import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 import { STEPS, TOTAL_FRAMES } from '../cards/constants';
@@ -5,7 +7,7 @@ import { ServiceIcon } from '../../../shared/ServiceIcon';
 import { Actor } from './parts';
 import { FONT, LINKS, ROLE, color, moment } from './model';
 
-const SUMMARIES = ['入居者 → 受付', '受付 → データ化', 'データ化 ⇄ AI判定', '業者マスタを参照\n下書きなら承認', 'AI判定 → 一次回答\n→ 入居者へ', '判定 → 人 → 判断基準\n→ 次の問い合わせ'];
+
 export const Relay: React.FC = () => {
   const frame = useCurrentFrame();
   const { step, link, progress } = moment(frame);
@@ -40,16 +42,11 @@ export const Relay: React.FC = () => {
     <div style={{ position: 'absolute', left: 660, top: 604, width: 600, textAlign: 'center', fontSize: 20, color: '#607684' }}>
       {ROLE[link.from]} → {ROLE[link.to]}
     </div>
-    <div style={{ position: 'absolute', left: 64, right: 64, top: 746, display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12 }}>
-      {STEPS.map((name, i) => <div key={name} style={{ height: 206, padding: '20px 18px', borderRadius: 14,
-        background: i === step ? '#173c56' : '#f6f8fa', color: i === step ? '#f6fafc' : '#334f61', border: '1px solid #cfdae0' }}>
-        <div style={{ fontSize: 16, opacity: .8 }}>0{i + 1}</div><div style={{ fontSize: 26, fontWeight: 700, marginTop: 12 }}>{name}</div>
-        <div style={{ fontSize: 18, lineHeight: 1.8, marginTop: 13, whiteSpace: 'pre-line' }}>{SUMMARIES[i]}</div>
-      </div>)}
-    </div>
+    <div style={{position:'absolute',left:64,top:744,width:940,height:218}}><RouteOverview link={link} progress={progress} id="relay"/></div>
+    <div style={{position:'absolute',left:1070,top:785,width:740,fontSize:22,lineHeight:1.9,color:'#334f61'}}>全体の経路を残し、現在の受け渡しを拡大。<br/>薄い破線は、この瞬間に強調していない経路。<br/>※ 承認は下書きの場合のみ。</div>
     <div style={{ position: 'absolute', left: 64, right: 64, top: 987, display: 'flex', justifyContent: 'space-between', color: '#4d687a', fontSize: 18 }}>
-      <span>業者連絡：自動送信 または 下書き承認　 /　 承認経路を例示</span>
-      <span>人が調整するのは、AIそのものではなく判断基準。　 /　 構想の説明</span>
+      <span>{ROUTE_LEGEND}</span>
+      <span>構想の説明 / 下書き承認を例示</span>
     </div>
     <div style={{ position: 'absolute', bottom: 0, height: 6, width: `${(frame + 1) / TOTAL_FRAMES * 100}%`, background: '#173c56' }} />
   </AbsoluteFill>;
