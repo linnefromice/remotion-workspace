@@ -13,7 +13,8 @@
     "test:side-studies": "node --test scripts/side-studies.test.cjs",
     "test:video": "node --test scripts/video/model.test.mjs",
     "test": "pnpm test:gallery && pnpm test:inquiry-routes && pnpm test:side-studies && pnpm test:video && pnpm test:bands",
-    "test:bands": "node --test scripts/subject-bands.test.cjs"
+    "test:bands": "node --test scripts/subject-bands.test.cjs",
+    "catalog:side": "node scripts/side-catalog/build.mjs"
   },
   "keywords": [],
   "author": "",

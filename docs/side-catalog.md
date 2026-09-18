@@ -4,6 +4,13 @@ AgentFlow の図の**上下左右に置ける要素**の目録。
 1枚ものの型は [`presentation-page-patterns.md`](./presentation-page-patterns.md)、
 採用候補は [`adoption-candidates.md`](./adoption-candidates.md)。
 
+[画像付きのHTMLカタログ](../out/side-catalog/index.html) / 再生成：`pnpm catalog:side`（先にAgentFlow一覧が必要）
+
+> **この文書がカタログの元になっている。** `pnpm catalog:side` は
+> §1〜§6 の**節番号と表の形**を読んでページを組み立てる。
+> 節を入れ替えたり表の列を増やすと生成が落ちる（黙って壊れるのではなく、
+> `Missing section` などで止まる）。直したら `pnpm catalog:side` をやり直す。
+
 ---
 
 ## 0. 置ける場所と、その広さ
@@ -122,4 +129,4 @@ const mySlot: SideSlot = {
 | `Side-SlotExample` | 現場 | 時計 | 反実仮想（差し込みで） |
 | `ClaimIntake-DecisionStory-Side` | 判断の記録が主役・図は右の小さな地図 | | |
 | `Side-Evidence` / `Side-Ledger` / `Side-Gate` / `Side-Replay` | それぞれ独立した1枚 | | |
-| `Side-DemoFull` | **図を出さず、画面だけが流れる**（42秒） | | |
+| `Side-DemoFull` | **画面が主役で流れる**。小さな全経路図を位置案内として常設（42秒） | | |
