@@ -240,22 +240,26 @@ pnpm gallery:agent-flow
 `out/` には比較用のページがいくつかあるが、**正本は `agent-flow-gallery` だけ**で、
 鮮度がテストで守られているのもここだけ。
 
-**維持するのは `out/agent-flow-gallery/` だけ。**
+`out/` の中身は3種類ある。**扱いが違う。**
 
-| 出力 | 扱い |
-|---|---|
-| `out/agent-flow-gallery/` | **正本。常に最新にする**（テストが守る） |
-| それ以外 | **消してよい。** 必要になったらスクリプトで作り直す |
+| | 出力 | 扱い |
+|---|---|---|
+| **正本** | `out/agent-flow-gallery/` | **常に最新にする。** テストが守る |
+| **元がある生成物** | `out/side-catalog/` | **元が変わったら作り直す。** 元は `docs/side-catalog.md` と一覧 |
+| **その時限りの記録** | `side-prototype` / `side-design-studies` / `subject-bands` / `video` | **消してよい** |
 
-比較用のページ（`side-prototype` / `side-design-studies` / `subject-bands` など）は、
-**調べたときの記録**として作られたもので、あとから図を直しても追随しない。
-結論は docs に書いてあるので、**ページ自体は残さなくてよい**。
+**その時限りの記録**は、調べたときの姿を写しただけで、あとから図を直しても追随しない。
+結論は docs に書いてあるので、ページ自体は残さなくてよい。
 残すと、鮮度の保証がないものが増えて「どれが今の姿か」が分からなくなる。
+
+**元がある生成物**は違う。作り直す手順と、何から作るかが決まっている。
+古くなっても、元を直して作り直せば追いつく。
 
 作り直す手段は残っている。
 
 ```sh
 pnpm gallery:agent-flow                    # 一覧（正本）
+pnpm catalog:side                          # Side のカタログ（docs/side-catalog.md から）
 pnpm video <Id>                            # 動画
 node scripts/side-design-studies.mjs       # Side 案の比較
 node scripts/side-prototype/capture.mjs    # スロット試作の検証
