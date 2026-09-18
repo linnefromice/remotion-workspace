@@ -429,34 +429,34 @@ pnpm test:gallery                      # 対象抽出・フレーム選択と、
 
 `AgentFlow > DesignStudies > AgentDiagram` に次の3案があります（各24秒）。
 
-- `Inquiry-Transit`: 明るい路線図。全体の経路を追う。
-- `Inquiry-Orbit`: AI判定を中心に、主体と判断基準の関係を見る。
-- `Inquiry-Relay`: 送り手・情報・受け手を大きく表示し、受け渡しを追う。
+- `Diagram-Transit`: 明るい路線図。全体の経路を追う。
+- `Diagram-Orbit`: AI判定を中心に、主体と判断基準の関係を見る。
+- `Diagram-Relay`: 送り手・情報・受け手を大きく表示し、受け渡しを追う。
 
 `pnpm gallery:agent-flow` で既存案と一緒に静止画一覧を更新できます。
 設計・検証メモは [inquiry-design-studies.md](docs/inquiry-design-studies.md)。
 今回の比較用出力は `out/inquiry-design-studies/index.html`（動画3本・静止画18枚、git対象外）。
 
-追加案: `Inquiry-Lanes`（担当別レーン）、`Inquiry-Chronicle`（縦に追う処理順）、
-`Inquiry-Caseboard`（案件カードを中心に主体が関わる）。同じDesignStudiesフォルダにあり、
+追加案: `Diagram-Lanes`（担当別レーン）、`Diagram-Chronicle`（縦に追う処理順）、
+`Diagram-Caseboard`（案件カードを中心に主体が関わる）。同じDesignStudiesフォルダにあり、
 比較ページには合計6案を掲載しています。
 
 さらに **Branches**（手配と回答への分岐）と **Terraces**（理解・伝達・判断支援を段で構成）を追加し、Inquiryのデザイン比較は全8案です。`out/inquiry-design-studies/index.html` で各案の24秒動画と工程別の静止画を確認できます。
 
 ### Sideの参照シートと新案
 
-[Side 一元参照シート](docs/side-reference.md) に、既存Sideの構成・SideBySide系との差・シナリオ・実装箇所を集約しています。新案 `ClaimIntake-DecisionStory-Side-Evidence` は、判断の原値・ルールの結論・人の確認を別欄に蓄積するSide専用レイアウトです。
+[Side 一元参照シート](docs/side-reference.md) に、既存Sideの構成・SideBySide系との差・シナリオ・実装箇所を集約しています。新案 `Side-Evidence` は、判断の原値・ルールの結論・人の確認を別欄に蓄積するSide専用レイアウトです。
 
 `node scripts/side-design-studies.mjs` で `out/side-design-studies/index.html`（参照シート・新案動画・工程別静止画・既存8案との比較）を生成できます。静止画だけなら `--stills-only`、そのバンドルから動画を追加するなら `--video-only` を指定します。
 
-Sideの追加案 **Ledger**（`ClaimIntake-DecisionStory-Side-Ledger`）も同じ比較ページに掲載しています。紙の台帳に判断を縦に積み、右の全体図は非アクティブな経路も破線で残します。既存Side・Evidence・Ledgerの3案を同じ工程で比較できます。
+Sideの追加案 **Ledger**（`Side-Ledger`）も同じ比較ページに掲載しています。紙の台帳に判断を縦に積み、右の全体図は非アクティブな経路も破線で残します。既存Side・Evidence・Ledgerの3案を同じ工程で比較できます。
 
 Sideの追加案 **Gate / Replay** も `out/side-design-studies/index.html` で確認できます。Gateは判断権限、Replayは結論から根拠をたどる振り返りが主題です。
 
 ### 動画の書き出し
 
 ```bash
-pnpm video ClaimIntake-DecisionStory-Side-Replay   # 1本
+pnpm video Side-Replay   # 1本
 pnpm video --group Inquiry                          # 題材ごと（入れ子も含む）
 pnpm video --all                                    # AgentFlow 全部
 pnpm video <Id> --speed=2                           # 2倍速

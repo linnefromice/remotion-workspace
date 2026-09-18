@@ -5,19 +5,19 @@ import { outputName, progressStep, renderFps, selectTargets } from "./model.mjs"
 const REGISTERED = [
 	{ id: "ClaimIntake-Cards", group: "ClaimIntake" },
 	{ id: "Inquiry-Cards", group: "Inquiry" },
-	{ id: "Inquiry-Transit", group: "Inquiry / DesignStudies" },
+	{ id: "Diagram-Transit", group: "Inquiry / DesignStudies" },
 	{ id: "Exhibition-Loop", group: "Exhibition" },
 ];
 
 test("題材を指定すると、入れ子の題材も含める", () => {
 	assert.deepEqual(
 		selectTargets(REGISTERED, { group: "Inquiry" }).map((item) => item.id),
-		["Inquiry-Cards", "Inquiry-Transit"],
+		["Inquiry-Cards", "Diagram-Transit"],
 	);
 	// 入れ子の側だけを名指しすることもできる
 	assert.deepEqual(
 		selectTargets(REGISTERED, { group: "Inquiry / DesignStudies" }).map((item) => item.id),
-		["Inquiry-Transit"],
+		["Diagram-Transit"],
 	);
 });
 

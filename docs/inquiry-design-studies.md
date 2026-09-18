@@ -29,12 +29,12 @@ LINE / Gmailは既存の公式素材、その他は役割ピクトグラムを�
 - 型検査→各工程の静止画→動作プレビュー→ギャラリー更新の順で確認。
 
 コマンド: `pnpm exec tsc --noEmit`、`pnpm gallery:agent-flow`。
-動画: `pnpm exec remotion render Inquiry-Transit out/inquiry-design-studies/Transit.mp4 --gl=swangle --image-format=png --pixel-format=yuv420p`。
-他の案はIDを `Inquiry-Orbit` / `Inquiry-Relay` に変更。
+動画: `pnpm exec remotion render Diagram-Transit out/inquiry-design-studies/Transit.mp4 --gl=swangle --image-format=png --pixel-format=yuv420p`。
+他の案はIDを `Diagram-Orbit` / `Diagram-Relay` に変更。
 
 ## 実装したもの
 
-- Studio: `AgentFlow > DesignStudies > AgentDiagram` に `Inquiry-Transit` / `Inquiry-Orbit` / `Inquiry-Relay`。
+- Studio: `AgentFlow > DesignStudies > AgentDiagram` に `Diagram-Transit` / `Diagram-Orbit` / `Diagram-Relay`。
 - 3案は同じ11主体・13接続を共有。既存の接続定義から情報の受け渡しを導き、意味の相違を防ぐ。
 - 各工程内の接続を順に見せるため、動画全体は24秒のまま。
   業者連絡は4つの受け渡しを4秒で示すので、詳しく説明する商談では停止・シークを使う。
@@ -86,7 +86,7 @@ LINE / Gmailは既存の公式素材、その他は役割ピクトグラムを�
 
 ### 実装と確認
 
-- 新しい3コンポジション: `Inquiry-Lanes` / `Inquiry-Chronicle` / `Inquiry-Caseboard`。
+- 新しい3コンポジション: `Diagram-Lanes` / `Diagram-Chronicle` / `Diagram-Caseboard`。
 - 独立した3ファイルと追加案専用の `StudyParts.tsx`。前の3案の描画部品は変更しない。
 - Lanesの遠い同一レーンへの接続はアイコンの上を迂回し、途中の主体を通過して見える状態を避ける。
 - Chronicleは行の高さに合わせてスクロールを止め、最後の行も全体が入る。

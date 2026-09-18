@@ -25,7 +25,7 @@ const FOCUS=[
  ['下げる権限は、人だけに。','降格する場合は理由必須。今回は降格せず確認する。'],
  ['判断の違いまで、あとから追える。','AIの原値、発火ルール、人の確認が一緒に残る。'],
 ];
-export const ClaimIntakeSideLedger:React.FC=()=>{
+export const SideLedger:React.FC=()=>{
  const frame=useCurrentFrame();const step=Math.min(STEPS.length-1,Math.floor(frame/STEP_LEN));
  const enter=interpolate(frame%STEP_LEN,[0,18],[0,1],{extrapolateRight:'clamp'});
  return <AbsoluteFill style={{background:C.paper,color:C.ink,fontFamily:'"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>

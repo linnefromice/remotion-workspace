@@ -15,7 +15,7 @@ import { Mark, StudyFooter } from './StudyParts';
 const ROW_H = 110;
 const VIEW_H = 660;
 
-export const InquiryChronicle: React.FC = () => {
+export const DiagramChronicle: React.FC = () => {
   const frame = useCurrentFrame();
   const { step, link, progress } = moment(frame);
   const index = LINKS.indexOf(link);

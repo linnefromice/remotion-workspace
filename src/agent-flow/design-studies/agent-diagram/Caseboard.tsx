@@ -19,7 +19,7 @@ function edge(point: Point): Point {
   return [CENTER[0] + dx * factor, CENTER[1] + dy * factor];
 }
 
-export const InquiryCaseboard: React.FC = () => {
+export const DiagramCaseboard: React.FC = () => {
   const frame = useCurrentFrame();
   const { step, link, progress } = moment(frame);
   const positions: Layout = { ...POS };

@@ -73,7 +73,7 @@
 - 時刻は下段のみ。比較用の仮定は解説帯で明示。危険の発生や実測の速さを断定しない。
 - 弱点: 全経路の細かいラベルは地図では読み取りにくい。商談の概要説明を優先する。
 
-ID: `ClaimIntake-DecisionStory-Side-Evidence`。既存の既定値・出力は変更しない。
+ID: `Side-Evidence`。既存の既定値・出力は変更しない。
 
 ## 受け入れ・再生成
 
@@ -95,11 +95,11 @@ ID: `ClaimIntake-DecisionStory-Side-Evidence`。既存の既定値・出力は�
 - 参照ページ: 24画像と全リンク、動画の読み込み・14秒へのシークが成功。320 / 768 / 1024 / 1440pxで横はみ出しなし。
 - AgentFlow全38件の一覧に新案が含まれることを確認。
 
-成果物: [参照・比較ページ](../out/side-design-studies/index.html) / [28秒動画](../out/side-design-studies/ClaimIntake-DecisionStory-Side-Evidence.mp4)
+成果物: [参照・比較ページ](../out/side-design-studies/index.html) / [28秒動画](../out/side-design-studies/Side-Evidence.mp4)
 
 ## 第2案: Side Ledger
 
-ID: `ClaimIntake-DecisionStory-Side-Ledger`。実装: [Ledger.tsx](../src/agent-flow/claim-intake/side-studies/Ledger.tsx)。
+ID: `Side-Ledger`。実装: [Ledger.tsx](../src/agent-flow/claim-intake/side-studies/Ledger.tsx)。
 
 Evidenceの横3欄に対して、Ledgerは7工程を固定した縦の判断台帳。左面は紙の色、右面は暗い地図と解説の面に分ける。AIのP2を保存した行が残り、その下に安全ルールのP1が白い行として加わる。過去の記録は消えず、これからの行は記録待ち。時刻は台帳だけに表示する。
 
@@ -111,8 +111,8 @@ Ledger検証結果: TypeScriptとギャラリー3テストが成功。7工程の
 
 ## Side Gate / Side Replay
 
-- `ClaimIntake-DecisionStory-Side-Gate`: AI・安全ルール・人を3つの門で表す権限図。原判定P2を保持し、ルールは運用P1を追加。人の降格は理由必須で、今回は未実施の破線として区別する。
-- `ClaimIntake-DecisionStory-Side-Replay`: 判断後の振り返り。結論 → 人の確認 → 業務判断 → ルール → AI原判定 → 入力根拠 → まとめ。証拠は常設し、注目だけを移す。時系列の実行再生ではないことを画面に明記する。
+- `Side-Gate`: AI・安全ルール・人を3つの門で表す権限図。原判定P2を保持し、ルールは運用P1を追加。人の降格は理由必須で、今回は未実施の破線として区別する。
+- `Side-Replay`: 判断後の振り返り。結論 → 人の確認 → 業務判断 → ルール → AI原判定 → 入力根拠 → まとめ。証拠は常設し、注目だけを移す。時系列の実行再生ではないことを画面に明記する。
 - ソース: `src/agent-flow/claim-intake/side-studies/GateReplay.tsx`。ともに28秒・840フレーム。
 - 右の全体図は全経路を常設し、非選択経路は破線。ReplayではIconsの省略可能な`frameOverride`で説明対象の工程へ同期する。既定値は従来どおり現在フレーム。
 - 追加2案のみ動画再生成: `node scripts/side-design-studies.mjs --video-only --additions-only`（先に`--stills-only`でbundleを更新）。

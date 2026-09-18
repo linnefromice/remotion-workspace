@@ -1,5 +1,5 @@
-import {ClaimIntakeSideGate, ClaimIntakeSideReplay} from "./agent-flow/design-studies/side/GateReplay";
-import { ClaimIntakeSideLedger } from "./agent-flow/design-studies/side/Ledger";
+import {SideGate, SideReplay} from "./agent-flow/design-studies/side/GateReplay";
+import { SideLedger } from "./agent-flow/design-studies/side/Ledger";
 import React from "react";
 import { Composition, Folder } from "remotion";
 import { BasicAnimation } from "./examples/basics/basic-animation";
@@ -95,7 +95,7 @@ import { LegendAndStepsPreview } from "./agent-flow/reference/codex-reclaude/pre
 import { MiscPreview } from "./agent-flow/reference/codex-reclaude/previews/MiscPreview";
 
 import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./agent-flow/claim-intake/decision-story";
-import { ClaimIntakeSideEvidence } from "./agent-flow/design-studies/side";
+import { SideEvidence } from "./agent-flow/design-studies/side";
 import {
   ClaimIntakeDecisionStoryWithMap,
   withMapDefaults,
@@ -104,14 +104,14 @@ import {
 } from "./agent-flow/claim-intake/decision-story/WithMap";
 
 import {
-  InquiryBranches,
-  InquiryCaseboard,
-  InquiryChronicle,
-  InquiryLanes,
-  InquiryOrbit,
-  InquiryRelay,
-  InquiryTerraces,
-  InquiryTransit,
+  DiagramBranches,
+  DiagramCaseboard,
+  DiagramChronicle,
+  DiagramLanes,
+  DiagramOrbit,
+  DiagramRelay,
+  DiagramTerraces,
+  DiagramTransit,
 } from "./agent-flow/design-studies/agent-diagram";
 
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
@@ -130,64 +130,64 @@ export const Root: React.FC = () => {
         <Folder name="DesignStudies">
           <Folder name="AgentDiagram">
             <Composition
-              id="Inquiry-Branches"
-              component={InquiryBranches}
+              id="Diagram-Branches"
+              component={DiagramBranches}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Terraces"
-              component={InquiryTerraces}
+              id="Diagram-Terraces"
+              component={DiagramTerraces}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Lanes"
-              component={InquiryLanes}
+              id="Diagram-Lanes"
+              component={DiagramLanes}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Chronicle"
-              component={InquiryChronicle}
+              id="Diagram-Chronicle"
+              component={DiagramChronicle}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Caseboard"
-              component={InquiryCaseboard}
+              id="Diagram-Caseboard"
+              component={DiagramCaseboard}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Transit"
-              component={InquiryTransit}
+              id="Diagram-Transit"
+              component={DiagramTransit}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Orbit"
-              component={InquiryOrbit}
+              id="Diagram-Orbit"
+              component={DiagramOrbit}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
               height={INQUIRY_H}
             />
             <Composition
-              id="Inquiry-Relay"
-              component={InquiryRelay}
+              id="Diagram-Relay"
+              component={DiagramRelay}
               durationInFrames={INQUIRY_FRAMES}
               fps={INQUIRY_FPS}
               width={INQUIRY_W}
@@ -195,12 +195,12 @@ export const Root: React.FC = () => {
             />
           </Folder>
           <Folder name="Side">
-            <Composition id="ClaimIntake-DecisionStory-Side-Gate" component={ClaimIntakeSideGate} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
-            <Composition id="ClaimIntake-DecisionStory-Side-Replay" component={ClaimIntakeSideReplay} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
-            <Composition id="ClaimIntake-DecisionStory-Side-Ledger" component={ClaimIntakeSideLedger} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
+            <Composition id="Side-Gate" component={SideGate} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
+            <Composition id="Side-Replay" component={SideReplay} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
+            <Composition id="Side-Ledger" component={SideLedger} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
             <Composition
-              id="ClaimIntake-DecisionStory-Side-Evidence"
-              component={ClaimIntakeSideEvidence}
+              id="Side-Evidence"
+              component={SideEvidence}
               durationInFrames={CLAIM_FRAMES}
               fps={CLAIM_FPS}
               width={CLAIM_W}

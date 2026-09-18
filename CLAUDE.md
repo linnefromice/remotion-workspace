@@ -48,6 +48,8 @@ src/
       cards/ icons/
     design-studies/                Studio: AgentFlow > DesignStudies
       agent-diagram/ side/           trials for comparison, kept apart from what a meeting uses
+                                     (their IDs are `Diagram-*` / `Side-*`, matching the folder,
+                                      and carry no subject — the subject is in the frame itself)
     reference/                     Studio: AgentFlow > Reference
       codex/ codex-reclaude/         (codex-reclaude/previews/ backs Studio's Components folder;
                                       it previews that diagram's own parts, so it stays there)
