@@ -406,7 +406,7 @@ import { LogoTileNode, LogoSealNode, ActionRowNode } from "./shared/ServiceNode"
 pnpm gallery:agent-flow                # 全AgentFlowを各動画の中間フレームで撮影
 open out/agent-flow-gallery/index.html # macOSで一覧を開く（HTMLを直接開いても可）
 pnpm gallery:agent-flow --frame=420    # 同じフレームで比較して再生成
-pnpm test:gallery                      # 対象抽出・フレーム選択のテスト
+pnpm test:gallery                      # 対象抽出・フレーム選択と、一覧が古くなっていないかのテスト
 ```
 
 `src/Root.tsx` の `AgentFlow` フォルダ配下を自動収集し、題材別の一覧を生成します。

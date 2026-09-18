@@ -58,7 +58,7 @@ identifier in the code, so a request names exactly one thing.
 4. **If it lives under `AgentFlow`, regenerate the design list**: `pnpm gallery:agent-flow`.
    That generated page is the list of record for what exists — it is read from `src/Root.tsx`,
    so a composition that is registered but never captured is simply missing from the list.
-   Registering without regenerating is an incomplete change.
+   Registering without regenerating is an incomplete change, and `pnpm test:gallery` fails on it.
 
 ## Key Remotion Packages Used
 
