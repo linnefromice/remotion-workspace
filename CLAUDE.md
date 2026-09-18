@@ -14,7 +14,13 @@ A Remotion v4 workspace for creating programmatic video compositions in React + 
 - **Upgrade Remotion:** `pnpm upgrade`
 - **Install dependencies:** `pnpm install`
 
-No test framework or linter is configured.
+- **Run the tests:** `pnpm test` (node:test; no linter is configured)
+  - `test:gallery` — the design list's target selection, and whether the published list has gone stale
+  - `test:inquiry-routes` — every Inquiry study keeps all 13 routes at every handoff boundary
+  - `test:side-studies` — the Side studies keep the AI value after a rule promotion, and never show a downgrade that did not happen
+
+  These render the real compositions with `react-dom/server` and a stubbed `useCurrentFrame`,
+  so they are fast and need no browser.
 
 ## Architecture
 

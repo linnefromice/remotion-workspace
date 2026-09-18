@@ -211,3 +211,7 @@ Sideの入口を [一元参照シート](side-reference.md) に集約。Decision
 Sideの追加案として、紙の台帳と暗い全体地図の左右構成を実装。7工程の記録を固定行に積み重ね、AIのP2を残してルールのP1を白い行へ追加する。Evidenceの横3欄と違い、判断の出た順序そのものを主役にする。右の地図は幅832pxに広げ、非アクティブな接続は破線で残す。共通Iconsに既定falseの `inactiveDashed` を加え、新案だけで指定した。
 
 既存Side・Evidenceと同じ参照ページ `out/side-design-studies/index.html` に、28秒動画と7工程の静止画を追加する。
+
+### Side Gate / Replay
+
+Sideの追加2案。Gateは権限の非対称性を3つの門で表し、未実施の人による降格を破線で残す。Replayは判断後の結論から根拠へ戻り、保持されたP2と追加されたP1を同時に見せる。右の全体図も振り返り対象の工程に同期する。比較ページは`out/side-design-studies/index.html`。

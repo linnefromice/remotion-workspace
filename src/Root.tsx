@@ -1,3 +1,4 @@
+import {ClaimIntakeSideGate, ClaimIntakeSideReplay} from "./agent-flow/claim-intake/side-studies/GateReplay";
 import { ClaimIntakeSideLedger } from "./agent-flow/claim-intake/side-studies/Ledger";
 import React from "react";
 import { Composition, Folder } from "remotion";
@@ -127,6 +128,8 @@ export const Root: React.FC = () => {
       <Folder name="AgentFlow">
         {/* 実装済みPoC（farleap/tenant-claim-intake-demoapp）の構造 */}
         <Folder name="ClaimIntake">
+          <Composition id="ClaimIntake-DecisionStory-Side-Gate" component={ClaimIntakeSideGate} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
+          <Composition id="ClaimIntake-DecisionStory-Side-Replay" component={ClaimIntakeSideReplay} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
           <Composition id="ClaimIntake-DecisionStory-Side-Ledger" component={ClaimIntakeSideLedger} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
           <Composition
             id="ClaimIntake-DecisionStory-Side-Evidence"
