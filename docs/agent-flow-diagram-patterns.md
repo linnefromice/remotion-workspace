@@ -200,6 +200,10 @@ const step = Math.floor(frame / STEP_LEN);
 構造・タイムライン・山場のパネルは**共有し、差分は描き方だけに閉じる**。
 [3] でどれを使うかを選べるようになる。
 
+> **5版目を足したい意図がある**（Transit など）。
+> [`adoption-candidates.md`](./adoption-candidates.md) を参照。まだ4版のまま。
+> 規定に入れるには、その見せ方を**題材のグリッドから描ける形**にする必要がある。
+
 ### 実装の型
 
 `FlowSpec`（データ）と描画を分け、版は props で切り替える。
