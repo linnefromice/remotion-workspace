@@ -48,3 +48,48 @@ test('Replay retains evidence throughout the retrospective', () => {
     assert.doesNotMatch(html,/NaN|Infinity/);
   }
 });
+
+const {ClaimIntakeSideBySideLayout} = require('../src/agent-flow/claim-intake/side-by-side/index.tsx');
+const {clockSlot,timelineSlot,counterfactualSlot} = require('../src/agent-flow/claim-intake/side-by-side/slots.tsx');
+test('Slots assign elapsed time once across header, bottom and scene',()=>{
+ frame=780;
+ for(const bottom of [timelineSlot,counterfactualSlot]){
+  const html=render(ClaimIntakeSideBySideLayout,{mapOnly:true,headerSlot:clockSlot,bottomSlot:bottom});
+  assert.equal((html.match(/00:47/g)||[]).length,1);
+  assert.ok(!html.includes('47秒で一次回答'));
+  assert.ok(!html.includes('受付から一次回答まで'));
+ }
+ const plain=render(ClaimIntakeSideBySideLayout,{mapOnly:true});
+ assert.ok(plain.includes('受付から一次回答まで'));
+ const bottom=render(ClaimIntakeSideBySideLayout,{mapOnly:true,bottomSlot:counterfactualSlot});
+ assert.equal((bottom.match(/47秒で一次回答/g)||[]).length,1);
+ assert.ok(!bottom.includes('受付から一次回答まで'));
+});
+test('A custom slot can claim elapsed without changing schema or layout',()=>{
+ frame=780;
+ const custom={claims:['elapsed'],render:({showElapsed})=>React.createElement('span',null,showElapsed?'CUSTOM ELAPSED':'CUSTOM WITHOUT TIME')};
+ const html=render(ClaimIntakeSideBySideLayout,{headerSlot:custom,bottomSlot:custom});
+ assert.equal((html.match(/CUSTOM ELAPSED/g)||[]).length,1);
+ assert.ok(html.includes('CUSTOM WITHOUT TIME'));
+ assert.ok(!html.includes('受付から一次回答まで'));
+});
+const {SideDemoFull}=require('../src/agent-flow/design-studies/side/demo-full/index.tsx');
+const {demoMoment,DEMO_FRAMES}=require('../src/agent-flow/design-studies/side/demo-full/model.ts');
+const {CASE,EVENTS}=require('../src/agent-flow/claim-intake/side-by-side/scenario.ts');
+test('Full demo maps all seven six-second scenes to the original four-second stages',()=>{
+ assert.equal(DEMO_FRAMES,1260);
+ for(let i=0;i<7;i++)for(const offset of [0,90,179]){
+  frame=i*180+offset;
+  const moment=demoMoment(frame);
+  assert.equal(moment.step,i);
+  assert.equal(Math.floor(moment.sourceFrame/120),i);
+  const html=render(SideDemoFull);
+  assert.ok(html.includes(`data-demo-step="${i}"`));
+  assert.ok(html.includes(CASE.ticket));
+  assert.ok(html.includes(EVENTS[i].name));
+  assert.ok(html.includes('経過秒はシナリオ値'));
+  assert.ok(html.includes('実システムへの接続なし'));
+  if(i===3||i===5||i===6){assert.ok(html.includes(CASE.aiUrgency));assert.ok(html.includes(CASE.resolvedUrgency));assert.ok(html.includes(CASE.ruleId));}
+  assert.doesNotMatch(html,/NaN|Infinity/);
+ }
+});

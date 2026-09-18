@@ -481,3 +481,5 @@ JPEG 出力なので、片方だけだと pix_fmt が `yuvj420p` になります
 
 AgentFlow の図は `useVideoConfig()` の fps を見ていないので、fps を変えても中身は変わりません。
 遅くする場合は fps が下がるため、`--speed=0.5` あたりからカクつきが見えてきます。
+
+Side採用候補のA/B/C試作は `out/side-prototype/index.html`。時計版、右上・下部の差し込み例、42秒の画面主体デモを比較できます。[設計と再生成手順](docs/side-prototype.md)。動画は `pnpm video Side-DemoFull`。

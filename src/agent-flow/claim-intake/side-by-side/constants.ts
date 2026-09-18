@@ -31,6 +31,7 @@ export const sideBySideSchema = z.object({
 
 /** Studio に出す組み合わせ。schema があるので props パネルから他の組み合わせも試せる */
 export const SIDE_BY_SIDE_PRESETS = {
+	clock: { mapOnly: true, counterfactual: false, timeline: false, clock: true },
 	/** 仮置きのまま。何も足していない */
 	plain: { mapOnly: false, counterfactual: false, timeline: false, clock: false },
 	/** 案1: 左のフロー図を地図に徹させ、左右で同じことを言わないようにする */

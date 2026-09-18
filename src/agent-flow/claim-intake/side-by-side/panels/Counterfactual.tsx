@@ -59,15 +59,15 @@ const Track: React.FC<{
 	</div>
 );
 
-export const Counterfactual: React.FC<{ step: number }> = ({ step }) => {
+export const Counterfactual: React.FC<{ step: number; hideElapsed?: boolean; explanatory?: boolean }> = ({ step, hideElapsed = false, explanatory = false }) => {
 	// ルールが効くのは昇格の工程から。それまではどちらも中立に置く
 	const fired = step >= PROMOTION_STEP;
 
 	return (
 		<div style={{ display: "flex", gap: 24 }}>
 			<Track
-				title="セーフティルールが無い場合"
-				beats={[`AIの${CASE.aiUrgency}のまま`, "翌営業日に手配", "ガスのにおいは誰も見ない"]}
+				title={explanatory ? "比較の仮定 / ルールが無い場合" : "セーフティルールが無い場合"}
+				beats={explanatory ? [`AIの${CASE.aiUrgency}のまま`, "翌営業日の判断", "安全ルールによる昇格なし"] : [`AIの${CASE.aiUrgency}のまま`, "翌営業日に手配", "ガスのにおいは誰も見ない"]}
 				color={COLORS.grey}
 				dim
 			/>
@@ -75,8 +75,8 @@ export const Counterfactual: React.FC<{ step: number }> = ({ step }) => {
 				title="セーフティルールがある場合"
 				beats={[
 					`${CASE.resolvedUrgency}へ昇格`,
-					"即時架電・当日手配",
-					`${ELAPSED_SECONDS}秒で一次回答`,
+					explanatory ? "即時対応の判断" : "即時架電・当日手配",
+					hideElapsed ? "一次回答を記録" : `${ELAPSED_SECONDS}秒で一次回答`,
 				]}
 				color={COLORS.rule}
 				dim={!fired}

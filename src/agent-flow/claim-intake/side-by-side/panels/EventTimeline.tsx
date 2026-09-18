@@ -59,9 +59,10 @@ export const ElapsedClock: React.FC<{ frame: number }> = ({ frame }) => {
 	);
 };
 
-export const EventTimeline: React.FC<{ frame: number; width: number }> = ({
+export const EventTimeline: React.FC<{ frame: number; width: number; hideElapsed?: boolean }> = ({
 	frame,
 	width,
+	hideElapsed = false,
 }) => {
 	const sec = elapsedSeconds(frame);
 	const x = (t: number) => (t / AXIS_SECONDS) * width;
@@ -131,7 +132,7 @@ export const EventTimeline: React.FC<{ frame: number; width: number }> = ({
 							}}
 						>
 							<div style={{ fontSize: 14, fontFamily: MONO, color }}>
-								{mmss(event.t)} {event.name}
+								{hideElapsed ? '' : mmss(event.t)} {event.name}
 							</div>
 							<div style={{ fontSize: 13, color: COLORS.textSub, marginTop: 3 }}>
 								{event.detail}

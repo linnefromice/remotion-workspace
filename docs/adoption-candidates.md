@@ -1,7 +1,7 @@
 # 採用候補のメモ
 
 2026-09-18 時点で、商談・展示会に出す候補として挙がっているもの。
-**まだ決定ではない。** 全41本の一覧は `pnpm gallery:agent-flow`。
+**まだ決定ではない。** 全44本の一覧は `pnpm gallery:agent-flow`。
 
 実装に渡すための依頼書は [`next-build-brief.md`](./next-build-brief.md)。
 
@@ -45,9 +45,11 @@ Orbit の同心円や Lanes のレーンは、いまのグリッドの外にあ�
 
 ## Side（図の横に置くもの）
 
+試作を実装済み: ClockはmapOnly=true、差し込み例は`Side-SlotExample`、画面主体の42秒版は`Side-DemoFull`。[設計・検証結果](./side-prototype.md)。以下の未実装メモは依頼時点の経緯として残す。
+
 | 候補 | ID | 置き場 |
 |---|---|---|
-| **SideBySide（時間込み）** | ← 要確認 | ClaimIntake |
+| **SideBySide（時間込み）** | `ClaimIntake-SideBySide-Clock` | ClaimIntake |
 | **Side-Ledger** | `Side-Ledger` | DesignStudies > Side |
 
 ### 「時間込み」の中身（2026-09-18・確認済み）
