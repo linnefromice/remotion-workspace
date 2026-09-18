@@ -452,3 +452,32 @@ pnpm test:gallery                      # 対象抽出・フレーム選択と、
 Sideの追加案 **Ledger**（`ClaimIntake-DecisionStory-Side-Ledger`）も同じ比較ページに掲載しています。紙の台帳に判断を縦に積み、右の全体図は非アクティブな経路も破線で残します。既存Side・Evidence・Ledgerの3案を同じ工程で比較できます。
 
 Sideの追加案 **Gate / Replay** も `out/side-design-studies/index.html` で確認できます。Gateは判断権限、Replayは結論から根拠をたどる振り返りが主題です。
+
+### 動画の書き出し
+
+```bash
+pnpm video ClaimIntake-DecisionStory-Side-Replay   # 1本
+pnpm video --group Inquiry                          # 題材ごと（入れ子も含む）
+pnpm video --all                                    # AgentFlow 全部
+pnpm video <Id> --speed=2                           # 2倍速
+pnpm video <Id> --fps=60                            # fps を直接指定
+```
+
+出力は `out/video/`（git対象外）。速度を変えたものは `<Id>-2x.mp4` のように名前が分かれるので、
+等速のファイルを上書きしません。
+
+**このリポジトリでは `remotion render` に3つのフラグが要る**（`--gl=swangle`、
+`--image-format=png` と `--pixel-format=yuv420p` の両方）。`remotion.config.ts` が
+JPEG 出力なので、片方だけだと pix_fmt が `yuvj420p` になります。
+このスクリプトはそれを埋め込んでいるので、呼ぶ側が覚える必要はありません。
+書き出したあと `ffprobe` があれば pix_fmt を実際に確かめます。
+
+対象は `src/Root.tsx` を読んで決めるので、登録漏れが起きません。
+
+#### 再生速度について
+
+速度は **fps の倍率**として効きます。**コマを間引かないので、速くしても動きは滑らかなまま
+尺だけが縮みます**（28秒 / 840コマ → `--speed=2` で 14秒 / 840コマ、60fps）。
+
+AgentFlow の図は `useVideoConfig()` の fps を見ていないので、fps を変えても中身は変わりません。
+遅くする場合は fps が下がるため、`--speed=0.5` あたりからカクつきが見えてきます。
