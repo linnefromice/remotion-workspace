@@ -70,8 +70,12 @@ const Tag: React.FC<{x: number; y: number; children: React.ReactNode; color?: st
 export const AgentFlowInquiryIcons: React.FC<{
   nodeVariant?: FlowNodeVariant;
   brandIcons?: boolean;
-}> = ({nodeVariant, brandIcons = false}) => {
-  const frame = useCurrentFrame();
+  frameOverride?: number;
+  hidePanel?: boolean;
+  inactiveDashed?: boolean;
+}> = ({nodeVariant, brandIcons = false, frameOverride, hidePanel = false, inactiveDashed = false}) => {
+  const liveFrame = useCurrentFrame();
+  const frame = frameOverride ?? liveFrame;
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
   const routes = nodeVariant ? inquiryServiceRoutes(nodeVariant) : ROUTES;
@@ -168,7 +172,7 @@ export const AgentFlowInquiryIcons: React.FC<{
                 strokeWidth="2"
                 strokeLinejoin="round"
                 opacity={active ? .9 : .38}
-                strokeDasharray={edge.dashed ? '7 8' : undefined}
+                strokeDasharray={edge.dashed || (inactiveDashed && !active) ? '7 8' : undefined}
                 markerEnd={`url(#inquiry-icon-arrow-${edge.step})`}
               />
               {active && (
@@ -282,7 +286,7 @@ export const AgentFlowInquiryIcons: React.FC<{
       })}
 
       {/* 右側の説明パネル。進行中のステップだけを言葉で補う */}
-      <div
+      {!hidePanel && <div
         style={{
           position: 'absolute',
           left: 1340,
@@ -319,7 +323,7 @@ export const AgentFlowInquiryIcons: React.FC<{
           ))}
         </div>
         <div style={{fontSize: 15, color: '#a7b8cc', marginTop: 16}}>破線：参照・非同期・任意の工程</div>
-      </div>
+      </div>}
 
       <div style={{position: 'absolute', left: 60, right: 60, bottom: 24, height: 3, background: '#263346'}}>
         <div style={{width: `${(frame + 1) / TOTAL_FRAMES * 100}%`, height: '100%', background: PALETTE[step]}} />
