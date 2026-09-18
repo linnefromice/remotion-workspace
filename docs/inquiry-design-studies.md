@@ -158,6 +158,7 @@ LINE / Gmailは既存の公式素材、その他は役割ピクトグラムを�
 
 ## この8案の置き場（2026-09-18）
 
-8案は**比較のための試行**で、商談で使う成果物とは性格が違う。
-いま作成中の**デザインリスト**で、試行と成果物を分けて並べる予定
-（[`presentation-site-variants.md`](./presentation-site-variants.md) の「次にやること」）。
+8案は**比較のための試行**だが、**いまは成果物と分けずに並べる**。
+デザインリスト（`pnpm gallery:agent-flow` の一覧）は題材ごとに並べるだけで、
+試行かどうかの区別は持たない。整理は後続で検討する
+（[`presentation-site-variants.md`](./presentation-site-variants.md) の「デザインリスト」）。
