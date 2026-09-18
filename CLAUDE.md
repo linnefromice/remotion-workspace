@@ -11,6 +11,10 @@ A Remotion v4 workspace for creating programmatic video compositions in React + 
 - **Dev (Remotion Studio):** `pnpm dev` — opens the browser-based preview/editor
 - **Render video:** `pnpm build` — renders output via `remotion render`
 - **Render specific composition:** `pnpm exec remotion render <CompositionId>` (e.g., `BasicAnimation`)
+- **Export AgentFlow videos:** `pnpm video <Id> | --group=<subject> | --all` — `[--speed=2]` changes the
+  playback rate by changing the output fps, keeping every frame. It bakes in the three flags this repo
+  needs (`--gl=swangle`, and `--image-format=png` with `--pixel-format=yuv420p`) and verifies `pix_fmt`
+  afterwards, so callers do not have to remember them.
 - **Upgrade Remotion:** `pnpm upgrade`
 - **Install dependencies:** `pnpm install`
 
