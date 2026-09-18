@@ -39,7 +39,7 @@ function pointsFor(link: StudyLink): Point[] {
    : [[sx-54,sy],[sx-120,sy],[sx-120,gutter],[tx-120,gutter],[tx-120,ty],[tx-54,ty]];
 }
 
-export const InquiryTerraces: React.FC = () => {
+export const DiagramTerraces: React.FC = () => {
  const {step,link,progress}=moment(useCurrentFrame());
   const points = pointsFor(link);
  const [x,y]=pointAlong(points,Math.min(1,progress/.85));

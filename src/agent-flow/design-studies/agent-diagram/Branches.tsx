@@ -47,7 +47,7 @@ function pointsFor(link: StudyLink): Point[] {
       : [[sx, sy - 52], [sx, Math.min(sy, ty) - 92], [tx, Math.min(sy, ty) - 92], [tx, ty - 52]];
 }
 
-export const InquiryBranches: React.FC = () => {
+export const DiagramBranches: React.FC = () => {
   const {step, link, progress} = moment(useCurrentFrame());
   const points = pointsFor(link);
   const [x,y] = pointAlong(points, Math.min(1, progress / .85));

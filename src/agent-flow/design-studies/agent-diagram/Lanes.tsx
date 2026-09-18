@@ -44,7 +44,7 @@ function pointsFor(link: StudyLink): Point[] {
       : [[sx + direction * 52, sy], [tx - direction * 52, ty]];
 }
 
-export const InquiryLanes: React.FC = () => {
+export const DiagramLanes: React.FC = () => {
   const frame = useCurrentFrame();
   const { step, link, progress } = moment(frame);
   const points = pointsFor(link);

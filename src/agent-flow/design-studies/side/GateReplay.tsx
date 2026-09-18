@@ -20,7 +20,7 @@ const Map:React.FC<{frame:number;caption:string}>=({frame,caption})=><>
  <div style={{position:'absolute',left:1072,top:254,width:800,height:450,border:'1px solid #3b4d61',overflow:'hidden'}}><div style={{width:1920,height:1080,transform:'scale(0.4166666667)',transformOrigin:'top left'}}><AgentFlowClaimIntakeIcons nodeVariant="logoSeal" brandIcons hidePanel inactiveDashed frameOverride={frame}/></div></div>
  <div style={{position:'absolute',left:1080,top:735,width:780,fontSize:20,color:'#afbecd',lineHeight:1.9}}>全経路を常設 / その他の経路は破線<br/>強調線と動く点は、説明している工程</div>
 </>;
-export const ClaimIntakeSideGate:React.FC=()=>{
+export const SideGate:React.FC=()=>{
  const frame=useCurrentFrame(),step=Math.min(6,Math.floor(frame/120));
  const actor=step===2||step===4?0:step===3?1:step===5?2:-1;
  const pulse=interpolate(frame%120,[0,24],[0,1],{extrapolateRight:'clamp'});
@@ -37,7 +37,7 @@ export const ClaimIntakeSideGate:React.FC=()=>{
  <div style={{position:'absolute',left:56,bottom:28,fontSize:16,color:'#899aaf'}}>説明用の権限図 / 想定ケース / 動画28秒</div>
  </AbsoluteFill>;
 };
-export const ClaimIntakeSideReplay:React.FC=()=>{
+export const SideReplay:React.FC=()=>{
  const frame=useCurrentFrame(),chapter=Math.min(6,Math.floor(frame/120)),item=replay[chapter];
  const entries=[['01 / 入力','「ガスのようなにおい」','水漏れの通報・添付写真'],['02 / AI原判定',`${CASE.aiUrgency} · 翌営業日`,'原値は変更しない'],['03 / 安全ルール',`${CASE.resolvedUrgency} · 即時対応`,CASE.ruleId],['04 / 人の確認','P1を確認','このケースでは降格なし']];
  return <AbsoluteFill style={{background:'#e8e5df',fontFamily:font,color:'#253044'}}>

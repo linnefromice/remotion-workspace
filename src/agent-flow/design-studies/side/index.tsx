@@ -16,7 +16,7 @@ const COPY = [
  {title:'違う判断を、ひとつの履歴で追える。',label:'追記のみの記録',note:'AIの原判定、発火ルール、人の確認。どの判断も消さずに残る。'},
 ];
 
-export const ClaimIntakeSideEvidence: React.FC = () => {
+export const SideEvidence: React.FC = () => {
  const frame=useCurrentFrame();
  const step=Math.min(STEPS.length-1,Math.floor(frame/STEP_LEN));
  const enter=interpolate(frame%STEP_LEN,[0,18],[0,1],{extrapolateRight:'clamp'});

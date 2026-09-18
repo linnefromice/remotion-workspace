@@ -288,3 +288,20 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 
 一覧の題材は Studio のフォルダ階層そのままなので、
 `DesignStudies / AgentDiagram` と `DesignStudies / Side` として出る。
+
+### ID の決まり
+
+**IDの接頭辞は置き場と揃える。**
+
+| 置き場 | ID | 例 |
+|---|---|---|
+| `DesignStudies > AgentDiagram` | `Diagram-<名前>` | `Diagram-Transit` |
+| `DesignStudies > Side` | `Side-<名前>` | `Side-Replay` |
+| 題材のフォルダ | `<題材>-<名前>` | `ClaimIntake-Cards` |
+
+試作のIDに**題材を入れない**のは、比べているのが見せ方であって題材ではないため。
+いまはどれも Inquiry か ClaimIntake の1件を描いているが、**その情報は図の見出しに出ている**
+（`FARLEAP / INQUIRY · DESIGN STUDY 01 · TRANSIT` など）ので、IDで持つ必要がない。
+
+同じ見せ方を別の題材でも作るときに初めて、`Diagram-Transit-ClaimIntake` のように
+題材を足す。先回りして全部に付けると、いま区別のない情報で名前が長くなるだけになる。
