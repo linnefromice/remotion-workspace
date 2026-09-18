@@ -265,7 +265,7 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 | 題材 | 本数 | 中身 |
 |---|---|---|
 | ClaimIntake | 13 | Cards系4 / SideBySide系5 / DecisionStory系3 / Icons 1 |
-| **DesignStudies** | **12** | **Inquiry 8 / Side 4。見せ方の試作** |
+| **DesignStudies** | **12** | **AgentDiagram 8 / Side 4。見せ方の試作** |
 | Inquiry | 5 | 規定の4版＋Icons |
 | Restoration | 4 | 規定の4版 |
 | Proposal | 4 | 規定の4版 |
@@ -277,11 +277,14 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 ### 試作は DesignStudies にまとめた（2026-09-18）
 
 見せ方の試作は `AgentFlow > DesignStudies` に集約した。
-Inquiry の8案と、Side の4案（Evidence / Ledger / Gate / Replay）。
+中身は2種類。
+
+- **AgentDiagram** — フロー図そのものの見せ方。8案
+- **Side** — 図の横に何を置くかの見せ方。4案（Evidence / Ledger / Gate / Replay）
 
 **題材ごとの括りからは外れる**が、そのぶん
 「商談で使う成果物」と「比較のための試作」が一覧の上で分かれる。
 先送りにしていた線引きが、置き場の形で入ったことになる。
 
 一覧の題材は Studio のフォルダ階層そのままなので、
-`DesignStudies / Inquiry` と `DesignStudies / Side` として出る。
+`DesignStudies / AgentDiagram` と `DesignStudies / Side` として出る。

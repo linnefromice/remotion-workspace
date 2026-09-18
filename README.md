@@ -427,7 +427,7 @@ pnpm test:gallery                      # 対象抽出・フレーム選択と、
 
 ### Inquiryの新しいデザイン案
 
-`AgentFlow > DesignStudies > Inquiry` に次の3案があります（各24秒）。
+`AgentFlow > DesignStudies > AgentDiagram` に次の3案があります（各24秒）。
 
 - `Inquiry-Transit`: 明るい路線図。全体の経路を追う。
 - `Inquiry-Orbit`: AI判定を中心に、主体と判断基準の関係を見る。
