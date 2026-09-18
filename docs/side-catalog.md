@@ -45,7 +45,7 @@ web に出す手法の比較は [`deploy-options.md`](./deploy-options.md)。
 ### 上下に分けるなら、別のレイアウトになる
 
 上の表は**左右に分けた場合**（`SideBySide`）の寸法。
-**上下に分ける版は別に作ってある**（`ClaimIntake-DecisionStory-Stacked-Diagram`）。
+**上下に分ける版は別に作ってある**（`Side-Stacked`）。
 そちらは上70%を図、下30%を横長の帯にしていて、**図が大きく出せる**かわりに
 右カラムが無くなる。詳しくは [`side-layout-variants.md`](./side-layout-variants.md)。
 
@@ -140,4 +140,4 @@ const mySlot: SideSlot = {
 | `Side-DemoFull` | **画面が主役で流れる**。小さな全経路図を位置案内として常設（42秒） | | |
 | `Side-DemoDiagram` | 図が主役。右に縦タイムライン、その右に画面と解説（42秒） | 時計 | — |
 | `Side-SlotMinimal` | 現場。図下の補足・反実仮想・進捗バーを省略 | 時計 | — |
-| `ClaimIntake-DecisionStory-Stacked-Diagram` | **上70%が図、下30%が横長の判断記録**（28秒） | — | 判断の記録 |
+| `Side-Stacked` | **上70%が図、下30%が横長の判断記録**（28秒） | — | 判断の記録 |

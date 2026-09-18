@@ -66,7 +66,7 @@
 - **静止画は全48枚。** 題材ごとに分ける（いまのカタログと同じ見せ方）
 - **動画は5本ほど選抜**
   - `Side-DemoFull`（画面が流れる42秒）
-  - `ClaimIntake-DecisionStory-Stacked-Diagram`（上下版）
+  - `Side-Stacked`（上下版）
   - `Side-Replay`（結論から根拠をたどる）
   - `ClaimIntake-SideBySide-Full`（図＋現場＋時計＋反実仮想）
   - `Exhibition-Loop`（展示会ループ）

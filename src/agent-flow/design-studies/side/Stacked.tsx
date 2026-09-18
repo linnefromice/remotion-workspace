@@ -1,11 +1,11 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {AgentFlowClaimIntakeIcons} from '../icons';
-import {CASE} from '../side-by-side/scenario';
-import {STORY_STEPS, StoryBand, StoryTextOpacity} from './index';
+import {AgentFlowClaimIntakeIcons} from '../../claim-intake/icons';
+import {CASE} from '../../claim-intake/side-by-side/scenario';
+import {STORY_STEPS, StoryBand, StoryTextOpacity} from '../../claim-intake/decision-story';
 
 /** 上70%は図。下30%は読みやすい横長の判断記録。 */
-export const ClaimIntakeDecisionStoryDiagramStacked:React.FC = () => {
+export const SideStacked:React.FC = () => {
  const frame=useCurrentFrame();
  const step=Math.min(6,Math.floor(frame/120));
  const local=frame%120;
