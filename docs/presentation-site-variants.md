@@ -240,18 +240,36 @@ pnpm gallery:agent-flow
 `out/` には比較用のページがいくつかあるが、**正本は `agent-flow-gallery` だけ**で、
 鮮度がテストで守られているのもここだけ。
 
-| 出力 | 何のためか | 鮮度 |
-|---|---|---|
-| `out/agent-flow-gallery/` | **全AgentFlowの一覧（正本）** | **テストが守る** |
-| `out/subject-bands/` | 主体別3帯の3題材比較 | その時限り |
-| `out/side-prototype/` | Side のスロット試作の検証 | その時限り |
-| `out/side-design-studies/` | Side 案の比較 | その時限り |
-| `out/inquiry-design-studies/` | AgentDiagram 8案の比較 | その時限り |
-| `out/video/` | 書き出した動画 | その時限り |
+**維持するのは `out/agent-flow-gallery/` だけ。**
 
-**その時限りのページは、作った時点の記録**として置いてあるだけで、
-あとから図を直しても追随しない。**古くなっていること自体は問題ではない**が、
-「いまの姿」を見たいときは一覧か Studio を見る。
+| 出力 | 扱い |
+|---|---|
+| `out/agent-flow-gallery/` | **正本。常に最新にする**（テストが守る） |
+| それ以外 | **消してよい。** 必要になったらスクリプトで作り直す |
+
+比較用のページ（`side-prototype` / `side-design-studies` / `subject-bands` など）は、
+**調べたときの記録**として作られたもので、あとから図を直しても追随しない。
+結論は docs に書いてあるので、**ページ自体は残さなくてよい**。
+残すと、鮮度の保証がないものが増えて「どれが今の姿か」が分からなくなる。
+
+作り直す手段は残っている。
+
+```sh
+pnpm gallery:agent-flow                    # 一覧（正本）
+pnpm video <Id>                            # 動画
+node scripts/side-design-studies.mjs       # Side 案の比較
+node scripts/side-prototype/capture.mjs    # スロット試作の検証
+node scripts/subject-bands/capture.mjs     # 主体別3帯の比較
+```
+
+> `out/inquiry-design-studies/` は、全経路を残す改修より前のものだったので削除した（2026-09-18）。
+
+### 一覧の撮影フォルダは溜まる
+
+`pnpm gallery:agent-flow` は実行ごとに `captures-*` を作り、**古い回を消さない**
+（失敗しても前回の一覧が壊れないようにするため）。
+`index.html` は最新の1回だけを指すので、**容量が気になったら
+`out/agent-flow-gallery/` ごと消して作り直すのが早い。**
 
 **作り直し忘れはテストで落ちる。**
 

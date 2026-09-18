@@ -435,13 +435,12 @@ pnpm test:gallery                      # 対象抽出・フレーム選択と、
 
 `pnpm gallery:agent-flow` で既存案と一緒に静止画一覧を更新できます。
 設計・検証メモは [inquiry-design-studies.md](docs/inquiry-design-studies.md)。
-今回の比較用出力は `out/inquiry-design-studies/index.html`（動画3本・静止画18枚、git対象外）。
 
 追加案: `Diagram-Lanes`（担当別レーン）、`Diagram-Chronicle`（縦に追う処理順）、
 `Diagram-Caseboard`（案件カードを中心に主体が関わる）。同じDesignStudiesフォルダにあり、
 比較ページには合計6案を掲載しています。
 
-さらに **Branches**（手配と回答への分岐）と **Terraces**（理解・伝達・判断支援を段で構成）を追加し、Inquiryのデザイン比較は全8案です。`out/inquiry-design-studies/index.html` で各案の24秒動画と工程別の静止画を確認できます。
+さらに **Branches**（手配と回答への分岐）と **Terraces**（理解・伝達・判断支援を段で構成）を追加し、AgentDiagram のデザイン比較は全8案です。各案は `pnpm gallery:agent-flow` の一覧で見比べられます。
 
 ### Sideの参照シートと新案
 
