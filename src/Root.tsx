@@ -1,3 +1,4 @@
+import {SubjectSide} from "./agent-flow/design-studies/side/subjects";
 import {SideDemoDiagram} from "./agent-flow/design-studies/side/demo-full/Diagram";
 import {SideStacked} from "./agent-flow/design-studies/side/Stacked";
 import {DiagramBands, bandsSchema, bandsDefaults} from "./agent-flow/design-studies/agent-diagram/bands";
@@ -345,6 +346,9 @@ export const Root: React.FC = () => {
 
         {/* 原状回復の負担区分（構想）。docs/agent-flow-restoration.md */}
         <Folder name="Restoration">
+          <Composition id="Restoration-Side-DemoDiagram" component={SubjectSide} defaultProps={{subject:"Restoration",layout:"DemoDiagram"}} durationInFrames={1260} fps={30} width={1920} height={1080}/>
+          <Composition id="Restoration-Side-SlotMinimal" component={SubjectSide} defaultProps={{subject:"Restoration",layout:"SlotMinimal"}} durationInFrames={840} fps={30} width={1920} height={1080}/>
+          <Composition id="Restoration-Side-Stacked" component={SubjectSide} defaultProps={{subject:"Restoration",layout:"Stacked"}} durationInFrames={840} fps={30} width={1920} height={1080}/>
           <Composition
             id="Restoration-Cards"
             component={AgentFlowRestoration}
@@ -381,6 +385,9 @@ export const Root: React.FC = () => {
 
         {/* 新規契約候補者への提案（構想）。docs/agent-flow-proposal.md */}
         <Folder name="Proposal">
+          <Composition id="Proposal-Side-DemoDiagram" component={SubjectSide} defaultProps={{subject:"Proposal",layout:"DemoDiagram"}} durationInFrames={1260} fps={30} width={1920} height={1080}/>
+          <Composition id="Proposal-Side-SlotMinimal" component={SubjectSide} defaultProps={{subject:"Proposal",layout:"SlotMinimal"}} durationInFrames={840} fps={30} width={1920} height={1080}/>
+          <Composition id="Proposal-Side-Stacked" component={SubjectSide} defaultProps={{subject:"Proposal",layout:"Stacked"}} durationInFrames={840} fps={30} width={1920} height={1080}/>
           <Composition
             id="Proposal-Cards"
             component={AgentFlowProposal}
@@ -417,6 +424,9 @@ export const Root: React.FC = () => {
 
         {/* 問い合わせ対応フローの構想 */}
         <Folder name="Inquiry">
+          <Composition id="Inquiry-Side-DemoDiagram" component={SubjectSide} defaultProps={{subject:"Inquiry",layout:"DemoDiagram"}} durationInFrames={1080} fps={30} width={1920} height={1080}/>
+          <Composition id="Inquiry-Side-SlotMinimal" component={SubjectSide} defaultProps={{subject:"Inquiry",layout:"SlotMinimal"}} durationInFrames={720} fps={30} width={1920} height={1080}/>
+          <Composition id="Inquiry-Side-Stacked" component={SubjectSide} defaultProps={{subject:"Inquiry",layout:"Stacked"}} durationInFrames={720} fps={30} width={1920} height={1080}/>
           <Composition
             id="Inquiry-Cards"
             component={AgentFlowInquiry}

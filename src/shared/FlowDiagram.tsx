@@ -57,8 +57,11 @@ export const FlowDiagram: React.FC<{
 	variant?: DiagramVariant;
 	/** ロゴを持つノードだけ実ロゴに差し替える（IconsV2） */
 	brandIcons?: boolean;
-}> = ({ spec, variant = "cards", brandIcons = false }) => {
-	const frame = useCurrentFrame();
+	frameOverride?: number;
+	hidePanel?: boolean;
+}> = ({ spec, variant = "cards", brandIcons = false, frameOverride, hidePanel = false }) => {
+	const liveFrame = useCurrentFrame();
+	const frame = frameOverride ?? liveFrame;
 	const total = spec.stepLen * spec.steps.length;
 	const step = Math.min(spec.steps.length - 1, Math.floor(frame / spec.stepLen));
 	const localFrame = frame - step * spec.stepLen;
@@ -120,7 +123,7 @@ export const FlowDiagram: React.FC<{
 				/>
 			))}
 
-			<HeroPanel spec={spec} step={step} localFrame={localFrame} />
+			{!hidePanel && <HeroPanel spec={spec} step={step} localFrame={localFrame} />}
 			<ProgressBar spec={spec} frame={frame} total={total} step={step} />
 		</AbsoluteFill>
 	);
