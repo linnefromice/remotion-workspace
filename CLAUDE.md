@@ -55,6 +55,10 @@ identifier in the code, so a request names exactly one thing.
 1. Create `src/<Name>/index.tsx` exporting a React component
 2. Import and register it as a `<Composition>` in `src/Root.tsx` with an `id`, `durationInFrames`, `fps`, `width`, and `height`
 3. If the composition accepts props, define a Zod schema and `defaultProps` (see `DataVisualization` for the pattern)
+4. **If it lives under `AgentFlow`, regenerate the design list**: `pnpm gallery:agent-flow`.
+   That generated page is the list of record for what exists — it is read from `src/Root.tsx`,
+   so a composition that is registered but never captured is simply missing from the list.
+   Registering without regenerating is an incomplete change.
 
 ## Key Remotion Packages Used
 
