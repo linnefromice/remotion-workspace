@@ -14,7 +14,9 @@
     "test:video": "node --test scripts/video/model.test.mjs",
     "test": "pnpm test:gallery && pnpm test:inquiry-routes && pnpm test:side-studies && pnpm test:video && pnpm test:bands",
     "test:bands": "node --test scripts/subject-bands.test.cjs",
-    "catalog:side": "node scripts/side-catalog/build.mjs"
+    "catalog:side": "node scripts/side-catalog/build.mjs",
+    "web": "vite --config web/vite.config.ts",
+    "web:build": "vite build --config web/vite.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +44,8 @@
     "@remotion/renderer": "4.0.525",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
-    "typescript": "^5.9.3"
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
   }
 }
