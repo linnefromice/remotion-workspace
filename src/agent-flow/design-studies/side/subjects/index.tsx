@@ -1,4 +1,5 @@
 import React from 'react';
+import {DemoAppScreen} from './DemoScreens';
 import {AbsoluteFill,interpolate,useCurrentFrame} from 'remotion';
 import {FlowDiagram} from '../../../../shared/FlowDiagram';
 import {AgentFlowInquiryIcons} from '../../../inquiry/icons';
@@ -46,7 +47,7 @@ export const SubjectSide:React.FC<{subject:Subject;layout:SideLayout}>=({subject
   {demo&&<div style={{position:'absolute',left:1220,top:163,width:170}}><div style={{fontSize:14,color:muted,marginBottom:30}}>CASE WORKSPACE</div>{data.steps.map((name,i)=><div key={name} style={{height:101,boxSizing:'border-box',padding:'16px 12px',borderLeft:`3px ${i===step?'solid':'dashed'} ${i===step?accent:line}`,background:i===step?'#20313e':undefined}}><div style={{fontSize:14,color:muted,marginBottom:10}}>{String(i+1).padStart(2,'0')}</div><div style={{fontSize:16,lineHeight:1.5}}>{name}</div></div>)}</div>}
   <div style={{position:'absolute',left:demo?1416:1244,top:demo?155:630,width:demo?464:590,transform:demo?undefined:'translateY(-50%)'}}>
    <div style={{fontSize:demo?24:30,fontWeight:700,lineHeight:1.5,marginBottom:18}}>{current.title}</div>
-   <div style={{height:510,boxSizing:'border-box',padding:22,background:'#121e2b',border:`1px solid ${line}`,borderTop:`3px solid ${accent}`,borderRadius:10}}><div style={{opacity:enter}}><Screen data={data} step={step}/></div></div>
+   <div style={{height:510,boxSizing:'border-box',padding:22,background:'#121e2b',border:`1px solid ${line}`,borderTop:`3px solid ${accent}`,borderRadius:10}}><div style={{opacity:enter}}>{demo?<DemoAppScreen subject={subject} step={step}/>:<Screen data={data} step={step}/>}</div></div>
    <div style={{marginTop:26,borderTop:`3px solid ${accent}`,paddingTop:18}}><div style={{fontSize:15,color:accent,marginBottom:14}}>この画面で見ること</div><div style={{fontSize:20,lineHeight:1.8,color:'#b6c6d4'}}>{current.note}</div></div>
   </div>
  </AbsoluteFill>;

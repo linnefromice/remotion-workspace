@@ -24,6 +24,24 @@ try{
  };
  for(const id of ['LogoSeal','IconsV2','Lanes','Orbit','Transit'])await navigate('diagram/'+id);
  for(const id of ['DemoDiagram','SlotMinimal','Stacked'])for(const subject of ['ClaimIntake','Proposal','Inquiry','Restoration'])await navigate(`side/${id}/${subject}`);
+ // Check every app screen at its stage midpoint, including clipped footer actions.
+ for(const subject of ['Proposal','Inquiry','Restoration']){
+  await navigate(`side/DemoDiagram/${subject}`);
+  const count=subject==='Inquiry'?6:7;
+  for(let step=0;step<count;step++){
+   const result=await page.evaluate(async({step})=>{
+    document.querySelectorAll('.steps button')[step].click();
+    await new Promise(r=>setTimeout(r,80));
+    const app=document.querySelector('[data-demo-app]');
+    const surface=app.firstElementChild, bounds=surface.getBoundingClientRect();
+    const clipped=[...surface.querySelectorAll('*')].filter(el=>el.children.length===0&&el.textContent.trim()).filter(el=>{const rect=el.getBoundingClientRect();return rect.bottom>bounds.bottom+1||rect.right>bounds.right+1;}).map(el=>el.textContent);
+    return {audience:surface.dataset.appAudience,clipped};
+   },{step});
+   const external=(subject==='Proposal'&&(step===0||step===6))||(subject==='Inquiry'&&(step===0||step===4));
+   assert.equal(result.audience,external?'customer':'staff',`${subject} ${step}: audience`);
+   assert.deepEqual(result.clipped,[],`${subject} ${step}: clipped app content`);
+  }
+ }
  for(const id of ['ClaimIntake','Proposal','Inquiry','Restoration'])await navigate('business/'+id);
  await navigate('side/Stacked/Inquiry');
  assert.equal(await page.evaluate(()=>document.querySelectorAll('.steps button').length),6);
