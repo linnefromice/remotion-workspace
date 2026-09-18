@@ -106,3 +106,13 @@ Evidenceの横3欄に対して、Ledgerは7工程を固定した縦の判断台�
 前案と同じ題材・28秒・7工程を使用。原値の保持、白の安全ルール、人だけの降格権限、シナリオ時刻の注記を維持する。新案のみの動画生成は、静止画生成後に `node scripts/side-design-studies.mjs --video-only --ledger-only`。
 
 Ledger検証結果: TypeScriptとギャラリー3テストが成功。7工程の中間、開始・終了、ルール昇格と人の確認の前後を静止画で確認。既存38件の代表PNGは変更前とバイト一致。新動画は1920×1080 / 30fps / 840フレーム / 28秒 / yuv420pで、レンダリング前後のソースSHA一致。比較ページは32画像・全リンク・2動画の読み込みと14秒へのシーク、320 / 768 / 1024 / 1440pxの表示を確認。全39件のギャラリーにも追加した。
+
+## Side Gate / Side Replay
+
+- `ClaimIntake-DecisionStory-Side-Gate`: AI・安全ルール・人を3つの門で表す権限図。原判定P2を保持し、ルールは運用P1を追加。人の降格は理由必須で、今回は未実施の破線として区別する。
+- `ClaimIntake-DecisionStory-Side-Replay`: 判断後の振り返り。結論 → 人の確認 → 業務判断 → ルール → AI原判定 → 入力根拠 → まとめ。証拠は常設し、注目だけを移す。時系列の実行再生ではないことを画面に明記する。
+- ソース: `src/agent-flow/claim-intake/side-studies/GateReplay.tsx`。ともに28秒・840フレーム。
+- 右の全体図は全経路を常設し、非選択経路は破線。ReplayではIconsの省略可能な`frameOverride`で説明対象の工程へ同期する。既定値は従来どおり現在フレーム。
+- 追加2案のみ動画再生成: `node scripts/side-design-studies.mjs --video-only --additions-only`（先に`--stills-only`でbundleを更新）。
+
+検証: `node --test scripts/side-studies.test.cjs` で工程境界の振り返り同期、P2保持、未実施の降格表示、全場面の証拠保持を確認。静止画は2案×7場面を目視確認し、既存39案の代表画像は追加前とバイト単位で一致。比較ページは320/768/1024/1440pxで横溢れなく表示される。

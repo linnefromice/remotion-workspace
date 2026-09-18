@@ -8,7 +8,9 @@
     "upgrade": "remotion upgrade",
     "gallery:agent-flow": "node scripts/agent-flow-gallery/capture.mjs",
     "test:gallery": "node --test scripts/agent-flow-gallery/model.test.mjs scripts/agent-flow-gallery/freshness.test.mjs",
-    "test:inquiry-routes": "node --test scripts/inquiry-routes.test.cjs"
+    "test:inquiry-routes": "node --test scripts/inquiry-routes.test.cjs",
+    "test:side-studies": "node --test scripts/side-studies.test.cjs",
+    "test": "pnpm test:gallery && pnpm test:inquiry-routes && pnpm test:side-studies"
   },
   "keywords": [],
   "author": "",

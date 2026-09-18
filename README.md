@@ -450,3 +450,5 @@ pnpm test:gallery                      # 対象抽出・フレーム選択と、
 `node scripts/side-design-studies.mjs` で `out/side-design-studies/index.html`（参照シート・新案動画・工程別静止画・既存8案との比較）を生成できます。静止画だけなら `--stills-only`、そのバンドルから動画を追加するなら `--video-only` を指定します。
 
 Sideの追加案 **Ledger**（`ClaimIntake-DecisionStory-Side-Ledger`）も同じ比較ページに掲載しています。紙の台帳に判断を縦に積み、右の全体図は非アクティブな経路も破線で残します。既存Side・Evidence・Ledgerの3案を同じ工程で比較できます。
+
+Sideの追加案 **Gate / Replay** も `out/side-design-studies/index.html` で確認できます。Gateは判断権限、Replayは結論から根拠をたどる振り返りが主題です。

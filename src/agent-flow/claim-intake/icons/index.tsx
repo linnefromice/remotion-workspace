@@ -104,8 +104,11 @@ export const AgentFlowClaimIntakeIcons: React.FC<{
   hidePanel?: boolean;
   /** 全経路を残した埋め込み用。既存の出力は既定値で維持する。 */
   inactiveDashed?: boolean;
-}> = ({nodeVariant, brandIcons = false, hidePanel = false, inactiveDashed = false}) => {
-  const frame = useCurrentFrame();
+  /** 振り返り表示で説明中の工程に同期するフレーム。 */
+  frameOverride?: number;
+}> = ({nodeVariant, brandIcons = false, hidePanel = false, inactiveDashed = false, frameOverride}) => {
+  const currentFrame = useCurrentFrame();
+  const frame = frameOverride ?? currentFrame;
   const step = Math.min(STEPS.length - 1, Math.floor(frame / STEP_LEN)) as StepIndex;
   const localFrame = frame % STEP_LEN;
   const routes = nodeVariant ? claimServiceRoutes(nodeVariant) : ROUTES;
