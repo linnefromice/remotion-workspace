@@ -264,8 +264,9 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 
 | 題材 | 本数 | 中身 |
 |---|---|---|
-| ClaimIntake | 15 | Cards系4 / SideBySide系5 / DecisionStory系5 / Ledger 1 |
-| Inquiry | 13 | 既存5 / DesignStudies 8 |
+| ClaimIntake | 13 | Cards系4 / SideBySide系5 / DecisionStory系3 / Icons 1 |
+| **DesignStudies** | **12** | **Inquiry 8 / Side 4。見せ方の試作** |
+| Inquiry | 5 | 規定の4版＋Icons |
 | Restoration | 4 | 規定の4版 |
 | Proposal | 4 | 規定の4版 |
 | Reference | 2 | Cloudflare 参照図とその整理版 |
@@ -273,6 +274,14 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 
 本数は増えるので、**この表は目安。数えるなら一覧を見る。**
 
+### 試作は DesignStudies にまとめた（2026-09-18）
+
+見せ方の試作は `AgentFlow > DesignStudies` に集約した。
+Inquiry の8案と、Side の4案（Evidence / Ledger / Gate / Replay）。
+
+**題材ごとの括りからは外れる**が、そのぶん
+「商談で使う成果物」と「比較のための試作」が一覧の上で分かれる。
+先送りにしていた線引きが、置き場の形で入ったことになる。
+
 一覧の題材は Studio のフォルダ階層そのままなので、
-DesignStudies は `Inquiry / DesignStudies` という別の括りで出る。
-**線引きを意識しなくても、フォルダを分けてあれば一覧でも分かれる。**
+`DesignStudies / Inquiry` と `DesignStudies / Side` として出る。

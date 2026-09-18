@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {AgentFlowClaimIntakeIcons} from '../icons';
-import {CASE} from '../side-by-side/scenario';
+import {AgentFlowClaimIntakeIcons} from '../../claim-intake/icons';
+import {CASE} from '../../claim-intake/side-by-side/scenario';
 
 const font='"Hiragino Sans", "Noto Sans CJK JP", sans-serif';
 const colors=['#b59aef','#ffffff','#edaa76'];

@@ -1,7 +1,7 @@
 import { RouteLines, ROUTE_LEGEND, type StudyLink } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { NODES } from '../cards/constants';
+import { NODES } from '../../inquiry/cards/constants';
 import { FONT, ROLE, moment, pointAlong, type Layout, type Point } from './model';
 import { Mark, StudyFooter } from './StudyParts';
 

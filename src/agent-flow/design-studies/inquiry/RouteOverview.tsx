@@ -1,5 +1,5 @@
 import React from 'react';
-import {NODES, type NodeId} from '../cards/constants';
+import {NODES, type NodeId} from '../../inquiry/cards/constants';
 import {color, pointAlong, type Layout, type Point} from './model';
 import {RouteLines, type StudyLink} from './RouteLines';
 

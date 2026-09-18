@@ -2,7 +2,7 @@ import { RouteOverview } from './RouteOverview';
 import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
-import { STEPS, TOTAL_FRAMES } from '../cards/constants';
+import { STEPS, TOTAL_FRAMES } from '../../inquiry/cards/constants';
 import { ServiceIcon } from '../../../shared/ServiceIcon';
 import { Actor } from './parts';
 import { FONT, LINKS, ROLE, color, moment } from './model';

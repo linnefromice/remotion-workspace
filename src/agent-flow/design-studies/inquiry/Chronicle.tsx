@@ -2,7 +2,7 @@ import { RouteOverview } from './RouteOverview';
 import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
-import { STEPS } from '../cards/constants';
+import { STEPS } from '../../inquiry/cards/constants';
 import { FONT, LINKS, ROLE, moment } from './model';
 import { Mark, StudyFooter } from './StudyParts';
 

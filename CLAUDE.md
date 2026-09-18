@@ -46,6 +46,8 @@ src/
       cards/ icons/ decision-story/ side-by-side/
     inquiry/                       Studio: AgentFlow > Inquiry
       cards/ icons/
+    design-studies/                Studio: AgentFlow > DesignStudies
+      inquiry/ side/                 trials for comparison, kept apart from what a meeting uses
     reference/                     Studio: AgentFlow > Reference
       codex/ codex-reclaude/         (codex-reclaude/previews/ backs Studio's Components folder;
                                       it previews that diagram's own parts, so it stays there)

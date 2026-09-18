@@ -24,6 +24,8 @@
 
 実装: [decision-story/WithMap.tsx](../src/agent-flow/claim-intake/decision-story/WithMap.tsx)。登録: [Root.tsx](../src/Root.tsx)。
 
+新案（Evidence / Ledger / Gate / Replay）は `AgentFlow > DesignStudies > Side` に移した。実装は [`src/agent-flow/design-studies/side/`](../src/agent-flow/design-studies/side/)。
+
 | 領域 | 現行の配置 | 役割 / 制約 |
 |---|---|---|
 | 左・主役 | DecisionStory全体を0.68倍、x=44 / y=172.8 | 通報文、AI原値・ルール結論、工程別の帯、7工程の記録。大きな見出しまで縮む |
