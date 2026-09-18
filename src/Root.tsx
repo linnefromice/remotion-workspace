@@ -93,12 +93,24 @@ import { LegendAndStepsPreview } from "./agent-flow/reference/codex-reclaude/pre
 import { MiscPreview } from "./agent-flow/reference/codex-reclaude/previews/MiscPreview";
 
 import { ClaimIntakeDecisionStory, decisionStorySchema, decisionStoryDefaults } from "./agent-flow/claim-intake/decision-story";
+import { ClaimIntakeSideEvidence } from "./agent-flow/claim-intake/side-studies";
 import {
   ClaimIntakeDecisionStoryWithMap,
   withMapDefaults,
   withMapSchema,
   withMapStacked,
 } from "./agent-flow/claim-intake/decision-story/WithMap";
+
+import {
+  InquiryBranches,
+  InquiryCaseboard,
+  InquiryChronicle,
+  InquiryLanes,
+  InquiryOrbit,
+  InquiryRelay,
+  InquiryTerraces,
+  InquiryTransit,
+} from "./agent-flow/inquiry/design-studies";
 
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
 const STILL = { durationInFrames: 1, ...HD } as const;
@@ -114,6 +126,14 @@ export const Root: React.FC = () => {
       <Folder name="AgentFlow">
         {/* 実装済みPoC（farleap/tenant-claim-intake-demoapp）の構造 */}
         <Folder name="ClaimIntake">
+          <Composition
+            id="ClaimIntake-DecisionStory-Side-Evidence"
+            component={ClaimIntakeSideEvidence}
+            durationInFrames={CLAIM_FRAMES}
+            fps={CLAIM_FPS}
+            width={CLAIM_W}
+            height={CLAIM_H}
+          />
           <Composition id="ClaimIntake-DecisionStory" component={ClaimIntakeDecisionStory}
             schema={decisionStorySchema} defaultProps={decisionStoryDefaults}
             durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
@@ -305,6 +325,72 @@ export const Root: React.FC = () => {
 
         {/* 問い合わせ対応フローの構想 */}
         <Folder name="Inquiry">
+          <Folder name="DesignStudies">
+            <Composition
+              id="Inquiry-Branches"
+              component={InquiryBranches}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Terraces"
+              component={InquiryTerraces}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Lanes"
+              component={InquiryLanes}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Chronicle"
+              component={InquiryChronicle}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Caseboard"
+              component={InquiryCaseboard}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Transit"
+              component={InquiryTransit}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Orbit"
+              component={InquiryOrbit}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+            <Composition
+              id="Inquiry-Relay"
+              component={InquiryRelay}
+              durationInFrames={INQUIRY_FRAMES}
+              fps={INQUIRY_FPS}
+              width={INQUIRY_W}
+              height={INQUIRY_H}
+            />
+          </Folder>
           <Composition
             id="Inquiry-Cards"
             component={AgentFlowInquiry}
