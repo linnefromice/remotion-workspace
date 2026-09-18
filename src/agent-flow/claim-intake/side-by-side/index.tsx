@@ -31,6 +31,9 @@ export { SIDE_BY_SIDE_PRESETS, sideBySideSchema } from "./constants";
 
 type LayoutProps = {
 	mapOnly?: boolean;
+	hideMapCaption?: boolean;
+	hideProgress?: boolean;
+	centerContent?: boolean;
 	headerSlot?: SideSlot;
 	bottomSlot?: BottomSlot;
 	/** 旧プリセットの画素互換専用。新規の差し込みでは指定しない */
@@ -39,6 +42,9 @@ type LayoutProps = {
 
 export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 	mapOnly = false,
+	hideMapCaption = false,
+	hideProgress = false,
+	centerContent = false,
 	headerSlot,
 	bottomSlot,
 	legacySceneElapsed,
@@ -83,7 +89,7 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 				style={{
 					position: "absolute",
 					left: FLOW.x,
-					top: FLOW.y,
+					top: centerContent ? (180 + CANVAS_H - FLOW_H) / 2 : FLOW.y,
 					width: FLOW.w,
 					height: FLOW_H,
 					borderRadius: 14,
@@ -107,7 +113,7 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 				</div>
 			</div>
 
-			<div
+			{!hideMapCaption && <div
 				style={{
 					position: "absolute",
 					left: FLOW.x + 4,
@@ -117,14 +123,15 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 				}}
 			>
 				いま光っているところが、右の画面が起きている工程
-			</div>
+			</div>}
 
 			{/* 右: 同じステップの現場 */}
 			<div
 				style={{
 					position: "absolute",
 					left: STAGE.x,
-					top: STAGE.y,
+					top: centerContent ? (180 + CANVAS_H) / 2 : STAGE.y,
+					transform: centerContent ? "translateY(-50%)" : undefined,
 					width: STAGE.w,
 					borderLeft: `2px solid ${accent}`,
 					paddingLeft: 30,
@@ -165,7 +172,7 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 				</div>
 			)}
 
-			<div
+			{!hideProgress && <div
 				style={{
 					position: "absolute",
 					left: FLOW.x,
@@ -182,7 +189,7 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 						background: accent,
 					}}
 				/>
-			</div>
+			</div>}
 		</AbsoluteFill>
 	);
 };

@@ -1,6 +1,8 @@
+import {SideDemoDiagram} from "./agent-flow/design-studies/side/demo-full/Diagram";
+import {ClaimIntakeDecisionStoryDiagramStacked} from "./agent-flow/claim-intake/decision-story/DiagramStacked";
 import {DiagramBands, bandsSchema, bandsDefaults} from "./agent-flow/design-studies/agent-diagram/bands";
 import {SideDemoFull, DEMO_FRAMES} from "./agent-flow/design-studies/side/demo-full";
-import {SideSlotExample} from "./agent-flow/design-studies/side/SlotExample";
+import {SideSlotExample, SideSlotMinimal} from "./agent-flow/design-studies/side/SlotExample";
 import {SideGate, SideReplay} from "./agent-flow/design-studies/side/GateReplay";
 import { SideLedger } from "./agent-flow/design-studies/side/Ledger";
 import React from "react";
@@ -200,6 +202,8 @@ export const Root: React.FC = () => {
             />
           </Folder>
           <Folder name="Side">
+            <Composition id="Side-DemoDiagram" component={SideDemoDiagram} durationInFrames={DEMO_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
+            <Composition id="Side-SlotMinimal" component={SideSlotMinimal} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
             <Composition id="Side-DemoFull" component={SideDemoFull} durationInFrames={DEMO_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
             <Composition id="Side-SlotExample" component={SideSlotExample} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
             <Composition id="Side-Gate" component={SideGate} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
@@ -232,6 +236,7 @@ export const Root: React.FC = () => {
             width={CLAIM_W}
             height={CLAIM_H}
           />
+          <Composition id="ClaimIntake-DecisionStory-Stacked-Diagram" component={ClaimIntakeDecisionStoryDiagramStacked} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
           <Composition
             id="ClaimIntake-DecisionStory-Stacked"
             component={ClaimIntakeDecisionStoryWithMap}
