@@ -4,6 +4,7 @@ import {Player,type PlayerRef} from '@remotion/player';
 import {CATALOG,MENUS,BUSINESSES,readRoute,resolveEntry,type Category} from './catalog';
 import './style.css';
 import {Home} from './Home';
+import {PlaybackControls} from './PlaybackControls';
 
 class PlayerBoundary extends React.Component<{children:React.ReactNode},{failed:boolean}>{
  state={failed:false};
@@ -33,7 +34,7 @@ function App(){
      <div className="viewer-heading"><h2>{entry.title} {entry.recommended&&<span className="recommended">推奨</span>}</h2><p>{route.category==='diagram'?'Inquiryで比較':route.category==='side'?route.subject:entry.id} <span> / {duration/30}秒 · {entry.steps.length}工程</span></p></div>
      {route.category==='side'&&<div className="subjects" aria-label="Sideの題材"><span>題材</span>{BUSINESSES.map(b=><button key={b.id} aria-pressed={route.subject===b.id} onClick={()=>{location.hash=`side/${entry.id}/${b.id}`;}}>{b.title}</button>)}</div>}
      <div className="player-shell"><PlayerBoundary key={key}><Player key={key} ref={player} component={entry.component} durationInFrames={duration} fps={30} compositionWidth={1920} compositionHeight={1080} playbackRate={speed} initialFrame={Math.floor(entry.stepLength/2)} controls loop style={{width:'100%'}} errorFallback={()=> <div className="player-error" role="alert">再生できませんでした。別のパターンを選ぶか、ページを再読み込みしてください。</div>}/></PlayerBoundary></div>
-     <div className="playback"><label>再生速度 <select value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{[.5,1,1.5,2].map(v=><option key={v} value={v}>{v}×</option>)}</select></label><span>再生・シーク・全画面で確認できます</span><button className="text-button" onClick={copyLink}>この表示を共有 ↗</button></div>
+     <div className="playback"><PlaybackControls player={player} speed={speed} onSpeedChange={setSpeed}/><button className="text-button" onClick={copyLink}>この表示を共有 ↗</button></div>
      <div className="steps" aria-label="工程へ移動">{entry.steps.map((step,i)=><button key={step} onClick={()=>{player.current?.pause();player.current?.seekTo(i*entry.stepLength+Math.floor(entry.stepLength/2));}}><span>{String(i+1).padStart(2,'0')}</span>{step}</button>)}</div>
      <div className="description"><div><p className="eyebrow">CONCEPT</p><h3>{entry.tagline}</h3><p>{entry.concept}</p></div><div><p className="eyebrow">特徴</p><ul>{entry.features.map(feature=><li key={feature}>{feature}</li>)}</ul></div></div>
      <div className="view-note"><span>比較のポイント</span><p>{entry.watch}</p></div>

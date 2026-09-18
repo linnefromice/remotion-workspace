@@ -37,6 +37,16 @@ try{
  // Player play/pause buttons expose accessible labels.
  const played=await page.evaluate(async()=>{const button=[...document.querySelectorAll('.player-shell button')].find(b=>/play|再生/i.test(b.getAttribute('aria-label')??b.title));if(!button)return false;button.click();await new Promise(r=>setTimeout(r,400));return !![...document.querySelectorAll('.player-shell button')].find(b=>/pause|一時停止/i.test(b.getAttribute('aria-label')??b.title));});
  assert.ok(played,'playback starts');
+ for(const rate of [3,4]){
+  await page.evaluate(rate=>{const select=document.querySelector('.external-controls select');select.value=String(rate);select.dispatchEvent(new Event('change',{bubbles:true}));},rate);
+  assert.equal(await page.evaluate(()=>document.querySelector('.external-controls select').value),String(rate));
+ }
+ const external=async(label)=>page.evaluate(async label=>{[...document.querySelectorAll('.external-controls button')].find(b=>b.textContent===label).click();await new Promise(r=>setTimeout(r,100));return [...document.querySelectorAll('.player-shell button')].map(b=>b.getAttribute('aria-label'));},label);
+ assert.ok((await external('一時停止')).includes('Play video'));
+ assert.ok((await external('開始／再開')).includes('Pause video'));
+ assert.ok((await external('最初から再生')).includes('Pause video'));
+ await external('一時停止');
+
  await page.evaluate(()=>{const button=[...document.querySelectorAll('.player-shell button')].find(b=>/pause|一時停止/i.test(b.getAttribute('aria-label')??b.title));button?.click();});
  assert.equal(await page.evaluate(()=>document.querySelector('.shortlist, .save')),null);
  await navigate('diagram/LogoSeal');
@@ -50,6 +60,8 @@ try{
  await navigate('side/DemoDiagram/Proposal');
  const shot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/web-review/side.png',Buffer.from(shot.value.data,'base64'));
  await page.evaluate(async()=>{location.hash='home';await new Promise(r=>setTimeout(r,200));document.querySelector('.reference').scrollIntoView();});
+ assert.equal(await page.evaluate(()=>document.querySelectorAll('.external-controls button').length),3);
+ assert.equal(await page.evaluate(()=>document.querySelector('.external-controls option[value="4"]').textContent),'4×');
  const refShot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/web-review/reference.png',Buffer.from(refShot.value.data,'base64'));
  for(const width of [320,768,1024,1440]){await page.setViewport({width,height:1100,deviceScaleFactor:1});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'home overflow '+width);}
  await navigate('bad/unknown');assert.match(await page.evaluate(()=>document.querySelector('.viewer-heading h2').textContent),/LogoSeal/);
