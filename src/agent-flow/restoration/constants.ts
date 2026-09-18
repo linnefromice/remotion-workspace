@@ -249,6 +249,8 @@ const SPECIAL_Y = 985;
 const EDGES: EdgeDef[] = [
 	{
 		id: "tenant-walkthrough",
+		from: "tenant",
+		to: "walkthrough",
 		points: [
 			[right("tenant"), cy("tenant")],
 			[left("walkthrough"), cy("walkthrough")],
@@ -259,6 +261,8 @@ const EDGES: EdgeDef[] = [
 	{
 		// 任意の入力。自由文だけでも次へ進むので破線
 		id: "photos-classify",
+		from: "photos",
+		to: "classify",
 		points: [
 			[right("photos"), cy("photos")],
 			[cx("classify"), cy("photos")],
@@ -272,6 +276,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "walkthrough-classify",
+		from: "walkthrough",
+		to: "classify",
 		points: [
 			[right("walkthrough"), cy("walkthrough")],
 			[left("classify"), cy("classify")],
@@ -282,6 +288,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "classify-guideline",
+		from: "classify",
+		to: "guideline",
 		points: [
 			[right("classify"), cy("classify")],
 			[left("guideline"), cy("guideline")],
@@ -291,6 +299,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "guideline-depreciation",
+		from: "guideline",
+		to: "depreciation",
 		points: [
 			[cx("guideline"), bottom("guideline")],
 			[cx("depreciation"), top("depreciation")],
@@ -300,6 +310,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "depreciation-estimate",
+		from: "depreciation",
+		to: "estimate",
 		points: [
 			[right("depreciation"), cy("depreciation")],
 			[GAP_X, cy("depreciation")],
@@ -312,6 +324,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "vendor-estimate",
+		from: "vendor",
+		to: "estimate",
 		points: [
 			[cx("vendor") + 45, top("vendor")],
 			[cx("vendor") + 45, bottom("estimate")],
@@ -323,6 +337,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "estimate-staff",
+		from: "estimate",
+		to: "staff",
 		points: [
 			[left("estimate"), cy("estimate")],
 			[GAP_X, cy("estimate")],
@@ -334,6 +350,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "staff-resolved",
+		from: "staff",
+		to: "recResolved",
 		points: [
 			[cx("staff"), top("staff")],
 			[cx("staff"), SETTLE_LANE],
@@ -348,6 +366,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "staff-invoice",
+		from: "staff",
+		to: "invoice",
 		points: [
 			[right("staff"), cy("staff")],
 			[left("invoice"), cy("invoice")],
@@ -357,6 +377,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "invoice-tenant",
+		from: "invoice",
+		to: "tenant",
 		points: [
 			[cx("invoice"), bottom("invoice")],
 			[cx("invoice"), SPECIAL_Y],
@@ -371,6 +393,8 @@ const EDGES: EdgeDef[] = [
 	{
 		// 要件を満たさない特約は無効。この筋では通らない
 		id: "special-clause",
+		from: "classify",
+		to: "staff",
 		points: [
 			[left("classify"), cy("classify") + 34],
 			[OPTIONAL_LANE, cy("classify") + 34],
@@ -385,6 +409,8 @@ const EDGES: EdgeDef[] = [
 	{
 		// 残存価値1円でも作業費は借主負担になりうる。今回の筋では通らない
 		id: "labor-cost",
+		from: "depreciation",
+		to: "staff",
 		points: [
 			[left("depreciation"), cy("depreciation")],
 			[left("depreciation") - 50, cy("depreciation")],

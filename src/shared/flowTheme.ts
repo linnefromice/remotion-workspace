@@ -76,6 +76,9 @@ export type NodeDef = {
 
 export type EdgeDef = {
 	id: string;
+	/** 再配置用の接続関係。旧版は引き続きpointsを使用する。 */
+	from?: string;
+	to?: string;
 	points: Point[];
 	color: string;
 	/** null なら常に非アクティブ（通らない経路） */
