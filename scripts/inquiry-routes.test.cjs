@@ -17,8 +17,8 @@ for (const ext of ['.ts', '.tsx']) require.extensions[ext] = (module, filename) 
     compilerOptions: {module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true},
   }).outputText, filename);
 };
-const studies = require('../src/agent-flow/design-studies/inquiry/index.tsx');
-const {LINKS, moment} = require('../src/agent-flow/design-studies/inquiry/model.ts');
+const studies = require('../src/agent-flow/design-studies/agent-diagram/index.tsx');
+const {LINKS, moment} = require('../src/agent-flow/design-studies/agent-diagram/model.ts');
 const frames = new Set([0, 719, 60, 180, 300, 420, 540, 660]);
 for(let f=1;f<720;f++) if(moment(f).link.id !== moment(f-1).link.id){frames.add(f-1);frames.add(f);}
 for(const [name, Composition] of Object.entries(studies)) test(`${name}: all routes survive every handoff boundary`, () => {

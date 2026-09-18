@@ -112,7 +112,7 @@ import {
   InquiryRelay,
   InquiryTerraces,
   InquiryTransit,
-} from "./agent-flow/design-studies/inquiry";
+} from "./agent-flow/design-studies/agent-diagram";
 
 const HD = { fps: 30, width: 1920, height: 1080 } as const;
 const STILL = { durationInFrames: 1, ...HD } as const;
@@ -128,7 +128,7 @@ export const Root: React.FC = () => {
       <Folder name="AgentFlow">
         {/* 見せ方の試作。商談で使う成果物とは分けて置く */}
         <Folder name="DesignStudies">
-          <Folder name="Inquiry">
+          <Folder name="AgentDiagram">
             <Composition
               id="Inquiry-Branches"
               component={InquiryBranches}

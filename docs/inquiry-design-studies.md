@@ -34,7 +34,7 @@ LINE / Gmailは既存の公式素材、その他は役割ピクトグラムを�
 
 ## 実装したもの
 
-- Studio: `AgentFlow > DesignStudies > Inquiry` に `Inquiry-Transit` / `Inquiry-Orbit` / `Inquiry-Relay`。
+- Studio: `AgentFlow > DesignStudies > AgentDiagram` に `Inquiry-Transit` / `Inquiry-Orbit` / `Inquiry-Relay`。
 - 3案は同じ11主体・13接続を共有。既存の接続定義から情報の受け渡しを導き、意味の相違を防ぐ。
 - 各工程内の接続を順に見せるため、動画全体は24秒のまま。
   業者連絡は4つの受け渡しを4秒で示すので、詳しく説明する商談では停止・シークを使う。
