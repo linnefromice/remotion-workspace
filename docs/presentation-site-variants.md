@@ -118,10 +118,11 @@
 ### ファイルの置き場
 
 ```
-src/ClaimIntakeSideBySide/
+src/agent-flow/claim-intake/side-by-side/
   index.tsx                   ページのレイアウト。公開窓口も兼ねる
   constants.ts                寸法（FLOW / STAGE）・スキーマ・プリセット
   scenario.ts                 この1件の事実（受付番号・AIの値・ルールID・経過秒）
+  slots.tsx                   右上・下部に差し込む部品と、表示権の調停
   parts/primitives.tsx        Caption / CodeBlock / Phone / Badge / Row など小部品
   scenes/index.tsx            工程ごとの「現場」7枚と、それを並べた SCENES
   panels/Counterfactual.tsx   下段の帯（反実仮想）
@@ -172,7 +173,7 @@ DecisionStory の弱点（全体の経路が分からない）を、既存のフ
 ### ファイルの置き場
 
 ```
-src/ClaimIntakeDecisionStory/
+src/agent-flow/claim-intake/decision-story/
   index.tsx     本体。工程ごとの文言は STEPS に1つにまとめてある
   WithMap.tsx   フロー図を地図として添える版（横並び / 縦積み）
 ```
@@ -247,7 +248,9 @@ pnpm gallery:agent-flow
 | **正本** | `out/agent-flow-gallery/` | **常に最新にする。** テストが守る |
 | **元がある生成物** | `out/side-catalog/` | **元が変わったら作り直す。** 元は `docs/side-catalog.md` と一覧 |
 | **元がある生成物** | `out/video-page/` | **`out/video/` か一覧が変わったら作り直す**（`pnpm page:video`）。中身は全部コピーなので、消しても作り直せる |
-| **その時限りの記録** | `side-prototype` / `side-design-studies` / `subject-bands` / `video` | **消してよい** |
+| **元がある生成物** | `out/side-subjects/` | **9案の比較。`pnpm gallery:side-subjects` で作り直す** |
+| **検証のときの写し** | `out/web-review/` | **消してよい。** `scripts/web-review/verify.mjs` を通せば撮り直される |
+| **その時限りの記録** | `side-prototype` / `side-design-studies` / `side-layouts` / `subject-bands` / `video` | **消してよい** |
 
 `out/video/` の mp4 自体は「その時限りの記録」だが、**`out/video-page/` はそれを配る形に組んだもの**で、
 上げる一式そのものになる。元（mp4）を消したら、ページも作り直す。
@@ -265,7 +268,7 @@ pnpm gallery:agent-flow
 > （フォルダは残るのでリンクは切れないが、古い絵を見せ続ける）。
 >
 > ```sh
-> pnpm gallery:agent-flow && pnpm catalog:side
+> pnpm gallery:agent-flow && pnpm catalog:side && pnpm page:video
 > ```
 
 作り直す手段は残っている。
@@ -273,8 +276,11 @@ pnpm gallery:agent-flow
 ```sh
 pnpm gallery:agent-flow                    # 一覧（正本）
 pnpm catalog:side                          # Side のカタログ（docs/side-catalog.md から）
+pnpm gallery:side-subjects                 # 3題材 × 3配置の比較
+pnpm page:video                            # 動画を配る1式（mp4 + <video>）
 pnpm video <Id>                            # 動画
 node scripts/side-design-studies.mjs       # Side 案の比較
+node scripts/side-layouts-capture.mjs      # ベース3配置の比較
 node scripts/side-prototype/capture.mjs    # スロット試作の検証
 node scripts/subject-bands/capture.mjs     # 主体別3帯の比較
 ```

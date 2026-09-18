@@ -205,8 +205,8 @@ demoapp 自身の設計判断を踏襲する（`docs/architecture.md` §8）。
 
 | ファイル | 内容 |
 |---|---|
-| `src/AgentFlowClaimIntake/constants.ts` | グリッド、ノード16個、エッジ12本、配色、パネル定義、タイムライン |
-| `src/AgentFlowClaimIntake/index.tsx` | 図の描画、直角ルーティング、判定の非対称パネル、ステップバー、凡例 |
+| `src/agent-flow/claim-intake/cards/constants.ts` | グリッド、ノード16個、エッジ12本、配色、パネル定義、タイムライン |
+| `src/agent-flow/claim-intake/cards/index.tsx` | 図の描画、直角ルーティング、判定の非対称パネル、ステップバー、凡例 |
 
 - **`tone` でカードの見た目を決める**（`input` / `ai` / `rule` / `human` / `record` / `planned`）。
   `rule` だけ色相を持たず白で立つ

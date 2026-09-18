@@ -19,7 +19,7 @@ import {
   presentationSlidesSchema,
   defaultPresentationSlidesProps,
 } from "./examples/basics/presentation-slides";
-import { ParticleSystem } from "./examples/3d/particle-system";
+import { ParticleSystem } from "./examples/effects/particle-system";
 import { AudioVisualizer } from "./examples/effects/audio-visualizer";
 import { MotionGraphics } from "./examples/effects/motion-graphics";
 import { TransitionDemo } from "./examples/effects/transition-demo";
@@ -530,10 +530,10 @@ export const Root: React.FC = () => {
             defaultProps={defaultPresentationSlidesProps}
           />
         </Folder>
-        <Folder name="3D">
-          <Composition id="ParticleSystem" component={ParticleSystem} durationInFrames={240} {...HD} />
-        </Folder>
         <Folder name="Effects">
+          {/* 3D フォルダにあったが、three.js を使う ThreeScene を外したあとは
+              粒子だけが残り、中身と名前が合わなくなっていた */}
+          <Composition id="ParticleSystem" component={ParticleSystem} durationInFrames={240} {...HD} />
           <Composition id="AudioVisualizer" component={AudioVisualizer} durationInFrames={300} {...HD} />
           <Composition id="MotionGraphics" component={MotionGraphics} durationInFrames={300} {...HD} />
           <Composition id="TransitionDemo" component={TransitionDemo} durationInFrames={540} {...HD} />

@@ -1,17 +1,15 @@
-import { openBrowser } from '@remotion/renderer';
 import { pathToFileURL, fileURLToPath } from 'node:url';
-import { access, writeFile } from 'node:fs/promises';
+import { access } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { openReviewPage } from '../browser.mjs';
 
 /**
  * 段1のページを実ブラウザで確かめる。
  * 「速度が本当に変わるか」は DOM を読むだけでは分からないので、実際に再生させる。
  */
 
-const browser = await openBrowser('chrome', { chromiumOptions: { gl: 'swangle' } });
+const { page, shot, close } = await openReviewPage({ url: pathToFileURL(process.cwd() + '/out/video-page/index.html').href });
 try {
-	const page = await browser.newPage({ context: undefined, logLevel: 'error', indent: false, pageIndex: 0, onBrowserLog: null, onLog: () => {} });
-	await page.goto({ url: pathToFileURL(process.cwd() + '/out/video-page/index.html').href, timeout: 30000, options: { waitUntil: 'load' } });
 
 	const { count, sources, links } = await page.evaluate(() => ({
 		count: document.querySelectorAll('video').length,
@@ -65,9 +63,8 @@ try {
 		assert.equal(overflow, false, `${width}px で横スクロールが出ています`);
 	}
 
-	const { value } = await page._client().send('Page.captureScreenshot', { format: 'png' });
-	await writeFile('out/video-page/page.png', Buffer.from(value.data, 'base64'));
+	await shot('out/video-page/page.png');
 	console.log(`PASS: ${count} videos, 自己完結, 速度3種, 実再生で2倍を確認 (${advanced.toFixed(1)}s), 排他再生, 4画面幅`);
 } finally {
-	await browser.close({ silent: true });
+	await close();
 }

@@ -1,20 +1,17 @@
-import {openBrowser} from '@remotion/renderer';
-import {access,writeFile} from 'node:fs/promises';
+import {access} from 'node:fs/promises';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
+import {openReviewPage} from '../browser.mjs';
 const layoutOnly=process.argv.includes('--layout-only');
-const browser=await openBrowser('chrome',{chromiumOptions:{gl:'swangle'}});
+const {page,shot,close}=await openReviewPage({url:pathToFileURL(process.cwd()+'/out/side-prototype/index.html').href});
 try{
- const page=await browser.newPage({context:undefined,logLevel:'error',indent:false,pageIndex:0,onBrowserLog:null,onLog:()=>{}});
- await page.goto({url:pathToFileURL(process.cwd()+'/out/side-prototype/index.html').href,timeout:30000,options:{waitUntil:'load'}});
  const data=await page.evaluate(async()=>{for(const img of document.images){img.loading='eager';await img.decode()}return {images:document.images.length,links:[...document.querySelectorAll('a')].map(a=>a.href)}});
  assert.equal(data.images,23);
  for(const href of data.links){const u=new URL(href);if(u.hash)assert.ok(await page.evaluate(id=>!!document.getElementById(id),u.hash.slice(1)));else if(!layoutOnly||!href.endsWith('.mp4'))await access(fileURLToPath(u));}
  for(const width of [320,768,1024,1440]){
   await page.setViewport({width,height:1080,deviceScaleFactor:1});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  const {value}=await page._client().send('Page.captureScreenshot',{format:'png'});
-  await writeFile(`out/side-prototype/page-${width}.png`,Buffer.from(value.data,'base64'));
+  await shot(`out/side-prototype/page-${width}.png`);
  }
  if(!layoutOnly){
   const result=await page.evaluate(async()=>{
@@ -27,4 +24,4 @@ try{
   assert.deepEqual(result,{duration:42,width:1920,height:1080,seeks:[3,9,15,21,27,33,39]});
  }
  console.log('23 images, links, four widths, chapter controls: passed'+(layoutOnly?' (video pending)':''));
-}finally{await browser.close({silent:true})}
+}finally{await close()}
