@@ -325,6 +325,9 @@ export type Point = [number, number];
 
 export type EdgeDef = {
 	id: string;
+	/** 再配置用。旧版のpointsは変更しない。 */
+	from?: NodeId;
+	to?: NodeId;
 	points: Point[];
 	color: string;
 	/** null なら常に非アクティブ（未実装、またはこのシナリオでは通らない経路） */
@@ -341,6 +344,8 @@ const CALLBACK_Y = 920;
 export const EDGES: EdgeDef[] = [
 	{
 		id: "resident-intake",
+		from: "resident",
+		to: "intake",
 		points: [
 			[right("resident"), cy("resident")],
 			[left("intake"), cy("intake")],
@@ -350,6 +355,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "line-intake",
+		from: "line",
+		to: "intake",
 		points: [
 			[right("line"), cy("line")],
 			[LINE_CHANNEL_X, cy("line")],
@@ -362,6 +369,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "intake-stt",
+		from: "intake",
+		to: "stt",
 		points: [
 			[right("intake"), cy("intake")],
 			[left("stt"), cy("stt")],
@@ -371,6 +380,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "stt-judge",
+		from: "stt",
+		to: "judge",
 		points: [
 			[right("stt"), cy("stt")],
 			[left("judge"), cy("judge")],
@@ -381,6 +392,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "judge-safety",
+		from: "judge",
+		to: "safety",
 		points: [
 			[right("judge"), cy("judge")],
 			[left("safety"), cy("safety")],
@@ -390,6 +403,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "judge-followup",
+		from: "judge",
+		to: "followup",
 		points: [
 			[cx("judge") - 40, bottom("judge")],
 			[cx("judge") - 40, ROW_2 - 58 - 26],
@@ -402,6 +417,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "followup-resident",
+		from: "followup",
+		to: "resident",
 		points: [
 			[left("followup"), cy("followup")],
 			[LINE_CHANNEL_X, cy("followup")],
@@ -414,6 +431,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "safety-work",
+		from: "safety",
+		to: "work",
 		points: [
 			[cx("safety"), bottom("safety")],
 			[cx("safety"), WORK_TURN_Y],
@@ -425,6 +444,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "work-guardrails",
+		from: "work",
+		to: "guardrails",
 		points: [
 			[right("work"), cy("work")],
 			[left("guardrails"), cy("guardrails")],
@@ -435,6 +456,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "staff-inquiries",
+		from: "staff",
+		to: "recInquiries",
 		points: [
 			[right("staff"), cy("staff")],
 			[FRAME_RIGHT + 34, cy("staff")],
@@ -447,6 +470,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "records-csv",
+		from: "recEvents",
+		to: "csv",
 		points: [
 			[cx("recEvents"), bottom("recEvents")],
 			[cx("csv"), top("csv")],
@@ -456,6 +481,8 @@ export const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "staff-resident",
+		from: "staff",
+		to: "resident",
 		points: [
 			[cx("staff"), bottom("staff")],
 			[cx("staff"), CALLBACK_Y],

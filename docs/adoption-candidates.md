@@ -1,7 +1,7 @@
 # 採用候補のメモ
 
 2026-09-18 時点で、商談・展示会に出す候補として挙がっているもの。
-**まだ決定ではない。** 全44本の一覧は `pnpm gallery:agent-flow`。
+**まだ決定ではない。** 全45本の一覧は `pnpm gallery:agent-flow`。
 
 実装に渡すための依頼書は [`next-build-brief.md`](./next-build-brief.md)。
 
@@ -129,6 +129,64 @@ Transit は位置も変えるので、**`variant` とは別の概念になる可
 依頼書§4の「**variantとは別の概念が要ると分かった**」で終了。
 静止画による自動配置の試作はしていない。描画コード・既存コンポジション・一覧は変更していないため、
 レンダー、PNGのcmp、一覧の再生成は実施していない。成果はこの判断と具体的な不足データの記録。
+
+### 主体別3帯の実装結果（2026-09-18）
+
+[主体別3帯の依頼](./subject-bands-brief.md)に従い、既存Transitとは別の
+`Diagram-Bands`をAgentFlow > DesignStudies > AgentDiagramに追加した。
+既定はRestoration。**1題材から位置を導けた。共通コードは3題材で動き、Inquiryは情報不足で止まる。**
+規定の5版目への採用はまだ決めていない。
+
+確認用：[3題材の比較ページ](../out/subject-bands/index.html) /
+[Restorationの静止画](../out/subject-bands/after/restoration-420.png)。
+Studioの`subject`で`restoration / proposal / claimIntake`を切り替えられる。
+
+| 題材 | ノード / 経路 | 同じコードでの結果 |
+|---|---|---|
+| Restoration | 15 / 13 | 描画できた。全ノード・全経路を保持。7工程を撮影 |
+| Proposal | 17 / 16 | 描画できた。在庫の3入力元も含め、元のcx順で整列 |
+| ClaimIntake | 16 / 12 | 描画できた。既存定数を構造に合わせる薄いアダプターだけ追加。座標・主体は複製しない |
+| Inquiry | 11 / 13 | 適用不可。NodeDefにtoneがなく、全11ノードの主体が未定義。全13経路のfrom/toもない。internalだけではAI・人・記録などを区別できず、推測で補わない |
+
+**帯の割り当て**
+
+- `record: true`を最優先で記録列へ置く。元のcy順で積む。
+- 第1帯：`tone: input`かつ中心xが元の`frame.x`より左、または`tone: record`の非チップ。
+  見出しは「入力元・結果」に変更した。Proposalの「落ちた候補」もrecordだが外部へ出すものではないため。
+- 第2帯：それ以外のinputとai。上下・右側の枠外という理由では外部扱いにしない。
+  Restorationのvendorは依頼書の方針どおり、枠内の受領工程としてここへ置く。
+- 第3帯：ruleとhuman。ruleは白、humanは橙のまま同居する。
+- planned：明示した経路で隣接するノードの帯を借りる。複数なら元の距離が近いものを優先、
+  同距離ならID順。記録列は候補から外す。ClaimIntakeのLINEは受付、追加質問はAI判定の帯へ入る。
+  帯を決められる隣接先がない場合は、黙って配置せずエラーにする。
+- 帯内の並びは元のcx、同じcxならcy、最後にIDで決める。座標と新しい経路はこの結果から一度だけ生成する。
+
+**実装と互換性**
+
+[共通配置](../src/agent-flow/design-studies/agent-diagram/bands/layout.ts)、
+[描画](../src/agent-flow/design-studies/agent-diagram/bands/index.tsx)、
+[題材の接続](../src/agent-flow/design-studies/agent-diagram/bands/specs.ts)。
+
+共有EdgeDefとClaimIntakeのEdgeDefに任意のfrom/toを足し、3題材の元エッジ定義に端点を明記した。
+`staff-resolved → recResolved`、`special-clause: classify → staff`なども明示しており、ID分割や座標近傍からの推測は使わない。
+旧pointsを保持し、新レイアウトだけが端点から直角の経路を作る。既存Transit・Orbit・Lanesは変更しない。
+非アクティブ経路は常設の破線。元のdashed経路とplannedノードは強調時も破線を保つ。
+ノードを入れ替えたりAIの値を書き換えたりする演出は加えていない。
+
+**検証と限界**
+
+- 3題材それぞれ、元定義と描画のノード・経路数が一致。工程切り替え前後の全経路保持、ルールの白、破線を実コンポーネントの描画テストで確認。
+- 元の3題材×4版とDiagram-Transitの13枚を、同一フレームで変更前後に撮影し、`cmp`で全てバイト一致。
+  src全体のMD5も各撮影の前後で一致。検証ファイルは`out/subject-bands/before`と`after`。
+- 再撮影は`node scripts/subject-bands/capture.mjs before|after`。beforeは変更前の証拠なので上書きに注意。
+  afterは比較も実行する。ページ生成は`node scripts/subject-bands/page.mjs`。
+- 新規テストは`pnpm test:bands`（9件）。型チェックと`pnpm test`全37件が通過。一覧は45案へ更新済み。
+  既存44案の一覧画像も全てバイト一致。比較ページは10画像・リンク・4画面幅を確認済み。
+- 配線の障害物回避は未実装で、交差・カード背面の通過がある。Proposalの第3帯は6ノードと密度が高い。
+  長い文字の折り返しも含めて、商談用の完成デザインとしては未調整。今回の判定は位置を導けることまで。
+
+次はInquiryの主体を原定義で明示し、13経路の端点を足して同じ配置を再検証する。
+そのあと規定化するなら、交差・文字量・帯ごとの密度への対処を検討する。4題材に共通する新しい座標表は不要。
 
 ## Side（図の横に置くもの）
 

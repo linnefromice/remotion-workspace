@@ -269,6 +269,8 @@ const DELIVER_Y = 985;
 const EDGES: EdgeDef[] = [
 	{
 		id: "lead-intake",
+		from: "lead",
+		to: "intake",
 		points: [
 			[right("lead"), cy("lead")],
 			[left("intake"), cy("intake")],
@@ -278,6 +280,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "intake-structure",
+		from: "intake",
+		to: "structure",
 		points: [
 			[right("intake"), cy("intake")],
 			[left("structure"), cy("structure")],
@@ -287,6 +291,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "structure-retrieve",
+		from: "structure",
+		to: "retrieve",
 		points: [
 			[right("structure"), cy("structure")],
 			[left("retrieve"), cy("retrieve")],
@@ -297,6 +303,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "retrieve-compliance",
+		from: "retrieve",
+		to: "compliance",
 		points: [
 			[right("retrieve"), cy("retrieve")],
 			[left("compliance"), cy("compliance")],
@@ -307,6 +315,8 @@ const EDGES: EdgeDef[] = [
 	// 在庫の3つの入力元。どれも規約・現況の判定に入る
 	...(["srcCore", "srcReins", "srcPortal"] as const).map((id, i) => ({
 		id: `${id}-compliance`,
+		from: id,
+		to: "compliance",
 		points: [
 			[cx(id), bottom(id)],
 			[cx(id), (bottom(id) + top("compliance")) / 2],
@@ -319,6 +329,8 @@ const EDGES: EdgeDef[] = [
 	})),
 	{
 		id: "compliance-dropped",
+		from: "compliance",
+		to: "dropped",
 		points: [
 			[cx("compliance"), bottom("compliance")],
 			[cx("compliance"), (bottom("compliance") + top("dropped")) / 2],
@@ -332,6 +344,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "compliance-screening",
+		from: "compliance",
+		to: "screening",
 		points: [
 			[right("compliance"), cy("compliance")],
 			[right("compliance") + 44, cy("compliance")],
@@ -343,6 +357,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "screening-dropped",
+		from: "screening",
+		to: "dropped",
 		points: [
 			[left("screening"), cy("screening") + 20],
 			[right("dropped"), cy("screening") + 20],
@@ -354,6 +370,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "screening-agent",
+		from: "screening",
+		to: "agent",
 		points: [
 			[cx("screening"), bottom("screening")],
 			[cx("screening"), LANE_Y],
@@ -366,6 +384,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "dropped-agent",
+		from: "dropped",
+		to: "agent",
 		points: [
 			[cx("dropped") - 50, bottom("dropped")],
 			[cx("dropped") - 50, top("agent")],
@@ -377,6 +397,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "agent-proposal",
+		from: "agent",
+		to: "proposal",
 		points: [
 			[right("agent"), cy("agent")],
 			[left("proposal"), cy("proposal")],
@@ -387,6 +409,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "agent-exclusions",
+		from: "agent",
+		to: "recExclusions",
 		points: [
 			[right("agent"), cy("agent") - 30],
 			[left("recExclusions") - 40, cy("agent") - 30],
@@ -400,6 +424,8 @@ const EDGES: EdgeDef[] = [
 	},
 	{
 		id: "proposal-lead",
+		from: "proposal",
+		to: "lead",
 		points: [
 			[cx("proposal"), bottom("proposal")],
 			[cx("proposal"), DELIVER_Y],
@@ -414,6 +440,8 @@ const EDGES: EdgeDef[] = [
 	{
 		// 成約済みの再掲載はおとり広告。止まっていることを見せる
 		id: "relist",
+		from: "dropped",
+		to: "retrieve",
 		points: [
 			[left("dropped"), cy("dropped")],
 			[left("dropped") - 60, cy("dropped")],

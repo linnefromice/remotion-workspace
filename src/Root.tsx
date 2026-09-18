@@ -1,3 +1,4 @@
+import {DiagramBands, bandsSchema, bandsDefaults} from "./agent-flow/design-studies/agent-diagram/bands";
 import {SideDemoFull, DEMO_FRAMES} from "./agent-flow/design-studies/side/demo-full";
 import {SideSlotExample} from "./agent-flow/design-studies/side/SlotExample";
 import {SideGate, SideReplay} from "./agent-flow/design-studies/side/GateReplay";
@@ -132,6 +133,7 @@ export const Root: React.FC = () => {
         {/* 見せ方の試作。商談で使う成果物とは分けて置く */}
         <Folder name="DesignStudies">
           <Folder name="AgentDiagram">
+            <Composition id="Diagram-Bands" component={DiagramBands} schema={bandsSchema} defaultProps={bandsDefaults} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
             <Composition
               id="Diagram-Branches"
               component={DiagramBranches}
