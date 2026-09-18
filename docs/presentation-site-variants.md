@@ -2,6 +2,7 @@
 
 **何があるかの正本は `pnpm gallery:agent-flow` が作る一覧**（§デザインリスト）。
 この文書は、そこに並ぶものが**どういう性格か**を書く。
+いま採用候補に挙がっているものは [`adoption-candidates.md`](./adoption-candidates.md)。
 
 `AgentFlow > ClaimIntake` に並んでいる「プレゼン用の見せ物」が何であるか、
 どれを商談のどこで使うかの索引。
