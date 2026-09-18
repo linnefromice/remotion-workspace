@@ -1,3 +1,5 @@
+import {SideDemoFull, DEMO_FRAMES} from "./agent-flow/design-studies/side/demo-full";
+import {SideSlotExample} from "./agent-flow/design-studies/side/SlotExample";
 import {SideGate, SideReplay} from "./agent-flow/design-studies/side/GateReplay";
 import { SideLedger } from "./agent-flow/design-studies/side/Ledger";
 import React from "react";
@@ -32,6 +34,7 @@ import {
 } from "./agent-flow/claim-intake/icons";
 import {
   ClaimIntakeSideBySide,
+  ClaimIntakeSideBySideClock,
   SIDE_BY_SIDE_PRESETS,
   sideBySideSchema,
 } from "./agent-flow/claim-intake/side-by-side";
@@ -195,6 +198,8 @@ export const Root: React.FC = () => {
             />
           </Folder>
           <Folder name="Side">
+            <Composition id="Side-DemoFull" component={SideDemoFull} durationInFrames={DEMO_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
+            <Composition id="Side-SlotExample" component={SideSlotExample} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
             <Composition id="Side-Gate" component={SideGate} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
             <Composition id="Side-Replay" component={SideReplay} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
             <Composition id="Side-Ledger" component={SideLedger} durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H} />
@@ -275,6 +280,9 @@ export const Root: React.FC = () => {
             width={CLAIM_W}
             height={CLAIM_H}
           />
+          <Composition id="ClaimIntake-SideBySide-Clock" component={ClaimIntakeSideBySideClock}
+            schema={sideBySideSchema} defaultProps={SIDE_BY_SIDE_PRESETS.clock}
+            durationInFrames={CLAIM_FRAMES} fps={CLAIM_FPS} width={CLAIM_W} height={CLAIM_H}/>
           {/* プレゼン用1枚サイト。案の切り替えは props パネルから。docs/presentation-site.md */}
           <Composition
             id="ClaimIntake-SideBySide"

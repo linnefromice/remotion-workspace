@@ -13,7 +13,8 @@ import {
 } from "../cards/constants";
 import { FLOW, FLOW_H, FLOW_SCALE, STAGE, sideBySideSchema } from "./constants";
 import { Counterfactual } from "./panels/Counterfactual";
-import { ElapsedClock, EventTimeline } from "./panels/EventTimeline";
+
+import {resolveSlotClaims, clockSlot, timelineSlot, type SideSlot, type BottomSlot} from "./slots";
 import { ElapsedSummary, SCENES } from "./scenes";
 
 export { SIDE_BY_SIDE_PRESETS, sideBySideSchema } from "./constants";
@@ -28,12 +29,21 @@ export { SIDE_BY_SIDE_PRESETS, sideBySideSchema } from "./constants";
  * 尺・ステップ割りは ClaimIntake と共有している（28秒 / 7ステップ）。
  */
 
-export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> = ({
-	mapOnly,
-	counterfactual,
-	timeline,
-	clock,
+type LayoutProps = {
+	mapOnly?: boolean;
+	headerSlot?: SideSlot;
+	bottomSlot?: BottomSlot;
+	/** 旧プリセットの画素互換専用。新規の差し込みでは指定しない */
+	legacySceneElapsed?: boolean;
+};
+
+export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
+	mapOnly = false,
+	headerSlot,
+	bottomSlot,
+	legacySceneElapsed,
 }) => {
+	const claims = resolveSlotClaims(headerSlot, bottomSlot);
 	const frame = useCurrentFrame();
 	const step = Math.min(SCENES.length - 1, Math.floor(frame / STEP_LEN));
 	const { title, Screen } = SCENES[step];
@@ -62,9 +72,9 @@ export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> =
 				</div>
 			</div>
 
-			{clock && (
+			{headerSlot && (
 				<div style={{ position: "absolute", right: FLOW.x, top: 52 }}>
-					<ElapsedClock frame={frame} />
+					{headerSlot.render({ frame, step, width: 240, showElapsed: claims.headerElapsed })}
 				</div>
 			)}
 
@@ -132,25 +142,26 @@ export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> =
 				<div style={{ opacity: enter, transform: `translateY(${(1 - enter) * 12}px)` }}>
 					<Screen />
 					{/* 時計や時間軸を出しているときは、出口で同じ数字を繰り返さない */}
-					{step === SCENES.length - 1 && !clock && !timeline && <ElapsedSummary />}
+					{step === SCENES.length - 1 && (legacySceneElapsed ?? claims.sceneElapsed) && <ElapsedSummary />}
 				</div>
 			</div>
 
 			{/* 下段。縦に積める余地が1帯ぶんしか無いので、どちらか一方だけ置ける */}
-			{(counterfactual || timeline) && (
+			{bottomSlot && (
 				<div
 					style={{
 						position: "absolute",
 						left: FLOW.x,
 						right: FLOW.x,
-						top: counterfactual ? 902 : 890,
+						top: bottomSlot.top ?? 890,
 					}}
 				>
-					{counterfactual ? (
-						<Counterfactual step={step} />
-					) : (
-						<EventTimeline frame={frame} width={CANVAS_W - FLOW.x * 2} />
-					)}
+					{bottomSlot.render({
+						frame,
+						step,
+						width: CANVAS_W - FLOW.x * 2,
+						showElapsed: claims.bottomElapsed,
+					})}
 				</div>
 			)}
 
@@ -175,3 +186,51 @@ export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> =
 		</AbsoluteFill>
 	);
 };
+
+/**
+ * 旧5版の互換アダプター。
+ * 既存プリセットは経過秒の重複表現も含めてそのまま残す（PNG一致のため）。
+ * 新しい題材はここを通さず、Layout へ descriptor を直接渡す。
+ */
+export const ClaimIntakeSideBySide: React.FC<z.infer<typeof sideBySideSchema>> = ({
+	mapOnly,
+	counterfactual,
+	timeline,
+	clock,
+}) => (
+	<ClaimIntakeSideBySideLayout
+		mapOnly={mapOnly}
+		headerSlot={clock ? clockSlot : undefined}
+		bottomSlot={
+			counterfactual
+				? { claims: [], top: 902, render: ({ step }) => <Counterfactual step={step} /> }
+				: timeline
+					? {
+							...timelineSlot,
+							render: ({ frame, width }) =>
+								timelineSlot.render({ frame, width, step: 0, showElapsed: true }),
+						}
+					: undefined
+		}
+		legacySceneElapsed={!clock && !timeline}
+	/>
+);
+
+/** 時計だけを足した採用候補。従来の5版には注記を足さないので、ここで重ねる */
+export const ClaimIntakeSideBySideClock: React.FC<z.infer<typeof sideBySideSchema>> = (props) => (
+	<>
+		<ClaimIntakeSideBySide {...props} />
+		<div
+			style={{
+				position: "absolute",
+				left: 60,
+				bottom: 62,
+				fontSize: 17,
+				color: COLORS.textSub,
+				fontFamily: "sans-serif",
+			}}
+		>
+			説明用の画面再構成 / 実システムへの接続なし / 経過秒はシナリオ値・実測ではありません
+		</div>
+	</>
+);

@@ -57,13 +57,14 @@
 狙いは1つ。**「AIがP2と言った」は抽象だが、JSONに `"P2"` と書いてあるのを
 見せると現実になる。**
 
-### 5つの版
+### 6つの版
 
 中身は同じコンポーネントで、`zod` スキーマの4つのフラグが違うだけ。
 **Studio の props パネルから、ここに無い組み合わせも試せる。**
 
 | コンポジション | フラグ | 何が違うか |
 |---|---|---|
+| `ClaimIntake-SideBySide-Clock` | `mapOnly` `clock` | 時計だけを足した採用候補。下部帯なし |
 | `ClaimIntake-SideBySide` | なし | 素の形。左右に並べただけ |
 | `ClaimIntake-SideBySide-Map` | `mapOnly` | 左のフロー図から判定パネルを外す |
 | `ClaimIntake-SideBySide-Counterfactual` | `counterfactual` | 下段に、ルールの有無で結末が変わることを置く |
@@ -306,3 +307,7 @@ Restoration / Proposal は各設計メモにある。**一覧が正本になっ�
 
 同じ見せ方を別の題材でも作るときに初めて、`Diagram-Transit-ClaimIntake` のように
 題材を足す。先回りして全部に付けると、いま区別のない情報で名前が長くなるだけになる。
+
+## 追加試作 / Side枠組みとフルデモ
+
+`Side-SlotExample`は右上・下部を差し込む例。`Side-DemoFull`は画面主体の42秒版（1260フレーム、7工程×6秒）。AgentFlow > DesignStudies > Side に登録。[設計・互換性の範囲・検証](./side-prototype.md)。既存6プリセットは互換アダプター、新案は`ClaimIntakeSideBySideLayout`と`SideSlot`を使用する。

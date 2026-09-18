@@ -118,3 +118,7 @@ Ledger検証結果: TypeScriptとギャラリー3テストが成功。7工程の
 - 追加2案のみ動画再生成: `node scripts/side-design-studies.mjs --video-only --additions-only`（先に`--stills-only`でbundleを更新）。
 
 検証: `node --test scripts/side-studies.test.cjs` で工程境界の振り返り同期、P2保持、未実施の降格表示、全場面の証拠保持を確認。静止画は2案×7場面を目視確認し、既存39案の代表画像は追加前とバイト単位で一致。比較ページは320/768/1024/1440pxで横溢れなく表示される。
+
+## 採用候補の試作 A / B / C
+
+`ClaimIntake-SideBySide-Clock`（mapOnly=true・時計のみ）、`Side-SlotExample`（差し込み例）、`Side-DemoFull`（42秒の画面主体デモ）を追加。[設計・重複調停・検証手順](./side-prototype.md)。確認ページは`out/side-prototype/index.html`。
