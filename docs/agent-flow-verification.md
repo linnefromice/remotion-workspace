@@ -55,7 +55,7 @@ Apple M5 Max（18コア）/ Concurrency 8x での実測。
 | # | 事象 | 対処 |
 |---|---|---|
 | 1 | `zod` はメジャーではなく **exact バージョン一致**が要求される。`remotion@4.0.525` は `zod@4.5.4` を要求し、`^4.6.5` を入れるとレンダリングが Version mismatch で止まる | `npx remotion versions` で要求版を確認して固定 |
-| 2 | `@react-three/fiber@9.7.0` の peer 制約（`react "<19.3"`）は**本当に壊れる**。`react@19.3.0` だと `remotion render ThreeScene` が `commitLayoutEffectOnFiber` で例外 | `react` / `react-dom` を `19.2.8` に固定 |
+| 2 | `@react-three/fiber@9.7.0` の peer 制約（`react "<19.3"`）は**本当に壊れる**。`react@19.3.0` だと `remotion render ThreeScene` が `commitLayoutEffectOnFiber` で例外 | 当時は `react` / `react-dom` を `19.2.8` に固定。**2026-09-18 に `ThreeScene` ごと外して固定を解いた**（alpha 10 でも peer が `<19.3` のままで、他に道が無かった） |
 | 3 | headless Chromium が素の WebGL コンテキスト生成に失敗する（このマシン） | `--gl=swangle` を付ける。`--gl=angle` では不十分だった |
 | 4 | CJK フォントを `@remotion/google-fonts` 経由で読むと、1ウェイトあたり約120チャンクに分割され、3ウェイトで約360リクエストになる | 実害は軽微。`ignoreTooManyRequestsWarning: true` で警告を抑える |
 | 5 | `Config.setVideoImageFormat("jpeg")` のままだと `yuvj420p`（フルレンジ）になる。`--pixel-format=yuv420p` 単体では効かない | その回だけ `--image-format=png --pixel-format=yuv420p` を明示する |

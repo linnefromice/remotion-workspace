@@ -18,7 +18,6 @@ import {
   presentationSlidesSchema,
   defaultPresentationSlidesProps,
 } from "./examples/basics/presentation-slides";
-import { ThreeScene } from "./examples/3d/three-scene";
 import { ParticleSystem } from "./examples/3d/particle-system";
 import { AudioVisualizer } from "./examples/effects/audio-visualizer";
 import { MotionGraphics } from "./examples/effects/motion-graphics";
@@ -521,7 +520,6 @@ export const Root: React.FC = () => {
           />
         </Folder>
         <Folder name="3D">
-          <Composition id="ThreeScene" component={ThreeScene} durationInFrames={240} {...HD} />
           <Composition id="ParticleSystem" component={ParticleSystem} durationInFrames={240} {...HD} />
         </Folder>
         <Folder name="Effects">

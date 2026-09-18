@@ -77,7 +77,6 @@ identifier in the code, so a request names exactly one thing.
 ## Key Remotion Packages Used
 
 - `remotion` — core (`useCurrentFrame`, `useVideoConfig`, `interpolate`, `spring`, `Sequence`, `AbsoluteFill`)
-- `@remotion/three` + `@react-three/fiber` + `three` — 3D scenes
 - `@remotion/lottie` + `lottie-web` — Lottie animations
 - `@remotion/noise` — procedural noise
 - `@remotion/transitions` — scene transitions
