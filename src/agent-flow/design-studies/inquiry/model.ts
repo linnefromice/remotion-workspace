@@ -1,4 +1,4 @@
-import { EDGES, NODES, STEP_LEN, type NodeId } from '../cards/constants';
+import { EDGES, NODES, STEP_LEN, type NodeId } from '../../inquiry/cards/constants';
 
 export type Point = readonly [number, number];
 export type Layout = Record<NodeId, Point>;

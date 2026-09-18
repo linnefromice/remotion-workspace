@@ -1,7 +1,7 @@
 import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { NODES, STEPS, TOTAL_FRAMES } from '../cards/constants';
+import { NODES, STEPS, TOTAL_FRAMES } from '../../inquiry/cards/constants';
 import { Actor } from './parts';
 import { FONT, LINKS, ORBIT, TRANSIT, color, moment, pointAlong, route } from './model';
 

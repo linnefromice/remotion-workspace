@@ -1,7 +1,7 @@
 import React from 'react';
 import { Img, staticFile } from 'remotion';
 import { ServiceIcon } from '../../../shared/ServiceIcon';
-import { STEPS, type NodeId } from '../cards/constants';
+import { STEPS, type NodeId } from '../../inquiry/cards/constants';
 import { color, node } from './model';
 
 /** Compact actor mark for the additional studies; existing variants are unchanged. */

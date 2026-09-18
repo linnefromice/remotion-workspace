@@ -1,7 +1,7 @@
 import React from 'react';
 import { Img, staticFile } from 'remotion';
 import { ServiceIcon } from '../../../shared/ServiceIcon';
-import type { NodeId } from '../cards/constants';
+import type { NodeId } from '../../inquiry/cards/constants';
 import { ACTION, ROLE, color, node } from './model';
 
 /** これ以上の大きさなら、ラベルも一緒に大きくする */

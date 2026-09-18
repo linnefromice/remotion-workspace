@@ -1,8 +1,8 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {AgentFlowClaimIntakeIcons} from '../icons';
-import {CANVAS_H, CANVAS_W, STEP_LEN, STEPS} from '../cards/constants';
-import {CASE, EVENTS} from '../side-by-side/scenario';
+import {AgentFlowClaimIntakeIcons} from '../../claim-intake/icons';
+import {CANVAS_H, CANVAS_W, STEP_LEN, STEPS} from '../../claim-intake/cards/constants';
+import {CASE, EVENTS} from '../../claim-intake/side-by-side/scenario';
 
 const C={paper:'#eeeae1',ink:'#243536',muted:'#5d6b69',rule:'#ffffff',ai:'#68569a',human:'#9d4c29',dark:'#102126',light:'#edf4f0'};
 const ROW_H=84;

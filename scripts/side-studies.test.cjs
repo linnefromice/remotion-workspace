@@ -18,7 +18,7 @@ for (const ext of ['.ts', '.tsx']) require.extensions[ext] = (module, filename) 
   }).outputText, filename);
 };
 const {AgentFlowClaimIntakeIcons} = require('../src/agent-flow/claim-intake/icons/index.tsx');
-const {ClaimIntakeSideGate, ClaimIntakeSideReplay} = require('../src/agent-flow/claim-intake/side-studies/GateReplay.tsx');
+const {ClaimIntakeSideGate, ClaimIntakeSideReplay} = require('../src/agent-flow/design-studies/side/GateReplay.tsx');
 const render = (component, props={}) => renderToStaticMarkup(React.createElement(component,props));
 test('Replay map frame override matches the historical stage, including boundaries', () => {
   for(const target of [0,119,120,239,240,359,360,479,480,599,600,719,720,839]) {
