@@ -41,7 +41,7 @@ export const SubjectSide:React.FC<{subject:Subject;layout:SideLayout}>=({subject
  </AbsoluteFill>;
  const demo=layout==='DemoDiagram';
  return <AbsoluteFill data-subject={subject} data-side-step={step} style={{background:'#0b121b',color:'#edf3fa',fontFamily:'"Hiragino Sans",sans-serif'}}>
-  <div style={{position:'absolute',left:40,top:32,fontSize:30,fontWeight:700}}>{data.title}</div><div style={{position:'absolute',left:40,top:85,fontSize:17,color:muted}}>FARLEAP / {data.diagramId}</div>{clock}
+  <div style={{position:'absolute',left:40,top:32,fontSize:30,fontWeight:700}}>{data.title}</div><div style={{position:'absolute',left:40,top:85,fontSize:17,color:muted}}>{data.diagramId}</div>{clock}
   <div style={{position:'absolute',left:demo?40:56,top:demo?218:309}}><Diagram subject={subject} frame={sourceFrame} scale={demo?.6:.59375}/></div>
   {demo&&<div style={{position:'absolute',left:1220,top:163,width:170}}><div style={{fontSize:14,color:muted,marginBottom:30}}>CASE WORKSPACE</div>{data.steps.map((name,i)=><div key={name} style={{height:101,boxSizing:'border-box',padding:'16px 12px',borderLeft:`3px ${i===step?'solid':'dashed'} ${i===step?accent:line}`,background:i===step?'#20313e':undefined}}><div style={{fontSize:14,color:muted,marginBottom:10}}>{String(i+1).padStart(2,'0')}</div><div style={{fontSize:16,lineHeight:1.5}}>{name}</div></div>)}</div>}
   <div style={{position:'absolute',left:demo?1416:1244,top:demo?155:630,width:demo?464:590,transform:demo?undefined:'translateY(-50%)'}}>

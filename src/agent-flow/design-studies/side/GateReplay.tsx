@@ -25,7 +25,7 @@ export const SideGate:React.FC=()=>{
  const actor=step===2||step===4?0:step===3?1:step===5?2:-1;
  const pulse=interpolate(frame%120,[0,24],[0,1],{extrapolateRight:'clamp'});
  return <AbsoluteFill style={{background:'#101a29',color:'#f4f3ef',fontFamily:font}}>
- <div style={{position:'absolute',left:56,top:38,letterSpacing:3,fontSize:16,color:'#a9b9cc'}}>FARLEAP / SIDE GATE · {CASE.ticket}</div>
+ <div style={{position:'absolute',left:56,top:38,letterSpacing:3,fontSize:16,color:'#a9b9cc'}}>SIDE GATE · {CASE.ticket}</div>
  <h1 style={{position:'absolute',left:56,top:91,fontSize:48,margin:0}}>誰が、何を決められるか。</h1>
  <div style={{position:'absolute',left:56,top:187,fontSize:21,color:'#afbecd'}}>AI・安全ルール・人。それぞれの権限を、3つの門で示す。</div>
  <svg width="1020" height="580" style={{position:'absolute',left:28,top:242}}><path d="M 90 240 H 920" stroke="#617187" strokeWidth="2" strokeDasharray="8 9"/><path d="M 832 240 V 485 H 595" fill="none" stroke="#edaa76" strokeWidth="2" strokeDasharray="8 9"/></svg>
@@ -42,7 +42,7 @@ export const SideReplay:React.FC=()=>{
  const entries=[['01 / 入力','「ガスのようなにおい」','水漏れの通報・添付写真'],['02 / AI原判定',`${CASE.aiUrgency} · 翌営業日`,'原値は変更しない'],['03 / 安全ルール',`${CASE.resolvedUrgency} · 即時対応`,CASE.ruleId],['04 / 人の確認','P1を確認','このケースでは降格なし']];
  return <AbsoluteFill style={{background:'#e8e5df',fontFamily:font,color:'#253044'}}>
  <div style={{position:'absolute',left:1032,top:0,right:0,bottom:0,background:'#101a29'}}/>
- <div style={{position:'absolute',left:56,top:38,fontSize:16,letterSpacing:3}}>FARLEAP / SIDE REPLAY</div>
+ <div style={{position:'absolute',left:56,top:38,fontSize:16,letterSpacing:3}}>SIDE REPLAY</div>
  <h1 style={{position:'absolute',left:56,top:94,fontSize:44,margin:0}}>結論から、根拠をたどる。</h1>
  <div style={{position:'absolute',left:56,top:181,fontSize:20}}>判断後の振り返り / 実行順の再生ではありません</div>
  {entries.map(([label,value,note],i)=><div key={label} style={{position:'absolute',left:56,top:266+i*151,width:916,height:130,boxSizing:'border-box',padding:'18px 26px',borderLeft:`6px solid ${i===1?'#8064ad':i===2?'#ffffff':i===3?'#be7742':'#596a80'}`,background:item.focus===i?'#ffffff':'#deddd8',opacity:item.focus===i?1:.66,transform:`translateX(${item.focus===i?12:0}px)`}}><div style={{fontSize:17,color:'#647083'}}>{label}</div><div style={{fontSize:32,fontWeight:700,marginTop:8}}>{value}</div><div style={{position:'absolute',right:24,bottom:20,fontSize:17,color:'#647083'}}>{note}</div></div>)}

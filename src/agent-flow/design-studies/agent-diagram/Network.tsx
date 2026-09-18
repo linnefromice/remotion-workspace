@@ -14,7 +14,7 @@ export const Network: React.FC<{ orbit: boolean }> = ({ orbit }) => {
   const muted = orbit ? '#9bb3c1' : '#536f64';
   const accent = color(link.from, !orbit);
   return <AbsoluteFill style={{ background: bg, color: ink, fontFamily: FONT }}>
-    <div style={{ position: 'absolute', left: 64, top: 38, fontSize: 17, letterSpacing: 3, color: muted }}>FARLEAP / INQUIRY · DESIGN STUDY {orbit ? '02' : '01'}</div>
+    <div style={{ position: 'absolute', left: 64, top: 38, fontSize: 17, letterSpacing: 3, color: muted }}>INQUIRY · DESIGN STUDY {orbit ? '02' : '01'}</div>
     <div style={{ position: 'absolute', left: 64, top: 74, fontSize: 48, fontWeight: 700 }}>{orbit ? '判断を中心に、つながる。' : '相談から、対応へ。'}</div>
     <div style={{ position: 'absolute', right: 64, top: 40, width: 730, borderLeft: `3px solid ${accent}`, paddingLeft: 24 }}>
       <div style={{ fontSize: 18, color: muted }}>{String(step + 1).padStart(2, '0')} / {STEPS[step]}　　{orbit ? 'ORBIT' : 'TRANSIT'}</div>

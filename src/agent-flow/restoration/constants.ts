@@ -426,7 +426,7 @@ const EDGES: EdgeDef[] = [
 
 export const RESTORATION: FlowSpec = {
 	markerPrefix: "rst-arrow-",
-	label: "FARLEAP",
+	label: "AGENT RUNTIME",
 	sublabel: "/ RESTORATION RUNTIME",
 	tagline: "ルールは借主負担を下げるだけ。上げられるのは人だけ",
 	steps: STEPS,

@@ -44,7 +44,7 @@ export const DiagramTerraces: React.FC = () => {
   const points = pointsFor(link);
  const [x,y]=pointAlong(points,Math.min(1,progress/.85));
  return <AbsoluteFill style={{background:'#f7f4ed',color:'#303d42',fontFamily:FONT}}>
-  <div style={{position:'absolute',left:64,top:40,fontSize:17,letterSpacing:3,color:'#677476'}}>FARLEAP / INQUIRY · 08 · TERRACES</div>
+  <div style={{position:'absolute',left:64,top:40,fontSize:17,letterSpacing:3,color:'#677476'}}>INQUIRY · 08 · TERRACES</div>
   <div style={{position:'absolute',left:64,top:84,fontSize:49,fontWeight:700}}>判断を支える、もうひとつの層。</div>
   <div style={{position:'absolute',right:64,top:45,width:590,borderLeft:'3px solid #536b80',paddingLeft:26}}><div style={{fontSize:28,fontWeight:700}}>{link.title}</div><div style={{fontSize:20,marginTop:14,color:'#69767a'}}>{link.payload}</div></div>
   <svg width={1920} height={1080} style={{position:'absolute'}}>

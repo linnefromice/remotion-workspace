@@ -87,7 +87,7 @@ const GATE_CX = FRAME_RIGHT + GATE_GAP + GATE_W / 2; // 1518
 const VENDOR_CX = GATE_CX + GATE_W / 2 + GATE_GAP + NODE_W / 2; // 1756
 const STAFF_CY = FRAME_BOTTOM + 70 + NODE_H / 2; // 850
 
-export const FRAME_LABEL = "FARLEAP";
+export const FRAME_LABEL = "AGENT RUNTIME";
 export const FRAME_SUBLABEL = "/ INQUIRY RUNTIME";
 export const FRAME_TAGLINE = "問い合わせを構造化し、判断の基準を人が育てる";
 

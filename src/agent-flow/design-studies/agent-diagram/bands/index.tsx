@@ -22,7 +22,7 @@ export const DiagramBands:React.FC<z.infer<typeof bandsSchema>>=({subject})=>{
  const {nodes,edges}=subjectBands(spec);
  const byId=new Map(nodes.map(n=>[n.id,n]));
  return <AbsoluteFill style={{background:'#f3f1e8',color:'#263d38',fontFamily:'"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
-  <div style={{position:'absolute',left:64,top:32,fontSize:16,letterSpacing:3}}>FARLEAP {spec.sublabel} / SUBJECT BANDS</div>
+  <div style={{position:'absolute',left:64,top:32,fontSize:16,letterSpacing:3}}>{spec.sublabel.replace(/^\/\s*/, "")} / SUBJECT BANDS</div>
   <h1 style={{position:'absolute',left:64,top:70,fontSize:43,margin:0}}>処理する主体と、決める主体を分ける。</h1>
   <div style={{position:'absolute',left:64,top:145,fontSize:20,color:'#586e64'}}>{spec.tagline}</div>
   <div style={{position:'absolute',right:64,top:48,textAlign:'right'}}><div style={{fontSize:17}}>工程 {step+1} / {spec.steps.length}</div><div style={{fontSize:28,marginTop:12,fontWeight:700}}>{spec.steps[step]}</div></div>

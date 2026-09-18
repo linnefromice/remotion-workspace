@@ -74,7 +74,7 @@ export const ClaimIntakeSideBySideLayout: React.FC<LayoutProps> = ({
 					1件の通報を、俯瞰と現場で同時に見る
 				</div>
 				<div style={{ fontSize: 19, color: COLORS.textSub, marginTop: 14 }}>
-					FARLEAP / CLAIM INTAKE。左はエージェントの全体像、右はそのとき実際に出ている画面
+					CLAIM INTAKE。左はエージェントの全体像、右はそのとき実際に出ている画面
 				</div>
 			</div>
 

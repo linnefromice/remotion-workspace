@@ -1,5 +1,7 @@
 # カタログを web に出す：検討メモ
 
+> 2026-09-19 更新：選抜比較サイトは `web/` のPlayer版として実装。Cloudflare Workers Static Assets向けの構成とdry-runまで完了、未公開。現在の手順は [web/README.md](../web/README.md)。以下は検討時の記録。
+
 2026-09-18（段1の試作を 09-19 に追記）。**デプロイはまだしていない。**
 手法の比較と、段1（`out/video-page/`）・段2（`web/`）の試作まで。
 
