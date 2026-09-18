@@ -4,23 +4,34 @@ import { STEPS } from '../cards/constants';
 import { FONT, LINKS, ROLE, moment } from './model';
 import { Mark, StudyFooter } from './StudyParts';
 
+/**
+ * 1行の高さと、見えている枠の高さ。
+ * 行の描画・スクロール量・スクロールの上限の3箇所が、必ず同じ値を見るようにする。
+ * （padding と下線を含めた高さになるのは、Remotion が全体に box-sizing: border-box を
+ * 当てているため。依存したままにせず、行にも明示してある）
+ */
+const ROW_H = 110;
+const VIEW_H = 660;
+
 export const InquiryChronicle: React.FC = () => {
   const frame = useCurrentFrame();
   const { step, link, progress } = moment(frame);
   const index = LINKS.indexOf(link);
-  const targetScroll = Math.max(0, Math.min(7, index - 4)) * 110;
-  const previousScroll = Math.max(0, Math.min(7, index - 5)) * 110;
+  const maxScroll = Math.max(0, LINKS.length - Math.floor(VIEW_H / ROW_H));
+  const scrollAt = (i: number) => Math.max(0, Math.min(maxScroll, i - 4)) * ROW_H;
+  const targetScroll = scrollAt(index);
+  const previousScroll = scrollAt(index - 1);
   const scroll = interpolate(progress, [0, .25], [previousScroll, targetScroll], { extrapolateRight: 'clamp' });
   return <AbsoluteFill style={{ background: '#f4f0e8', color: '#2e3540', fontFamily: FONT }}>
     <div style={{ position: 'absolute', left: 64, top: 38, fontSize: 17, color: '#71695d', letterSpacing: 3 }}>FARLEAP / INQUIRY · DESIGN STUDY 05 · CHRONICLE</div>
     <div style={{ position: 'absolute', left: 64, top: 81, fontSize: 49, fontWeight: 700 }}>ひとつずつ、対応を進める。</div>
     <div style={{ position: 'absolute', right: 64, top: 99, fontSize: 20, color: '#71695d' }}>受け渡し {index + 1} / {LINKS.length}　·　工程 {step + 1} / 6</div>
-    <div style={{ position: 'absolute', left: 64, top: 240, width: 1090, height: 660, border: '1px solid #d8d1c6', background: '#fffdf8', borderRadius: 12, overflow: 'hidden' }}>
+    <div style={{ position: 'absolute', left: 64, top: 240, width: 1090, height: VIEW_H, border: '1px solid #d8d1c6', background: '#fffdf8', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ transform: `translateY(${-scroll}px)`, padding: '0 28px' }}>
         {LINKS.map((item, i) => {
           const active = i === index;
           const future = i > index;
-          return <div key={item.id} style={{ height: 110, display: 'flex', alignItems: 'center', gap: 20, borderBottom: '1px solid #e6e0d6', borderLeft: `4px solid ${active ? '#876644' : 'transparent'}`, background: active ? '#f2e9da' : 'transparent', padding: '10px 16px' }}>
+          return <div key={item.id} style={{ height: ROW_H, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 20, borderBottom: '1px solid #e6e0d6', borderLeft: `4px solid ${active ? '#876644' : 'transparent'}`, background: active ? '#f2e9da' : 'transparent', padding: '10px 16px' }}>
             <div style={{ width: 35, color: future ? '#aaa294' : '#876644', fontSize: 18 }}>{String(i + 1).padStart(2, '0')}</div>
             <Mark id={item.from} size={55} light /><span style={{ color: '#978d7c' }}>→</span><Mark id={item.to} size={55} light />
             <div style={{ flex: 1, marginLeft: 10 }}>

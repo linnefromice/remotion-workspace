@@ -52,7 +52,7 @@ export const Network: React.FC<{ orbit: boolean }> = ({ orbit }) => {
       })}
     </svg>
     {NODES.map(({ id }) => <Actor key={id} id={id} x={layout[id][0]} y={layout[id][1]} light={!orbit}
-      size={orbit && id === 'triage' ? 144 : 112} active={id === link.from || id === link.to}
+      size={orbit && id === 'triage' ? 168 : 112} active={id === link.from || id === link.to}
       receiving={id === link.to && progress > .65 ? (progress - .65) / .35 : 0} />)}
     {orbit && <div style={{ position: 'absolute', left: 67, top: 800, width: 330, fontSize: 20, lineHeight: 1.8, color: muted }}>
       データを渡す。判断が戻る。<br />人は基準を調整し、<br />次の問い合わせへつなぐ。

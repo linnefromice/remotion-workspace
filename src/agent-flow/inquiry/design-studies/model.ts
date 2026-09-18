@@ -46,15 +46,15 @@ export const color = (id: NodeId, light = false) =>
   ['reply', 'dispatch', 'vendor'].includes(id) ? (light ? '#21734f' : '#a4e1af') :
   id === 'vendorDb' ? (light ? '#647078' : '#b4c0c8') : (light ? '#6650b5' : '#bcafff');
 
-// The same coordinates determine both icon positions and link endpoints.
+// アイコンの位置と線の端点は、どちらもこの座標から導く。座標を2箇所に書かない
 export const TRANSIT: Layout = {
   resident: [150, 350], intake: [420, 350], normalize: [690, 350], dispatch: [1230, 350],
-  approval: [1500, 350], vendor: [1770, 350], triage: [960, 590], reply: [420, 590],
+  approval: [1500, 350], vendor: [1760, 350], triage: [960, 590], reply: [420, 590],
   staff: [690, 820], policy: [1230, 820], vendorDb: [1500, 590],
 };
 export const ORBIT: Layout = {
   resident: [170, 495], intake: [480, 270], normalize: [850, 270], dispatch: [1230, 270],
-  approval: [1530, 270], vendor: [1760, 495], triage: [850, 555], reply: [430, 650],
+  approval: [1530, 270], vendor: [1790, 495], triage: [850, 555], reply: [430, 650],
   vendorDb: [1330, 590], staff: [580, 820], policy: [1150, 820],
 };
 
@@ -80,7 +80,9 @@ export function route(id: string, layout: Layout, orbit: boolean): Point[] {
       'staff-policy': [right('staff'), left('policy')],
       'policy-triage': [top('policy'), p('policy', 0, -125), p('triage', 150, 20), p('triage', 74, 20)],
     };
-    return routes[id];
+    // 経路を書いていないエッジは、素直に右端から左端へ引く。
+    // フォールバックが無いと、cards/constants.ts に1本足した瞬間に落ちる
+    return routes[id] ?? [right(link.from), left(link.to)];
   }
   const routes: Record<string, Point[]> = {
     'normalize-triage': [p('normalize', 58, -15), p('normalize', 115, -15), p('triage', -155, -20), p('triage', -58, -20)],
