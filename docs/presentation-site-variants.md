@@ -1,4 +1,7 @@
-# デモ用の見せ物 一覧
+# デモ用の見せ物 索引
+
+**何があるかの正本は `pnpm gallery:agent-flow` が作る一覧**（§デザインリスト）。
+この文書は、そこに並ぶものが**どういう性格か**を書く。
 
 `AgentFlow > ClaimIntake` に並んでいる「プレゼン用の見せ物」が何であるか、
 どれを商談のどこで使うかの索引。
@@ -198,33 +201,47 @@ src/ClaimIntakeDecisionStory/
 
 ---
 
-## 次にやること：デザインリスト（着手中・2026-09-18）
+## デザインリスト（2026-09-18）
 
-**図が39本になり、手で書いた索引が追いつかなくなっている。**
+**正本は自動生成の一覧。** `pnpm gallery:agent-flow` が `out/agent-flow-gallery/index.html` を作る。
 
-| 題材 | 本数 |
-|---|---|
-| ClaimIntake | 15（Cards系4 / SideBySide系5 / DecisionStory系5 / Ledger 1） |
-| Inquiry | 13（既存5 / DesignStudies 8） |
-| Restoration | 4 |
-| Proposal | 4 |
-| Reference | 2 |
-| Exhibition | 1 |
+```bash
+pnpm gallery:agent-flow                # 各動画の中間フレームで全AgentFlowを撮る
+open out/agent-flow-gallery/index.html
+```
 
-この文書は ClaimIntake を中心に手で書いた索引で、Inquiry の DesignStudies 8案や
-Restoration / Proposal は**別の文書に散っている**。全体を1枚で見渡せるものが無い。
+### 決めたこと
 
-### 決めておきたいこと
+| | 決定 | 理由 |
+|---|---|---|
+| **正本** | **自動生成の一覧** | `src/Root.tsx` を AST で読むので登録漏れが起きない。手で書いた索引と二重に持つと必ず片方が古くなる |
+| **並べる軸** | **題材** | Studio のフォルダ階層と一致する。ID から置き場も引ける |
+| **試行と成果物の線引き** | **いまはしない** | 区別せずに並べ、あとで整理を検討する |
 
-1. **正本をどちらにするか。** 静止画の一覧は `pnpm gallery:agent-flow` で自動生成できる
-   （`src/Root.tsx` を AST で読むので登録漏れが起きない）。
-   手で書いた索引と自動生成の一覧が二重にあると、必ずどちらかが古くなる
-2. **並べる軸。** 題材（ClaimIntake / Inquiry / …）で括るか、
-   用途（展示会 / 商談 / 設計資料）で括るか。[3] の型の表と噛み合わせたい
-3. **試行と成果物の線引き。** DesignStudies 8案や SideBySide 5案は**比較のための試行**で、
-   商談で実際に使うものとは性格が違う。同じ一覧に混ぜると選べなくなる
+### この文書の役割
 
-### この文書との関係
+**一覧に「何があるか」は任せ、この文書は「どれがどういう性格か」を書く。**
+自動生成の一覧は各案の見た目と寸法しか持てないので、
+用途・強み・弱み・言い回しの約束は人が書くしかない。
 
-デザインリストができたら、**この文書は ClaimIntake の詳しい索引に役割を絞る**か、
-デザインリストへ統合する。どちらにするかは、できたものを見てから決める。
+いまは ClaimIntake が中心の記述になっている。Inquiry の DesignStudies 8案は
+[`inquiry-design-studies.md`](./inquiry-design-studies.md)、
+Restoration / Proposal は各設計メモにある。**一覧が正本になったので、
+この文書からそちらへ辿れれば足りる**（重複して書き写さない）。
+
+### いま並ぶもの（39本）
+
+| 題材 | 本数 | 中身 |
+|---|---|---|
+| ClaimIntake | 15 | Cards系4 / SideBySide系5 / DecisionStory系5 / Ledger 1 |
+| Inquiry | 13 | 既存5 / DesignStudies 8 |
+| Restoration | 4 | 規定の4版 |
+| Proposal | 4 | 規定の4版 |
+| Reference | 2 | Cloudflare 参照図とその整理版 |
+| Exhibition | 1 | 展示会ループ |
+
+本数は増えるので、**この表は目安。数えるなら一覧を見る。**
+
+一覧の題材は Studio のフォルダ階層そのままなので、
+DesignStudies は `Inquiry / DesignStudies` という別の括りで出る。
+**線引きを意識しなくても、フォルダを分けてあれば一覧でも分かれる。**
