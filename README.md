@@ -62,7 +62,6 @@ Examples/         Remotion の機能サンプル
 | BasicAnimation | テキストと図形のスプリングアニメーション | 5秒 | `interpolate`, `spring`, `Sequence` |
 | DataVisualization | 棒グラフのアニメーション（Zod でプロップ定義） | 7秒 | Zod schema, `spring` |
 | PresentationSlides | スライドプレゼンテーション（Zod でプロップ定義） | 15秒 | `Series`, `Img`, Zod schema |
-| ThreeScene | 3D シーン（カメラ軌道・回転トーラス） | 8秒 | `@remotion/three`, Three.js |
 | ParticleSystem | パーティクルシステムのループアニメーション | 8秒 | `Loop`, `random` |
 | AudioVisualizer | 音声データに連動するビジュアライザー | 10秒 | `@remotion/media-utils`, `Audio` |
 | MotionGraphics | SVG シェイプのパスアニメーション | 10秒 | `@remotion/shapes`, `@remotion/paths` |
@@ -86,10 +85,10 @@ Examples/         Remotion の機能サンプル
 - `remotion` / `@remotion/*` を `4.0.421` → `4.0.525` に更新し、全パッケージのバージョンを完全一致させた
   （Remotion は `remotion` 本体と `@remotion/*` のバージョン不一致を検知すると警告を出し、実際にレンダリングが壊れる。
   `zod` も Remotion 側が要求する厳密なバージョン（`4.5.4`）に固定 — 詳細は下記「詰まった点」参照）
-- `react` / `react-dom` は最新の `19.3.0` ではなく `19.2.8` に固定した。
-  `@react-three/fiber@9.7.0`（ThreeScene / ParticleSystem が依存）のピア制約が `react "<19.3"` のため、
+- ~~`react` / `react-dom` を `19.2.8` に固定~~ → **2026-09-18 に `19.3.0` へ上げた**。
+  固定の理由だった `@react-three/fiber`（ThreeScene のみが依存）を、ThreeScene ごと外したため。
   `19.3.0` では **レンダリング時に実際にクラッシュする**（peer警告だけでなく本当に落ちる）ことを確認済み
-- `three` / `@react-three/fiber` / `shiki` / `@types/*` を最新へ更新
+- `shiki` / `@types/*` を最新へ更新
 - `typescript` は `5.9.3`（5.x 系最新）に据え置き。7.x 系（ネイティブコンパイラ）は互換性未検証のため見送り
 - `@remotion/google-fonts` を追加（`AgentFlow` の Google Fonts 読み込みに使用。Remotion 公式の推奨手段）
 - `remotion.config.ts` に `Config.setRspack(true)` を追加（現行テンプレートのデフォルトバンドラー）
@@ -193,10 +192,12 @@ Cloudflare構成図のキャプチャ（Realtime SFU / WebSocket Adapter 等の�
    `remotion@4.0.525` は内部で `zod@4.5.4` を要求しており、`^4.6.5`（当時の zod 最新）を入れてレンダリングすると
    「Version mismatch」エラーで停止する（`npx remotion versions` で要求バージョンを確認できる）。
    Remotion と `zod` / `@remotion/google-fonts` などのサブパッケージは、`remotion` 本体と **完全一致** させる必要がある。
-2. **`@react-three/fiber` の react ピア制約が実際に壊れる。**
+2. **`@react-three/fiber` の react ピア制約が実際に壊れる。**（2026-09-18 に解消）
    `react@19.3.0` を入れると `@react-three/fiber@9.7.0`（peer: `react "<19.3"`）が
-   `pnpm install` の警告だけでなく `remotion render ThreeScene` 実行時に実際にクラッシュする
-   （`commitLayoutEffectOnFiber` 内で例外）。`react`/`react-dom` を `19.2.8` に固定して解消。
+   `pnpm install` の警告だけでなく `remotion render ThreeScene` 実行時に実際にクラッシュした
+   （`commitLayoutEffectOnFiber` 内で例外）。当時は `react`/`react-dom` を `19.2.8` に固定して回避。
+   **その後 `ThreeScene` を外して固定を解いた。** `@react-three/fiber` は alpha 10 でも
+   peer が `react <19.3` のままで、react を上げる道が他に無かったため。
 3. **macOS 上でこの環境の headless Chromium は素の WebGL コンテキスト生成に失敗する。**
    `ThreeScene` レンダー時に `THREE.WebGLRenderer: Error creating WebGL context` で落ちる。
    `--gl=swangle` を付けると解消した（`--gl=angle` は不十分だった）。3D 系コンポジションをこのマシンで
