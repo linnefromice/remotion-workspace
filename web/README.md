@@ -37,19 +37,17 @@ WEB_REVIEW_URL=http://127.0.0.1:4173/ node scripts/web-review/verify.mjs
 
 ## Cloudflareへの公開
 
-**今回は構成とdry-runまで。リモートへは未公開。**
-
 [Workers Static Assetsの公式ガイド](https://developers.cloudflare.com/workers/static-assets/get-started/) に従い、`web/wrangler.jsonc` の `assets.directory` から静的ファイルを配信する。データベースやWorkerのアプリ処理は不要。
 
-Worker名の初期値は `farleap-agentflow-patterns`。公開先アカウントと名前を決めてから実行する。
+公開先は **Farleap アカウント**（`fh-kanri-demo` などの既存デモと同じ）。Worker名は `agentflow-patterns`。
+認証には個人アカウントも載っているため、`wrangler.jsonc` に `account_id` を明示している。
 
 ```sh
 # 公開せずにビルドと設定を確認
 pnpm web:deploy:check
 
-# 公開時のみ：Cloudflareへログインして対象アカウントを確認
-pnpm exec wrangler login
-pnpm exec wrangler whoami
+# 公開
+pnpm exec wrangler whoami   # 対象アカウントの確認
 pnpm web:deploy
 ```
 
