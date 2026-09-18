@@ -246,7 +246,11 @@ pnpm gallery:agent-flow
 |---|---|---|
 | **正本** | `out/agent-flow-gallery/` | **常に最新にする。** テストが守る |
 | **元がある生成物** | `out/side-catalog/` | **元が変わったら作り直す。** 元は `docs/side-catalog.md` と一覧 |
+| **元がある生成物** | `out/video-page/` | **`out/video/` か一覧が変わったら作り直す**（`pnpm page:video`）。中身は全部コピーなので、消しても作り直せる |
 | **その時限りの記録** | `side-prototype` / `side-design-studies` / `subject-bands` / `video` | **消してよい** |
+
+`out/video/` の mp4 自体は「その時限りの記録」だが、**`out/video-page/` はそれを配る形に組んだもの**で、
+上げる一式そのものになる。元（mp4）を消したら、ページも作り直す。
 
 **その時限りの記録**は、調べたときの姿を写しただけで、あとから図を直しても追随しない。
 結論は docs に書いてあるので、ページ自体は残さなくてよい。
