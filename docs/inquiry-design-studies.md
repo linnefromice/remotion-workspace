@@ -55,9 +55,9 @@ LINE / Gmailは既存の公式素材、その他は役割ピクトグラムを�
 - 3案×6工程の中間フレームを目視確認。Relayは全13接続と先頭・末尾も追加確認。
 - Transitの重なる線、Orbitの下部余白、Relayの日本語改行を修正。
 - 既存Inquiry-IconsV2のframe360は保存済みのギャラリーPNGとバイト一致。
-- 静止画・動画出力: `out/inquiry-design-studies/`。ギャラリーは `pnpm gallery:agent-flow` で更新。
+- 静止画は `pnpm gallery:agent-flow` の一覧で見る（比較用の出力は役目を終えたので削除した）。
 
-新案だけの比較用出力: `out/inquiry-design-studies/index.html`。
+比較用の出力（`out/inquiry-design-studies/`）は、全経路を残す改修より前のものだったので削除した。
 動画と静止画を並べて確認できる。これは今回の出力成果物（git対象外）で、
 通常の再撮影・一覧更新は既存の `pnpm gallery:agent-flow` を使う。
 - 720フレーム全域で全13接続の出現と座標・パケット端点を検査。
