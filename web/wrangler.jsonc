@@ -1,0 +1,12 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "agentflow-patterns",
+  // 既存のデモ（fh-kanri-demo など）と同じ Farleap のアカウントへ出す。
+  // 個人アカウントも認証に載っているので、取り違えないよう明示する
+  "account_id": "46bd8059464c1f0de5997905fc173348",
+  "compatibility_date": "2026-09-19",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

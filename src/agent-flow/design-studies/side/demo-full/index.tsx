@@ -17,7 +17,7 @@ export const SideDemoFull:React.FC=()=>{
  const claims=resolveSlotClaims(clockSlot);
  return <AbsoluteFill data-demo-step={step} style={{background:'#0b121b',color:'#edf3fa',fontFamily:'"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
   <div style={{position:'absolute',left:0,top:0,right:0,height:116,background:'#152330',borderBottom:'1px solid #344656'}}/>
-  <div style={{position:'absolute',left:48,top:32,fontSize:23,fontWeight:700,letterSpacing:2}}>FARLEAP <span style={{fontSize:16,color:'#9eb2c2',fontWeight:400}}> / CLAIM INTAKE · SCREEN DEMO</span></div>
+  <div style={{position:'absolute',left:48,top:32,fontSize:23,fontWeight:700,letterSpacing:2}}><span style={{fontSize:16,color:'#9eb2c2',fontWeight:400}}>CLAIM INTAKE · SCREEN DEMO</span></div>
   <div style={{position:'absolute',left:48,top:76,fontSize:16,color:'#9eb2c2'}}>説明用の画面再構成 / 実システムへの接続なし</div>
   <div style={{position:'absolute',right:48,top:18,transform:'scale(.8)',transformOrigin:'top right'}}>{clockSlot.render({frame:sourceFrame,step,width:240,showElapsed:claims.headerElapsed})}</div>
   <div style={{position:'absolute',left:48,top:161,fontSize:15,color:'#9eb2c2',letterSpacing:2}}>CASE WORKSPACE</div>

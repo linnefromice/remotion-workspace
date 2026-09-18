@@ -456,7 +456,7 @@ const EDGES: EdgeDef[] = [
 
 export const PROPOSAL: FlowSpec = {
 	markerPrefix: "prp-arrow-",
-	label: "FARLEAP",
+	label: "AGENT RUNTIME",
 	sublabel: "/ PROPOSAL RUNTIME",
 	tagline: "ルールは候補を落とすだけ。戻せるのは人だけ",
 	steps: STEPS,

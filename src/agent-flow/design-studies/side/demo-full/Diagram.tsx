@@ -22,7 +22,7 @@ export const SideDemoDiagram: React.FC = () => {
    }}
  >
   <div style={{height:116,background:'#152330',borderBottom:'1px solid #344656'}}/>
-  <div style={{position:'absolute',left:40,top:30,fontSize:26,fontWeight:700}}>FARLEAP <span style={{fontSize:17,color:'#9eb2c2'}}> / CLAIM INTAKE · AGENT DIAGRAM</span></div>
+  <div style={{position:'absolute',left:40,top:30,fontSize:26,fontWeight:700}}><span style={{fontSize:17,color:'#9eb2c2'}}>CLAIM INTAKE · AGENT DIAGRAM</span></div>
   <div style={{position:'absolute',right:40,top:18,transform:'scale(.8)',transformOrigin:'top right'}}>{clockSlot.render({frame:sourceFrame,step,width:240,showElapsed:true})}</div>
   <div style={{position:'absolute',left:40,top:163,fontSize:18,color:'#9eb2c2'}}>AGENT DIAGRAM / 全経路と現在の工程</div>
   <div style={{position:'absolute',left:40,top:218,width:1152,height:648,border:'1px solid #344656',borderRadius:12,overflow:'hidden'}}>

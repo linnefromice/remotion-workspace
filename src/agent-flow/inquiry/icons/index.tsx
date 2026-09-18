@@ -93,7 +93,7 @@ export const AgentFlowInquiryIcons: React.FC<{
       <div style={{position: 'absolute', left: 60, top: 36, fontSize: 32, fontWeight: 700}}>
         問い合わせ対応{' '}
         <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>
-          FARLEAP / INQUIRY FLOW{brandIcons ? ' / ICON V2' : ''}
+          INQUIRY FLOW{brandIcons ? ' / ICON V2' : ''}
         </span>
       </div>
 

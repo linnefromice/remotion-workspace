@@ -40,7 +40,7 @@ export const DiagramCaseboard: React.FC = () => {
     return receiving ? points.reverse() : points;
   };
   return <AbsoluteFill style={{ background: '#e7e2eb', color: '#352f47', fontFamily: FONT }}>
-    <div style={{ position: 'absolute', left: 64, top: 38, color: '#706479', fontSize: 17, letterSpacing: 3 }}>FARLEAP / INQUIRY · DESIGN STUDY 06 · CASEBOARD</div>
+    <div style={{ position: 'absolute', left: 64, top: 38, color: '#706479', fontSize: 17, letterSpacing: 3 }}>INQUIRY · DESIGN STUDY 06 · CASEBOARD</div>
     <div style={{ position: 'absolute', left: 64, top: 81, fontSize: 49, fontWeight: 700 }}>案件を中心に、みんなが動く。</div>
     <div style={{ position: 'absolute', left: 64, right: 64, top: 185, textAlign: 'center', fontSize: 24, color: '#6e567e' }}>{ROLE[link.from]} → {ROLE[link.to]}　 /　{link.payload}</div>
     <svg width={1920} height={1080} style={{ position: 'absolute', inset: 0 }}>

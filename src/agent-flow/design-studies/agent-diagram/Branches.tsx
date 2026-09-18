@@ -55,7 +55,7 @@ export const DiagramBranches: React.FC = () => {
   // ここでは情報の受け手を採る（いまどの主体に渡っているか）
   const accent = color(link.to);
   return <AbsoluteFill style={{background:'#211f25', color:'#fff3e6', fontFamily:FONT}}>
-    <div style={{position:'absolute',left:64,top:40,fontSize:17,letterSpacing:3,color:'#c7b7b1'}}>FARLEAP / INQUIRY · 07 · BRANCHES</div>
+    <div style={{position:'absolute',left:64,top:40,fontSize:17,letterSpacing:3,color:'#c7b7b1'}}>INQUIRY · 07 · BRANCHES</div>
     <div style={{position:'absolute',left:64,top:84,fontSize:49,fontWeight:700}}>ひとつの相談から、ふたつの着地へ。</div>
     {/* 背景の2本の帯は主体ではなく着地のまとまり。だから主体の色は使わない */}
     <div style={{position:'absolute',left:1110,top:210,width:750,height:225,borderRadius:110,background:'#42312d'}} />

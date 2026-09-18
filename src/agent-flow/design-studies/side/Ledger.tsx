@@ -30,7 +30,7 @@ export const SideLedger:React.FC=()=>{
  const enter=interpolate(frame%STEP_LEN,[0,18],[0,1],{extrapolateRight:'clamp'});
  return <AbsoluteFill style={{background:C.paper,color:C.ink,fontFamily:'"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
   <div style={{position:'absolute',left:976,top:0,right:0,bottom:0,background:C.dark}}/>
-  <div style={{position:'absolute',left:56,top:36,fontSize:16,letterSpacing:3,color:C.muted}}>FARLEAP / SIDE LEDGER</div>
+  <div style={{position:'absolute',left:56,top:36,fontSize:16,letterSpacing:3,color:C.muted}}>SIDE LEDGER</div>
   <h1 style={{position:'absolute',left:56,top:82,margin:0,fontSize:44,letterSpacing:-1}}>判断は、消さずに積み重ねる。</h1>
   <div style={{position:'absolute',left:56,top:166,width:864,borderLeft:'3px solid #899995',paddingLeft:22,fontSize:22,lineHeight:1.7}}>キッチンの下から水が漏れています。<br/><span style={{borderBottom:step>=1?'2px solid #243536':undefined}}>ガスのようなにおい</span>も少しします。<span style={{fontSize:15,marginLeft:18,color:C.muted}}>写真付きの想定ケース</span></div>
   <div style={{position:'absolute',left:56,top:278,width:864}}>

@@ -102,7 +102,7 @@ const REC_STEP = REC_H + 14; // 76
 
 export const RECORD_HEADER = { x: REC_CX - REC_W / 2, y: REC_TOP - 34 };
 
-export const FRAME_LABEL = "FARLEAP";
+export const FRAME_LABEL = "AGENT RUNTIME";
 export const FRAME_SUBLABEL = "/ CLAIM INTAKE RUNTIME";
 export const FRAME_TAGLINE = "昇格はルールが強制し、降格は人だけができる";
 

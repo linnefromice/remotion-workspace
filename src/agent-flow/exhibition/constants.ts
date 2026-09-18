@@ -150,7 +150,7 @@ export const NODES: NodeDef[] = [
   },
 ];
 
-export const BOX_LABEL = "FARLEAP";
+export const BOX_LABEL = "AGENT RUNTIME";
 export const BOX_SUBLABEL = "/ AGENT RUNTIME";
 export const BOX_TAGLINE = "入居者対応を自動化し、要所は人が確認する";
 

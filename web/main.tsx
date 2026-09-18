@@ -1,209 +1,46 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { Player } from "@remotion/player";
-import { AgentFlowClaimIntake } from "@flow/agent-flow/claim-intake/cards";
-import { STEPS, STEP_LEN } from "@flow/agent-flow/claim-intake/cards/constants";
-import { ClaimIntakeSideBySide } from "@flow/agent-flow/claim-intake/side-by-side";
-import { SIDE_BY_SIDE_PRESETS } from "@flow/agent-flow/claim-intake/side-by-side/constants";
-import { DiagramBands, bandsDefaults } from "@flow/agent-flow/design-studies/agent-diagram/bands";
-import { SideReplay } from "@flow/agent-flow/design-studies/side/GateReplay";
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {Player,type PlayerRef} from '@remotion/player';
+import {CATALOG,MENUS,BUSINESSES,readRoute,resolveEntry,type Category} from './catalog';
+import './style.css';
+import {Home} from './Home';
 
-/**
- * 段2のサンプル：動画ファイルを作らず、コンポジションをその場で描く。
- *
- * 動画にできないことが2つできる。
- *   1. フレーム単位のシーク（工程の頭へ正確に飛べる）
- *   2. props の差し替え（題材や見せ方を、その場で切り替えられる）
- *
- * 検討メモ: docs/deploy-options.md
- */
-
-const CLAIM_FRAMES = STEPS.length * STEP_LEN;
-
-/** 出せるもの。props を持つものは、切り替えの選択肢も添える */
-const ENTRIES = [
-	{
-		id: "ClaimIntake-Cards",
-		title: "通報受付 / Cards",
-		note: "規定の4版のひとつ。単体で読ませるとき",
-		component: AgentFlowClaimIntake,
-		durationInFrames: CLAIM_FRAMES,
-		options: null,
-	},
-	{
-		id: "Diagram-Bands",
-		title: "主体別3帯",
-		note: "題材を切り替えられる。座標表を持たず定義から配置を導いている",
-		component: DiagramBands,
-		durationInFrames: CLAIM_FRAMES,
-		options: {
-			label: "題材",
-			key: "subject",
-			values: ["restoration", "proposal", "claimIntake"],
-			initial: bandsDefaults,
-		},
-	},
-	{
-		id: "ClaimIntake-SideBySide",
-		title: "俯瞰＋現場",
-		note: "足す要素を切り替えられる。図の横に何を置くか",
-		component: ClaimIntakeSideBySide,
-		durationInFrames: CLAIM_FRAMES,
-		options: {
-			label: "見せ方",
-			key: "preset",
-			values: Object.keys(SIDE_BY_SIDE_PRESETS),
-			initial: SIDE_BY_SIDE_PRESETS.full,
-		},
-	},
-	{
-		id: "Side-Replay",
-		title: "根拠の逆再生",
-		note: "結論から根拠をさかのぼる。証拠は消えない",
-		component: SideReplay,
-		durationInFrames: CLAIM_FRAMES,
-		options: null,
-	},
-] as const;
-
-const SPEEDS = [0.5, 1, 1.5, 2, 4];
-
-const C = {
-	bg: "#0f1418",
-	panel: "#1a2227",
-	line: "#31414a",
-	text: "#eef3f4",
-	muted: "#9fb0b6",
-	accent: "#9ddad4",
-};
-
-const button = (on: boolean): React.CSSProperties => ({
-	padding: "8px 16px",
-	borderRadius: 6,
-	border: `1px solid ${on ? C.accent : C.line}`,
-	background: on ? C.accent : "transparent",
-	color: on ? "#0f1418" : C.text,
-	font: "inherit",
-	cursor: "pointer",
-});
-
-const App: React.FC = () => {
-	const [index, setIndex] = React.useState(0);
-	const [speed, setSpeed] = React.useState(1);
-	const [option, setOption] = React.useState<string | null>(null);
-	const entry = ENTRIES[index];
-	const player = React.useRef<React.ComponentRef<typeof Player>>(null);
-
-	// 作品を変えたら、選択肢は既定へ戻す
-	React.useEffect(() => setOption(null), [index]);
-
-	const inputProps = React.useMemo(() => {
-		if (!entry.options) return {};
-		const chosen = option ?? entry.options.values[0];
-		return entry.options.key === "preset"
-			? SIDE_BY_SIDE_PRESETS[chosen as keyof typeof SIDE_BY_SIDE_PRESETS]
-			: { [entry.options.key]: chosen };
-	}, [entry, option]);
-
-	/** 工程の頭へ正確に飛ぶ。動画では作れない動き */
-	const seekToStep = (step: number) => player.current?.seekTo(step * STEP_LEN);
-
-	return (
-		<main
-			style={{
-				background: C.bg,
-				color: C.text,
-				minHeight: "100vh",
-				margin: 0,
-				padding: 28,
-				font: '15px/1.7 system-ui, "Hiragino Sans", sans-serif',
-				boxSizing: "border-box",
-			}}
-		>
-			<h1 style={{ fontSize: 26, margin: 0 }}>AgentFlow プレイヤー</h1>
-			<p style={{ color: C.muted, margin: "8px 0 24px" }}>
-				動画を作らずに、コンポジションをその場で描いている。速度・シーク・
-				<strong style={{ color: C.text }}>props の差し替え</strong>がその場でできる。
-			</p>
-
-			<div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
-				{ENTRIES.map((item, i) => (
-					<button key={item.id} type="button" style={button(i === index)} onClick={() => setIndex(i)}>
-						{item.title}
-					</button>
-				))}
-			</div>
-
-			<div
-				style={{
-					display: "flex",
-					flexWrap: "wrap",
-					gap: 24,
-					alignItems: "center",
-					marginBottom: 18,
-					paddingBottom: 18,
-					borderBottom: `1px solid ${C.line}`,
-				}}
-			>
-				<label style={{ display: "flex", gap: 10, alignItems: "center" }}>
-					<span style={{ color: C.muted }}>再生速度</span>
-					{SPEEDS.map((value) => (
-						<button
-							key={value}
-							type="button"
-							style={button(value === speed)}
-							onClick={() => setSpeed(value)}
-						>
-							{value}×
-						</button>
-					))}
-				</label>
-
-				{entry.options && (
-					<label style={{ display: "flex", gap: 10, alignItems: "center" }}>
-						<span style={{ color: C.muted }}>{entry.options.label}</span>
-						{entry.options.values.map((value) => (
-							<button
-								key={value}
-								type="button"
-								style={button(value === (option ?? entry.options!.values[0]))}
-								onClick={() => setOption(value)}
-							>
-								{value}
-							</button>
-						))}
-					</label>
-				)}
-			</div>
-
-			<Player
-				ref={player}
-				component={entry.component as React.ComponentType<Record<string, unknown>>}
-				inputProps={inputProps}
-				durationInFrames={entry.durationInFrames}
-				fps={30}
-				compositionWidth={1920}
-				compositionHeight={1080}
-				playbackRate={speed}
-				controls
-				loop
-				style={{ width: "100%", border: `1px solid ${C.line}`, borderRadius: 10 }}
-			/>
-
-			<div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 16 }}>
-				<span style={{ color: C.muted, alignSelf: "center" }}>工程へ飛ぶ</span>
-				{STEPS.map((name, i) => (
-					<button key={name} type="button" style={button(false)} onClick={() => seekToStep(i)}>
-						{i + 1} {name}
-					</button>
-				))}
-			</div>
-
-			<p style={{ color: C.muted, marginTop: 20 }}>
-				{entry.note}　/　説明用の画面再構成・実システムへの接続なし
-			</p>
-		</main>
-	);
-};
-
-createRoot(document.getElementById("root")!).render(<App />);
+class PlayerBoundary extends React.Component<{children:React.ReactNode},{failed:boolean}>{
+ state={failed:false};
+ static getDerivedStateFromError(){return {failed:true};}
+ render(){return this.state.failed?<div className="player-error" role="alert">表示を読み込めませんでした。<button onClick={()=>location.reload()}>ページを再読み込み</button></div>:this.props.children;}
+}
+function App(){
+ const [route,setRoute]=React.useState(()=>readRoute(location.hash));
+ const [speed,setSpeed]=React.useState(1);
+ const [message,setMessage]=React.useState('');
+ const player=React.useRef<PlayerRef>(null);
+ React.useEffect(()=>{const update=()=>{setRoute(readRoute(location.hash));setMessage('');};window.addEventListener('hashchange',update);return()=>window.removeEventListener('hashchange',update);},[]);
+ React.useEffect(()=>{window.scrollTo(0,0);},[route.home,route.category]);
+ const menu=MENUS.find(m=>m.id===route.category)!;
+ const entry=resolveEntry(route.category,route.id,route.subject);
+ const key=`${route.category}/${entry.id}${route.category==='side'?'/'+route.subject:''}`;
+ const duration=entry.steps.length*entry.stepLength;
+ const navigate=(category:Category,id=CATALOG[category][0].id)=>{location.hash=`${category}/${id}${category==='side'?'/'+route.subject:''}`;};
+ const copyLink=async()=>{try{await navigator.clipboard.writeText(location.href);setMessage('この表示のリンクをコピーしました。');}catch{setMessage('アドレスバーのURLをコピーして共有できます。');}};
+ return <>
+  <a className="skip" href="#content" onClick={e=>{e.preventDefault();const main=document.getElementById("content");main?.focus();main?.scrollIntoView();}}>コンテンツへ移動</a>
+  <header className="site-header"><a className="brand" href="#home" aria-label="AgentFlow トップページ"><span className="brand-mark">A</span> AgentFlow <span className="brand-caption">PATTERN COLLECTION</span></a><nav className="menus" aria-label="比較するテーマ"><a href="#home" aria-current={route.home?'page':undefined}>Overview</a>{MENUS.map(m=><a key={m.id} href={`#${m.id}/${CATALOG[m.id][0].id}`} aria-current={!route.home&&route.category===m.id?'page':undefined}>{m.title}</a>)}</nav></header>
+  {route.home?<Home/>:<main id="content" className="comparison" tabIndex={-1}>
+   <div className="section-heading"><div><p className="eyebrow">{menu.label}</p><h1>{menu.title}</h1></div><p>{menu.intro}</p></div>
+   <nav className="pattern-list" aria-label="パターンを選択">{CATALOG[route.category].map((item,i)=><button key={item.id} className={item.id===entry.id?'pattern selected':'pattern'} aria-pressed={item.id===entry.id} onClick={()=>navigate(route.category,item.id)}><span className="pattern-number">{String(i+1).padStart(2,'0')}</span><strong>{item.title}</strong>{item.recommended&&<span className="recommended">推奨</span>}</button>)}</nav>
+    <section className="viewer" aria-label={entry.title+'の表示'}>
+     <div className="viewer-heading"><h2>{entry.title} {entry.recommended&&<span className="recommended">推奨</span>}</h2><p>{route.category==='diagram'?'Inquiryで比較':route.category==='side'?route.subject:entry.id} <span> / {duration/30}秒 · {entry.steps.length}工程</span></p></div>
+     {route.category==='side'&&<div className="subjects" aria-label="Sideの題材"><span>題材</span>{BUSINESSES.map(b=><button key={b.id} aria-pressed={route.subject===b.id} onClick={()=>{location.hash=`side/${entry.id}/${b.id}`;}}>{b.title}</button>)}</div>}
+     <div className="player-shell"><PlayerBoundary key={key}><Player key={key} ref={player} component={entry.component} durationInFrames={duration} fps={30} compositionWidth={1920} compositionHeight={1080} playbackRate={speed} initialFrame={Math.floor(entry.stepLength/2)} controls loop style={{width:'100%'}} errorFallback={()=> <div className="player-error" role="alert">再生できませんでした。別のパターンを選ぶか、ページを再読み込みしてください。</div>}/></PlayerBoundary></div>
+     <div className="playback"><label>再生速度 <select value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{[.5,1,1.5,2].map(v=><option key={v} value={v}>{v}×</option>)}</select></label><span>再生・シーク・全画面で確認できます</span><button className="text-button" onClick={copyLink}>この表示を共有 ↗</button></div>
+     <div className="steps" aria-label="工程へ移動">{entry.steps.map((step,i)=><button key={step} onClick={()=>{player.current?.pause();player.current?.seekTo(i*entry.stepLength+Math.floor(entry.stepLength/2));}}><span>{String(i+1).padStart(2,'0')}</span>{step}</button>)}</div>
+     <div className="description"><div><p className="eyebrow">CONCEPT</p><h3>{entry.tagline}</h3><p>{entry.concept}</p></div><div><p className="eyebrow">特徴</p><ul>{entry.features.map(feature=><li key={feature}>{feature}</li>)}</ul></div></div>
+     <div className="view-note"><span>比較のポイント</span><p>{entry.watch}</p></div>
+     <p className="status" role="status">{message}</p>
+    </section>
+  </main>}
+  <footer><a href="#home">AgentFlow</a><span>AgentFlow Pattern Collection / Design Studies</span></footer>
+ </>;
+}
+createRoot(document.getElementById('root')!).render(<App/>);

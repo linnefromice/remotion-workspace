@@ -51,7 +51,7 @@ export const DiagramLanes: React.FC = () => {
   const [x, y] = pointAlong(points, Math.min(progress / .82, 1));
   const accent = color(link.from);
   return <AbsoluteFill style={{ background: '#10262d', fontFamily: FONT, color: '#edf5f1' }}>
-    <div style={{ position: 'absolute', left: 64, top: 38, color: '#a6bdc3', fontSize: 17, letterSpacing: 3 }}>FARLEAP / INQUIRY · DESIGN STUDY 04 · LANES</div>
+    <div style={{ position: 'absolute', left: 64, top: 38, color: '#a6bdc3', fontSize: 17, letterSpacing: 3 }}>INQUIRY · DESIGN STUDY 04 · LANES</div>
     <div style={{ position: 'absolute', left: 64, top: 82, fontSize: 49, fontWeight: 700 }}>担当の境界を、見えるように。</div>
     <div style={{ position: 'absolute', right: 64, top: 43, borderLeft: '3px solid #b5e4c3', paddingLeft: 24, width: 660 }}>
       <div style={{ color: '#b5e4c3', fontSize: 18 }}>{LANE[link.from]} → {LANE[link.to]}</div>

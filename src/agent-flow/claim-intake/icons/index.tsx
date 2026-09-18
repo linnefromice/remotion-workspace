@@ -126,7 +126,7 @@ export const AgentFlowClaimIntakeIcons: React.FC<{
       <div style={{position: 'absolute', left: 60, top: 32, fontSize: 32, fontWeight: 700}}>
         通報受付{' '}
         <span style={{fontSize: 18, marginLeft: 20, color: '#93a7be', fontWeight: 400}}>
-          FARLEAP / CLAIM INTAKE{brandIcons ? ' / ICON V2' : ''}
+          CLAIM INTAKE{brandIcons ? ' / ICON V2' : ''}
         </span>
       </div>
       <div style={{position: 'absolute', right: 60, top: 42, fontSize: 20, color: '#d5dce6'}}>

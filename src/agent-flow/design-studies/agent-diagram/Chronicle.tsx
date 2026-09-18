@@ -25,7 +25,7 @@ export const DiagramChronicle: React.FC = () => {
   const previousScroll = scrollAt(index - 1);
   const scroll = interpolate(progress, [0, .25], [previousScroll, targetScroll], { extrapolateRight: 'clamp' });
   return <AbsoluteFill style={{ background: '#f4f0e8', color: '#2e3540', fontFamily: FONT }}>
-    <div style={{ position: 'absolute', left: 64, top: 38, fontSize: 17, color: '#71695d', letterSpacing: 3 }}>FARLEAP / INQUIRY · DESIGN STUDY 05 · CHRONICLE</div>
+    <div style={{ position: 'absolute', left: 64, top: 38, fontSize: 17, color: '#71695d', letterSpacing: 3 }}>INQUIRY · DESIGN STUDY 05 · CHRONICLE</div>
     <div style={{ position: 'absolute', left: 64, top: 81, fontSize: 49, fontWeight: 700 }}>ひとつずつ、対応を進める。</div>
     <div style={{ position: 'absolute', right: 64, top: 99, fontSize: 20, color: '#71695d' }}>受け渡し {index + 1} / {LINKS.length}　·　工程 {step + 1} / 6</div>
     <div style={{ position: 'absolute', left: 64, top: 240, width: 1090, height: VIEW_H, border: '1px solid #d8d1c6', background: '#fffdf8', borderRadius: 12, overflow: 'hidden' }}>

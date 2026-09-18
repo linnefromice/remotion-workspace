@@ -27,7 +27,7 @@ export const SideEvidence: React.FC = () => {
   {name:'人 / 確認',value:'確認',detail:`${CASE.resolvedUrgency}を確認`,foot:'降格は人のみ・理由必須',at:5,color:C.human},
  ];
  return <AbsoluteFill style={{background:C.bg,color:C.text,fontFamily:'"Hiragino Sans", "Noto Sans CJK JP", sans-serif'}}>
-  <div style={{position:'absolute',left:64,right:64,top:40,display:'flex',justifyContent:'space-between',fontSize:17,letterSpacing:2,color:C.muted}}><span>FARLEAP / SIDE EVIDENCE</span><span>CLAIM INTAKE · {CASE.ticket}</span></div>
+  <div style={{position:'absolute',left:64,right:64,top:40,display:'flex',justifyContent:'space-between',fontSize:17,letterSpacing:2,color:C.muted}}><span>SIDE EVIDENCE</span><span>CLAIM INTAKE · {CASE.ticket}</span></div>
   <h1 style={{position:'absolute',left:64,top:93,margin:0,fontSize:52,letterSpacing:-1,fontWeight:700}}>{current.title}</h1>
   <div style={{position:'absolute',left:64,top:181,fontSize:20,color:C.muted}}>判断の記録を主役に、同じ瞬間の経路を横に。</div>
   <div style={{position:'absolute',left:64,top:260,width:1064,borderTop:`1px solid ${C.line}`,paddingTop:24}}>

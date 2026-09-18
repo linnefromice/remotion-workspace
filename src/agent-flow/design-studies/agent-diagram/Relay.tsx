@@ -17,7 +17,7 @@ export const Relay: React.FC = () => {
   const hops = LINKS.filter((edge) => edge.step === step);
   return <AbsoluteFill style={{ background: '#e7edf2', color: '#162f45', fontFamily: FONT }}>
     <div style={{ position: 'absolute', inset: '0 0 auto', height: 222, background: '#173c56', color: '#f7fafc', padding: '36px 64px' }}>
-      <div style={{ fontSize: 17, letterSpacing: 3, color: '#b5d0e1' }}>FARLEAP / INQUIRY · DESIGN STUDY 03 · RELAY</div>
+      <div style={{ fontSize: 17, letterSpacing: 3, color: '#b5d0e1' }}>INQUIRY · DESIGN STUDY 03 · RELAY</div>
       <div style={{ fontSize: 49, fontWeight: 700, marginTop: 19 }}>{link.title}。</div>
       <div style={{ position: 'absolute', right: 64, top: 55, fontSize: 24, color: '#c6dfed' }}>{String(step + 1).padStart(2, '0')} / {STEPS[step]}</div>
       <div style={{ fontSize: 19, marginTop: 15, color: '#b5d0e1' }}>いま、誰から誰へ、何が渡ったか。</div>
