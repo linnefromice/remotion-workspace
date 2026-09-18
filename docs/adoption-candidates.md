@@ -43,6 +43,22 @@ Lanes / Orbit / Transit は座標を `design-studies/agent-diagram/model.ts` に
 Orbit の同心円や Lanes のレーンは、いまのグリッドの外にある。
 **どこまで寄せられるかを見てから、何を5版目にするかを決める。**
 
+調査の依頼書は [`fifth-variant-brief.md`](./fifth-variant-brief.md)。
+**作りきる依頼ではなく、判断がつけば終わり**の形にしてある。
+
+### 着手前に見えている非対称
+
+**いまの4版と Transit は、変えているものが違う。**
+
+| | 何を変えるか | ノードの位置 |
+|---|---|---|
+| Cards / LogoSeal / IconsV2 / ActionRow | ノードの**描き方** | **同じ**（`spec.nodes[].cx/cy` を共有） |
+| Transit / Orbit / Lanes | ノードの**置き場所** | **違う**（自前の座標表） |
+
+`FlowDiagram` の `variant` は描き方だけを切り替えていて、位置は spec のものを使う。
+Transit は位置も変えるので、**`variant` とは別の概念になる可能性が高い**。
+「5版目」と呼んでいるが、既存の4版と同じ種類のものではないかもしれない。
+
 ## Side（図の横に置くもの）
 
 試作を実装済み: ClockはmapOnly=true、差し込み例は`Side-SlotExample`、画面主体の42秒版は`Side-DemoFull`。[設計・検証結果](./side-prototype.md)。以下の未実装メモは依頼時点の経緯として残す。
