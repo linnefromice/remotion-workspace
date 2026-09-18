@@ -59,6 +59,56 @@ Orbit の同心円や Lanes のレーンは、いまのグリッドの外にあ�
 Transit は位置も変えるので、**`variant` とは別の概念になる可能性が高い**。
 「5版目」と呼んでいるが、既存の4版と同じ種類のものではないかもしれない。
 
+### Transit調査結果（2026-09-18）
+
+**結論：Transitはノードの描画版ではなく、別の配置レイアウトとして扱う必要がある。**
+既存の`variant`へ5つ目を足す方針は、現時点では採らない。規定は4版、
+`Diagram-Transit`はInquiryの試作として維持する。
+これは「自動配置は不可能」という判断ではない。現在のデータから、既存Transitの意味を保つ
+配置と配線を汎用的に導けることはまだ実証していない。
+
+#### 調べた範囲と、根拠
+
+描画側の`FlowDiagram`/`FlowSpec`、既存Transitの`model.ts`/`Network.tsx`、
+1題材の具体例としてRestorationの全15ノード・13経路をソース上で確認した。
+
+| 確認点 | 実装上の事実 | 判断への影響 |
+|---|---|---|
+| 既存の版 | `DiagramVariant`は`cards / logoSeal / actionRow`。IconsV2は`logoSeal + brandIcons`。`NodeCard`は`node.cx/cy`をそのまま使用する | 配置を変える責任は現在の`variant`にない |
+| Transitの配置 | `TRANSIT`はInquiryのノードIDごとの別座標表。`route()`にも経路IDごとの曲がり方がある | FlowSpecのノード座標だけ変えても既存のpointsは追従しない。ノード位置と経路を同時に生成する段階が必要 |
+| 3本の帯の意味 | 実際の帯名は「受け付ける・手配する」「判断して返す」「人が基準を育てる」。上段には承認者`approval`も入り、中段には`vendorDb`も入る | 依頼書の「外部チャネル／エージェント／人・参照情報」という主体別3帯とは一致しない。`tone`による分類は、既存Transitの再現ではなく新しい構成になる |
+| Restorationの入力主体 | `tenant / walkthrough / photos / vendor`は全て`tone: input`。外部の退去者、内部の受付工程、任意の添付、業者からの受領を含む | `tone`だけでは外部チャネル帯と内部工程帯を分けられない |
+| 既存グリッドの限界 | `vendor`は説明文では外部主体だが、座標は内部工程と同じCOL_D・ROW_2で`spec.frame`内にある | 枠の内外や元の行を、そのまま意味上の帯の判定に使えない。`cx/cy`は帯内の並び順の候補には使える |
+| 線の接続先 | `EdgeDef`には`points`はあるが、接続先ノードの`from/to`がない。`staff-resolved`の実際の接続先は`recResolved`、`special-clause`はclassify→staff | IDの分割では一般化できない。端点の近さで推定することは可能でも、正本として保証された接続関係ではない |
+
+参照ソース：
+[描画とvariant](../src/shared/FlowDiagram.tsx)、
+[FlowSpec・NodeDef・EdgeDef](../src/shared/flowTheme.ts)、
+[Restorationの定義](../src/agent-flow/restoration/constants.ts)、
+[Transitの座標・経路](../src/agent-flow/design-studies/agent-diagram/model.ts)、
+[3帯の描画と見出し](../src/agent-flow/design-studies/agent-diagram/Network.tsx)。
+
+#### 次に進めるなら
+
+1. まず、**既存Transitの役割別3帯を守るか、主体別3帯の新レイアウトにするか**を決める。
+   ここが決まらないと、帯への自動割り当ての正解を判定できない。
+2. 元の題材定義へ、線の`from/to`と、必要なノードの意味上の所属（外部入力／内部処理／参照など）を追加する。
+   別の座標表は作らず、曖昧なノードだけ意味を補う。既存の`points`は旧表示の互換用に保持する。
+   手当ての単位は「題材ごとの座標一式」ではなく「各経路の端点2つ＋自動分類できないノードの所属」。
+   Restorationならまず13経路の端点を明示し、上記4つのinputノードの所属を確認する。
+   4題材全体の注釈量や線の衝突回避の工数は今回未評価。
+3. `layout = grid | transit`のような別軸（名称は仮）で、意味データと元の並び順から
+   ノード座標・配線・帯をまとめて算出する。色を決める`tone`と、帯を決める役割は混同しない。
+   明るい背景も描画版とは別のテーマ上の判断として扱う。
+4. Restorationの1枚だけで、全15ノード・13経路が残ること、非通過経路の破線、白いルール、
+   ノードと配線の追従を確認してから、規定化を再判断する。
+
+#### 今回の終了点
+
+依頼書§4の「**variantとは別の概念が要ると分かった**」で終了。
+静止画による自動配置の試作はしていない。描画コード・既存コンポジション・一覧は変更していないため、
+レンダー、PNGのcmp、一覧の再生成は実施していない。成果はこの判断と具体的な不足データの記録。
+
 ## Side（図の横に置くもの）
 
 試作を実装済み: ClockはmapOnly=true、差し込み例は`Side-SlotExample`、画面主体の42秒版は`Side-DemoFull`。[設計・検証結果](./side-prototype.md)。以下の未実装メモは依頼時点の経緯として残す。
