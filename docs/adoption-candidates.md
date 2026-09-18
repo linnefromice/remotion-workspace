@@ -3,6 +3,8 @@
 2026-09-18 時点で、商談・展示会に出す候補として挙がっているもの。
 **まだ決定ではない。** 全41本の一覧は `pnpm gallery:agent-flow`。
 
+実装に渡すための依頼書は [`next-build-brief.md`](./next-build-brief.md)。
+
 ## AgentDiagram（図そのもの）
 
 | 候補 | ID | 置き場 | 題材 |
