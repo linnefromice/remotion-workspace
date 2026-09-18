@@ -1,13 +1,8 @@
-import {openBrowser} from '@remotion/renderer';
-import {mkdir,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import {openReviewPage} from '../browser.mjs';
 const url=process.env.WEB_REVIEW_URL??'http://127.0.0.1:4174/';
-await mkdir('out/web-review',{recursive:true});
-const browser=await openBrowser('chrome',{chromiumOptions:{gl:'swangle'}});
-const errors=[];
+const {page,errors,shot,close}=await openReviewPage({url,collectErrors:true});
 try{
- const page=await browser.newPage({context:undefined,logLevel:'error',indent:false,pageIndex:0,onBrowserLog:log=>{if(log.type==='error')errors.push(log.text)},onLog:()=>{}});
- await page.goto({url,timeout:30000,options:{waitUntil:'load'}});
  await page.evaluate(async()=>{for(let i=0;i<50&&!document.querySelector('.reference');i++)await new Promise(r=>setTimeout(r,100));});
  await page.setViewport({width:1440,height:1100,deviceScaleFactor:1});
  assert.equal(await page.evaluate(()=>document.querySelectorAll('.collection').length),3);
@@ -15,7 +10,7 @@ try{
  assert.ok(await page.evaluate(()=>document.querySelector('.outcome').textContent.includes('最終成果物のイメージ')));
  assert.ok(await page.evaluate(()=>document.querySelector('.reference').textContent.includes('Reference-Cloudflare-Refactored')));
  assert.ok(await page.evaluate(()=>document.querySelectorAll('.reference svg').length>0));
- const homeShot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/web-review/home.png',Buffer.from(homeShot.value.data,'base64'));
+ await shot('out/web-review/home.png');
  const navigate=async(hash)=>{
   await page.evaluate(async hash=>{location.hash=hash;await new Promise(r=>setTimeout(r,200));},hash);
   await page.evaluate(async()=>{for(const image of document.querySelectorAll('.player-shell img'))await image.decode();});
@@ -73,16 +68,16 @@ try{
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'overflow '+width);
   assert.ok(await page.evaluate(()=>document.querySelector('.player-shell').getBoundingClientRect().width>=innerWidth-70),'large player');
   if(width===320)assert.ok(await page.evaluate(()=>{const list=document.querySelector('.pattern-list');list.scrollLeft=1000;return list.scrollWidth>list.clientWidth&&list.scrollLeft>0;}),'horizontal pattern scrolling');
-  const {value}=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile(`out/web-review/page-${width}.png`,Buffer.from(value.data,'base64'));
+  await shot(`out/web-review/page-${width}.png`);
  }
  await navigate('side/DemoDiagram/Proposal');
- const shot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/web-review/side.png',Buffer.from(shot.value.data,'base64'));
+ await shot('out/web-review/side.png');
  await page.evaluate(async()=>{location.hash='home';await new Promise(r=>setTimeout(r,200));document.querySelector('.reference').scrollIntoView();});
  assert.equal(await page.evaluate(()=>document.querySelectorAll('.external-controls button').length),3);
  assert.equal(await page.evaluate(()=>document.querySelector('.external-controls option[value="4"]').textContent),'4×');
- const refShot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/web-review/reference.png',Buffer.from(refShot.value.data,'base64'));
+ await shot('out/web-review/reference.png');
  for(const width of [320,768,1024,1440]){await page.setViewport({width,height:1100,deviceScaleFactor:1});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'home overflow '+width);}
  await navigate('bad/unknown');assert.match(await page.evaluate(()=>document.querySelector('.viewer-heading h2').textContent),/LogoSeal/);
  assert.deepEqual(errors,[]);
  console.log('PASS: 21 views, descriptions, step seek, playback, home/reference, no shortlist, horizontal submenu, invalid URL, 4 widths, no console errors');
-}finally{await browser.close({silent:true})}
+}finally{await close()}

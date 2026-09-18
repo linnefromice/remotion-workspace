@@ -1,11 +1,9 @@
-import {openBrowser} from '@remotion/renderer';
-import {access,writeFile} from 'node:fs/promises';
+import {openReviewPage} from '../browser.mjs';
+import {access} from 'node:fs/promises';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
-const browser=await openBrowser('chrome',{chromiumOptions:{gl:'swangle'}});
+const {page,shot,close}=await openReviewPage({url:pathToFileURL(process.cwd()+'/out/side-catalog/index.html').href});
 try{
- const page=await browser.newPage({context:undefined,logLevel:'error',indent:false,pageIndex:0,onBrowserLog:null,onLog:()=>{}});
- await page.goto({url:pathToFileURL(process.cwd()+'/out/side-catalog/index.html').href,timeout:30000,options:{waitUntil:'load'}});
  const data=await page.evaluate(async()=>{for(const im of document.images){im.loading='eager';await im.decode()}return {images:document.images.length,links:[...document.querySelectorAll('a')].map(a=>a.href)}});
  assert.equal(data.images,32);
  for(const href of data.links){const u=new URL(href);if(u.hash)assert.ok(await page.evaluate(id=>!!document.getElementById(id),u.hash.slice(1)));else await access(fileURLToPath(u));}
@@ -23,11 +21,11 @@ try{
   await page.setViewport({width,height:1080,deviceScaleFactor:1});
   await page.evaluate(()=>window.scrollTo(0,0));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`overflow ${width}`);
-  const {value}=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile(`out/side-catalog/page-${width}.png`,Buffer.from(value.data,'base64'));
+  await shot(`out/side-catalog/page-${width}.png`);
  }
  await page.evaluate(async()=>{document.documentElement.style.scrollBehavior='auto';document.getElementById('elements').scrollIntoView({behavior:'instant'});await new Promise(requestAnimationFrame)});
- const {value}=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/side-catalog/elements.png',Buffer.from(value.data,'base64'));
+ await shot('out/side-catalog/elements.png');
  await page.evaluate(async()=>{document.getElementById('finished').scrollIntoView({behavior:'instant'});await new Promise(requestAnimationFrame)});
- const shot=await page._client().send('Page.captureScreenshot',{format:'png'});await writeFile('out/side-catalog/finished.png',Buffer.from(shot.value.data,'base64'));
+ await shot('out/side-catalog/finished.png');
  console.log('PASS: 32 images, all links, place filters, search/empty/clear/focus, 4 widths');
-}finally{await browser.close({silent:true})}
+}finally{await close()}

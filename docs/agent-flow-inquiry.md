@@ -220,8 +220,8 @@ Line で問合せ受付 -> データ化
 
 | ファイル | 内容 |
 |---|---|
-| `src/AgentFlowInquiry/constants.ts` | グリッド、ノード11個、エッジ13本、配色、タイムライン |
-| `src/AgentFlowInquiry/index.tsx` | 図の描画、直角ルーティング、ステップバー、凡例、進捗バー |
+| `src/agent-flow/inquiry/cards/constants.ts` | グリッド、ノード11個、エッジ13本、配色、タイムライン |
+| `src/agent-flow/inquiry/cards/index.tsx` | 図の描画、直角ルーティング、ステップバー、凡例、進捗バー |
 
 - ノード座標もエッジ経由点も、すべて列（`COL_A/B/C`）と行（`ROW_1/2/3`）の定数から導出している。`Reference-Cloudflare-Refactored` のリファクタで得た「座標を2箇所に書かない」を最初から適用した
 - `ServiceIcon` に `inbox`（受付）と `sliders`（判断基準）を追加した。これで重複は「入居者と一次回答がどちらも `message`」だけになるが、どちらもLINEの会話を指すので意図どおり
@@ -236,8 +236,8 @@ Line で問合せ受付 -> データ化
 ## アイコン版（AgentFlowInquiryIcons）
 
 2026-09-16: 元の図を残し、独立したアイコン中心の図版を追加。
-`src/AgentFlowInquiryIcons/` に配置し、Studio の `AgentFlowInquiryIcons` で確認できます。
-11ノード・13エッジ・6ステップ24秒は `AgentFlowInquiry/constants.ts` から共有します。
+`src/agent-flow/inquiry/icons/` に配置し、Studio の `Inquiry-LogoSeal` / `Inquiry-IconsV2` で確認できます。
+11ノード・13エッジ・6ステップ24秒は `inquiry/cards/constants.ts` から共有します。
 四角いノードは処理、丸いノードは人・外部接点・参照データ、承認は破線の外枠で任意を表します。
 既存の `IconNode` / `ServiceIcon` を再利用し、サービス名と役割をアイコン下部に表示します。
 配置と接続経路は新しい図版用に定義し、右側に進行中のステップの説明を表示します。

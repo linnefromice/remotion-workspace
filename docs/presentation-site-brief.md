@@ -149,7 +149,7 @@ cmp before.png after.png
 **§1 で自分の案を出してから読んでください。**
 
 Studio の `AgentFlow > ClaimIntake > ClaimIntake-SideBySide*` にあります。
-実装は `src/ClaimIntakeSideBySide/`、検討の経緯は [`presentation-site.md`](./presentation-site.md)、
+実装は `src/agent-flow/claim-intake/side-by-side/`、検討の経緯は [`presentation-site.md`](./presentation-site.md)、
 **それぞれの特徴をまとめた索引は [`presentation-site-variants.md`](./presentation-site-variants.md)**。
 
 ### 土台の発想：同じ瞬間を「俯瞰」と「現場」で同時に見せる

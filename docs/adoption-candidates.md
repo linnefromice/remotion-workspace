@@ -1,7 +1,11 @@
 # 採用候補のメモ
 
 2026-09-18 時点で、商談・展示会に出す候補として挙がっているもの。
-**まだ決定ではない。** 全45本の一覧は `pnpm gallery:agent-flow`。
+**このメモは候補を挙げた時点の記録。** 全件の一覧は `pnpm gallery:agent-flow`（現在57本）。
+
+> **2026-09-19：採用は決まった。** LogoSeal / IconsV2 を推奨、Lanes・Orbit・Transit を比較用、
+> Side は DemoDiagram / SlotMinimal / Stacked の3配置。
+> 掲載されている姿は <https://agentflow-patterns.farleap.workers.dev>、中身は [web/README.md](../web/README.md)。
 
 実装に渡すための依頼書は [`next-build-brief.md`](./next-build-brief.md)。
 
