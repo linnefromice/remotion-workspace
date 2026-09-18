@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AgentFlow 動画カタログ（段1）</title>
+<style>
+:root{color-scheme:light;--paper:#f5f3eb;--ink:#203a35;--muted:#536b64;--line:#c7d0c5;--accent:#195c4c}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 system-ui,-apple-system,sans-serif}a{color:var(--accent);text-underline-offset:4px}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #ae541e;outline-offset:4px}.masthead{max-width:1280px;margin:auto;padding:24px 32px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;letter-spacing:2px}.masthead a{letter-spacing:0}.shell{max-width:1280px;padding:0 32px 64px;margin:auto}.hero{padding:52px 0 32px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:end}h1{text-wrap:balance;font-size:clamp(30px,4vw,50px);line-height:1.3;letter-spacing:-.04em;margin:12px 0 20px}h2{font-size:26px;line-height:1.5;margin:0 0 12px}h3{font-size:19px;line-height:1.5;margin:0 0 10px;overflow-wrap:anywhere}p{margin:0 0 18px;color:var(--muted)}.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--muted)}.hero-note{border-left:2px solid var(--accent);padding-left:24px;font-size:14px}.hero-note strong{font-size:33px;color:var(--ink);margin-right:6px}
+.speed{position:sticky;top:0;z-index:2;background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.speed span{color:var(--muted);font-size:14px;margin-right:6px}.speed button{border:1px solid var(--line);border-radius:30px;background:transparent;color:var(--ink);padding:7px 18px}.speed button[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.speed-note{margin-left:auto;font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px;margin-top:36px}.card{min-width:0;background:#fffdf6;border:1px solid var(--line)}video{display:block;width:100%;height:auto;background:#101619;border-bottom:1px solid var(--line)}.card-copy{padding:18px 22px}.meta{font-size:13px;color:var(--muted);margin-bottom:8px}.card p{font-size:14px;margin:0}
+.aside{background:#e5eadd;margin-top:44px;padding:26px 30px;border-left:3px solid var(--accent)}.aside h2{font-size:21px}.aside ul{padding-left:22px;margin:0}.aside li{margin:12px 0}.aside code{font-size:.9em;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;font-size:13px;color:var(--muted)}footer a{margin-right:24px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+@media(max-width:600px){.shell{padding:0 16px 40px}.masthead{padding:20px 16px}.speed-note{width:100%;margin:4px 0}}
+</style></head>
+<body><header class="masthead"><span>FARLEAP / AGENTFLOW 動画カタログ</span><a href="../side-catalog/index.html">Side カタログ ↗</a></header>
+<main class="shell">
+<div class="hero"><div><div class="eyebrow">段1 / 動画ファイル＋ &lt;video&gt;</div><h1>書き出した動画を、<br>そのまま置く。</h1><p>ビルドもフレームワークも要らない。HTML と mp4 だけで、再生速度まで変えられる。</p></div><aside class="hero-note"><div><strong>__COUNT__</strong>本 / 一式 <strong>__TOTAL__</strong></div><p>この1式をそのまま上げれば公開できます。外部から読むものはありません。</p></aside></div>
+
+<div class="speed" role="group" aria-label="再生速度"><span>再生速度</span>__SPEEDS__<span class="speed-note" id="speed-note" role="status" aria-live="polite">等倍で再生します</span></div>
+
+<div class="grid">__CARDS__</div>
+
+<aside class="aside"><h2>段1でできること・できないこと</h2><ul>
+<li><strong>できる：速度を変える。</strong> <code>video.playbackRate</code> を変えるだけ。上のボタンは、このページの全部の動画に効きます</li>
+<li><strong>できる：どこにでも置ける。</strong> このフォルダを丸ごと上げれば動きます。ビルドも、JavaScript の依存も要りません</li>
+<li><strong>できない：工程の頭へ正確に飛ぶ。</strong> シークは秒単位で、コマには合いません</li>
+<li><strong>できない：中身を差し替える。</strong> 題材や見せ方を変えるには、その本数だけ動画を書き出すことになります</li>
+</ul><p style="margin:20px 0 0;font-size:13px">この2つが要るなら段2（<code>@remotion/player</code>）。比較は <a href="../../docs/deploy-options.md">deploy-options.md</a>。</p></aside>
+
+__NOTES__
+
+<footer><p><a href="../agent-flow-gallery/index.html">AgentFlow 全体一覧</a><a href="../side-catalog/index.html">Side カタログ</a><a href="../../docs/deploy-options.md">デプロイ手法の比較</a></p>説明用の画面再構成です。実システムへの接続はありません。経過秒はシナリオ値で、実測や性能保証ではありません。</footer></main>
+<script>
+const videos=[...document.querySelectorAll('video')];
+const buttons=[...document.querySelectorAll('[data-speed]')];
+const note=document.getElementById('speed-note');
+function setSpeed(rate){
+ // 再生中のものも、これから再生するものも同じ速さにする
+ videos.forEach(v=>{v.playbackRate=rate;v.defaultPlaybackRate=rate});
+ buttons.forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.speed)===rate)));
+ note.textContent=rate===1?'等倍で再生します':rate+'倍速で再生します';
+}
+buttons.forEach(b=>b.addEventListener('click',()=>setSpeed(Number(b.dataset.speed))));
+// 1本だけ鳴らす。並べたページで音と動きが重ならないように
+videos.forEach(v=>v.addEventListener('play',()=>videos.filter(o=>o!==v).forEach(o=>o.pause())));
+setSpeed(1);
+</script></body></html>
