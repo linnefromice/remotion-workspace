@@ -1,3 +1,4 @@
+import { ROUTE_LEGEND } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { NODES, STEPS, TOTAL_FRAMES } from '../cards/constants';
@@ -43,7 +44,7 @@ export const Network: React.FC<{ orbit: boolean }> = ({ orbit }) => {
         const d = points.map(([px, py], i) => `${i === 0 ? 'M' : 'L'}${px} ${py}`).join(' ');
         return <g key={edge.id}>
           <path d={d} fill="none" stroke={active ? stroke : orbit ? '#637987' : '#9baba5'} strokeWidth={active ? 4 : 2} strokeOpacity={active ? 1 : .6}
-            strokeDasharray={edge.dashed ? '7 9' : undefined} strokeLinejoin="round" markerEnd={`url(#${orbit ? 'orbit-arrow' : 'transit-arrow'})`} />
+            data-route-id={edge.id} data-active={active} strokeDasharray={!active || edge.dashed ? '7 9' : undefined} strokeLinejoin="round" markerEnd={`url(#${orbit ? 'orbit-arrow' : 'transit-arrow'})`} />
           {active && <>
             <circle cx={x} cy={y} r={14} fill={bg} />
             <rect x={x - 7} y={y - 7} width={14} height={14} rx={orbit ? 7 : 3} fill={stroke} />
@@ -58,7 +59,7 @@ export const Network: React.FC<{ orbit: boolean }> = ({ orbit }) => {
       データを渡す。判断が戻る。<br />人は基準を調整し、<br />次の問い合わせへつなぐ。
     </div>}
     <div style={{ position: 'absolute', left: 64, right: 64, top: 975, display: 'flex', justifyContent: 'space-between', fontSize: 17, color: muted }}>
-      <span>実線：情報の受け渡し　 /　 破線：参照・非同期・任意</span>
+      <span>{ROUTE_LEGEND}</span>
       <span>業者連絡：自動送信 または 下書き承認　 /　 構想の説明</span>
     </div>
     <div style={{ position: 'absolute', left: 64, right: 64, top: 1020, display: 'flex', gap: 12 }}>

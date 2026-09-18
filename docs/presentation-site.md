@@ -205,3 +205,9 @@ Sideの入口を [一元参照シート](side-reference.md) に集約。Decision
 画像と28秒動画、既存Sideの7工程、関連8案の一覧は `out/side-design-studies/index.html`。`node scripts/side-design-studies.mjs` で再生成できる。旧コンポーネントや既定値は変更しない。
 
 検証: 既存8案のframe420は変更前とバイト一致。新案の7中間フレームと工程境界を確認し、28秒・840フレーム・yuv420pで出力。参照ページは24画像・全リンク・動画シーク、320〜1440pxの4幅を確認。AgentFlow一覧は38件。
+
+## 2026-09-18 / Side Ledger
+
+Sideの追加案として、紙の台帳と暗い全体地図の左右構成を実装。7工程の記録を固定行に積み重ね、AIのP2を残してルールのP1を白い行へ追加する。Evidenceの横3欄と違い、判断の出た順序そのものを主役にする。右の地図は幅832pxに広げ、非アクティブな接続は破線で残す。共通Iconsに既定falseの `inactiveDashed` を加え、新案だけで指定した。
+
+既存Side・Evidenceと同じ参照ページ `out/side-design-studies/index.html` に、28秒動画と7工程の静止画を追加する。

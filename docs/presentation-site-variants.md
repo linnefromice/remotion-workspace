@@ -195,3 +195,36 @@ src/ClaimIntakeDecisionStory/
    AIがP1と言い、人が理由を書いて下げる側を見せると、主張が両側そろう
 3. **元の図のラベル重なり**。`ClaimIntake-IconsV2` の LINE ノードで
    「Webhook / 外部チャネル」の折り返しが下のタグに被っている
+
+---
+
+## 次にやること：デザインリスト（着手中・2026-09-18）
+
+**図が39本になり、手で書いた索引が追いつかなくなっている。**
+
+| 題材 | 本数 |
+|---|---|
+| ClaimIntake | 15（Cards系4 / SideBySide系5 / DecisionStory系5 / Ledger 1） |
+| Inquiry | 13（既存5 / DesignStudies 8） |
+| Restoration | 4 |
+| Proposal | 4 |
+| Reference | 2 |
+| Exhibition | 1 |
+
+この文書は ClaimIntake を中心に手で書いた索引で、Inquiry の DesignStudies 8案や
+Restoration / Proposal は**別の文書に散っている**。全体を1枚で見渡せるものが無い。
+
+### 決めておきたいこと
+
+1. **正本をどちらにするか。** 静止画の一覧は `pnpm gallery:agent-flow` で自動生成できる
+   （`src/Root.tsx` を AST で読むので登録漏れが起きない）。
+   手で書いた索引と自動生成の一覧が二重にあると、必ずどちらかが古くなる
+2. **並べる軸。** 題材（ClaimIntake / Inquiry / …）で括るか、
+   用途（展示会 / 商談 / 設計資料）で括るか。[3] の型の表と噛み合わせたい
+3. **試行と成果物の線引き。** DesignStudies 8案や SideBySide 5案は**比較のための試行**で、
+   商談で実際に使うものとは性格が違う。同じ一覧に混ぜると選べなくなる
+
+### この文書との関係
+
+デザインリストができたら、**この文書は ClaimIntake の詳しい索引に役割を絞る**か、
+デザインリストへ統合する。どちらにするかは、できたものを見てから決める。

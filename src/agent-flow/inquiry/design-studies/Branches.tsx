@@ -1,3 +1,4 @@
+import { RouteLines, ROUTE_LEGEND, type StudyLink } from './RouteLines';
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { NODES } from '../cards/constants';
@@ -31,18 +32,24 @@ const spine = () => {
   );
 };
 
-export const InquiryBranches: React.FC = () => {
-  const {step, link, progress} = moment(useCurrentFrame());
+function pointsFor(link: StudyLink): Point[] {
   const [sx, sy] = POS[link.from], [tx, ty] = POS[link.to];
-  const points: Point[] = link.id === 'triage-staff'
+  if (link.id === 'triage-normalize') return [[sx, sy - 52], [sx, sy - 116], [tx, ty - 116], [tx, ty - 52]];
+  if (link.id === 'triage-reply') return [[sx + 55, sy], [sx + 145, sy], [tx, sy], [tx, ty - 52]];
+  return link.id === 'triage-staff'
     ? [[1040, 485], [1080, 485], [1080, 640], [735, 640], [735, 753]]
     : link.id === 'policy-triage'
       ? [[985, 753], [985, 710], [1080, 710], [1080, 485], [1040, 485]]
     : link.id === 'reply-resident'
-    ? [[1542, 605], [1588, 605], [1588, 710], [170, 710], [170, 485], [183, 485]]
+    ? [[1542, 605], [1610, 605], [1610, 710], [110, 710], [110, 485], [183, 485]]
     : link.id === 'vendorDb-dispatch'
-      ? [[sx + 65, sy], [1360, sy], [1360, 410], [tx, 410], [tx, ty + 50]]
+      ? [[sx + 65, sy], [1360, sy], [1360, ty], [tx + 52, ty]]
       : [[sx, sy - 52], [sx, Math.min(sy, ty) - 92], [tx, Math.min(sy, ty) - 92], [tx, ty - 52]];
+}
+
+export const InquiryBranches: React.FC = () => {
+  const {step, link, progress} = moment(useCurrentFrame());
+  const points = pointsFor(link);
   const [x,y] = pointAlong(points, Math.min(1, progress / .85));
   // 色は工程ではなく主体で決める。工程で決めると、同じ主体が工程ごとに色を変えてしまう。
   // ここでは情報の受け手を採る（いまどの主体に渡っているか）
@@ -58,8 +65,7 @@ export const InquiryBranches: React.FC = () => {
     <div style={{position:'absolute',left:630,top:725,width:760,height:190,borderRadius:26,background:'#302d38'}} />
     <svg width={1920} height={1080} style={{position:'absolute'}}>
       <path d={spine()} fill="none" stroke="#665554" strokeWidth={18} strokeLinecap="round" />
-      <defs><marker id="branches-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke={accent} strokeWidth="1.5"/></marker></defs>
-      <path d={points.map(([px,py],i)=>`${i?'L':'M'}${px} ${py}`).join(' ')} fill="none" stroke={accent} strokeWidth={3} strokeDasharray={link.dashed?'7 8':undefined} markerEnd="url(#branches-arrow)"/>
+      <RouteLines activeId={link.id} pointsFor={pointsFor} accent={accent} muted="#aa969c" markerId="branches-all-arrow" />
       <circle cx={x} cy={y} r={9} fill={accent}/>
     </svg>
     {NODES.map(({id})=>{const [cx,cy]=POS[id];const active=id===link.from||id===link.to;return <div key={id} style={{position:'absolute',left:cx-112,top:cy-48,width:224,textAlign:'center'}}>
@@ -68,6 +74,7 @@ export const InquiryBranches: React.FC = () => {
     </div>;})}
     <div style={{position:'absolute',left:64,top:790,width:510}}><div style={{fontSize:28,fontWeight:700,color:accent}}>{link.title}</div><div style={{fontSize:20,marginTop:16,color:'#cdbfba'}}>{link.payload}</div></div>
     <div style={{position:'absolute',left:1460,top:800,fontSize:19,lineHeight:1.9,color:'#cdbfba'}}>下書きの場合は担当者が承認。<br/>レビューで判断基準を調整し、<br/>次の問い合わせに生かす。</div>
-    <StudyFooter step={step} note="太い帯は成果へのまとまり / 矢印は現在の実際の受け渡し・破線は参照や任意の工程"/>
+    <div style={{position:'absolute',left:64,top:158,fontSize:16,color:'#c7b7b1'}}>太い帯は成果へのまとまり / 細い矢印が実際の接続</div>
+    <StudyFooter step={step} note={ROUTE_LEGEND}/>
   </AbsoluteFill>;
 };
