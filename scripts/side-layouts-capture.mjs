@@ -5,7 +5,7 @@ import path from 'node:path';
 const out=path.resolve('out/side-layouts');await mkdir(out,{recursive:true});
 const serveUrl=await bundle({entryPoint:path.resolve('src/index.ts'),outDir:out+'/bundle',publicDir:path.resolve('public')});
 const browser=await openBrowser('chrome',{chromiumOptions:{gl:'swangle'}});
-const ids=['Side-DemoDiagram','Side-SlotMinimal','ClaimIntake-DecisionStory-Stacked-Diagram'];
+const ids=['Side-DemoDiagram','Side-SlotMinimal','Side-Stacked'];
 try {
  const comps=await getCompositions(serveUrl,{puppeteerInstance:browser});
  for(const id of ids){const composition=comps.find(c=>c.id===id);for(let step=0;step<7;step++)await renderStill({serveUrl,composition,frame:(step+.5)*(id==='Side-DemoDiagram'?180:120),output:`${out}/${id}-${step}.png`,imageFormat:'png',puppeteerInstance:browser});console.log(id,'7 scenes');}
